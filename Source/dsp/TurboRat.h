@@ -78,4 +78,25 @@ private:
     // RAT-04: Clip mode threshold — set in updateCoefficients from params.clipMode.
     // LED=1.7f, Silicon=0.65f, Lift=12.0f, Ruetz fallback=0.65f
     float threshold = 1.7f;
+
+    // RAT-05: Post-clip tone LPF (reverse-wired: filter=0 -> 32kHz bright, filter=1 -> 475Hz dark)
+    float toneState = 0.0f;
+    float toneAlpha = 0.0f;
+
+    // RAT-06: JFET output buffer — fixed 18kHz LP + volume scalar [0.0..2.0]
+    float jfetState  = 0.0f;
+    float jfetAlpha  = 0.0f;
+    float volumeGain = 0.0f;
+
+#ifdef TURBORAT_TEST_ACCESS
+public:
+    struct Coeffs {
+        float hpf1, hpf2, slew, gbw, tone, jfet, threshold, volumeGain;
+    };
+    Coeffs getCoefficientsForTest() const noexcept {
+        return { hpf1Alpha, hpf2Alpha, slewAlpha, gbwAlpha,
+                 toneAlpha, jfetAlpha, threshold, volumeGain };
+    }
+private:
+#endif
 };

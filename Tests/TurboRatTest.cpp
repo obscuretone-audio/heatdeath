@@ -60,8 +60,12 @@ int main()
         rat.prepare(44100.0, 512);  // osSr = 176400
         // Use drive=0 so GBW LP is at max cutoff (8000Hz), keeping HPF chain
         // test independent of the drive-dependent GBW pole (added in 03-02).
+        // filter=0: tone LPF at 32kHz (bright, out of the way) — isolates HPF chain.
+        // volume=50: volumeGain=1.0 (unity) — isolates HPF chain from JFET gain stage.
         TurboRat::Parameters p{};
-        p.drive = 0.0f;
+        p.drive  = 0.0f;
+        p.filter = 0.0f;
+        p.volume = 50.0f;
         rat.setParameters(p);
         rat.reset();
 
@@ -209,8 +213,8 @@ int main()
         auto runSineAt = [&](int clipMode) -> std::vector<float> {
             TurboRat::Parameters p{};
             p.drive    = 72.0f;
-            p.filter   = 50.0f;
-            p.volume   = 65.0f;
+            p.filter   = 0.0f;    // bright: tone LPF at 32kHz (out of the way)
+            p.volume   = 50.0f;   // volumeGain=1.0: isolates waveshaper normalization from JFET gain
             p.asym     = 20.0f;
             p.sag      = 25.0f;
             p.clipMode = clipMode;

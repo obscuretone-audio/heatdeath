@@ -29,6 +29,8 @@ void TurboRat::reset()
 
     slewState = 0.0f;
     gbwState  = 0.0f;
+    toneState = 0.0f;
+    jfetState = 0.0f;
 
     smoothDrive .reset (params.drive   / 100.0f);
     smoothFilter.reset (params.filter  / 100.0f);
@@ -79,6 +81,18 @@ void TurboRat::updateCoefficients (double osSampleRate)
         case 2:  threshold = 12.0f; break;   // Lift (soft knee, near-linear for typical levels)
         default: threshold = 0.65f; break;   // Ruetz — Silicon fallback
     }
+
+    // RAT-05: Reverse-wired tone LPF — log-spaced interpolation between 32kHz (bright) and 475Hz (dark).
+    // filterNorm=0 -> bright (32kHz), filterNorm=1 -> dark (475Hz).
+    const float filterNorm = smoothFilter.current;
+    const float logHigh = std::log (32000.0f);
+    const float logLow  = std::log (475.0f);
+    const float toneCutoff = std::exp (logHigh + filterNorm * (logLow - logHigh));
+    toneAlpha = computeLPFAlpha (toneCutoff, osSampleRate);
+
+    // RAT-06: JFET output buffer — fixed 18kHz LP + volume scalar (0..100 -> 0.0..2.0).
+    jfetAlpha  = computeLPFAlpha (18000.0f, osSampleRate);
+    volumeGain = smoothVolume.current * 2.0f;   // smoothVolume holds params.volume/100 normalized
 }
 
 void TurboRat::processOS (juce::dsp::AudioBlock<float>& osBlock)
@@ -144,7 +158,15 @@ void TurboRat::processOS (juce::dsp::AudioBlock<float>& osBlock)
             x = out / threshold;   // normalize: unity-gain 0dBFS in -> 0dBFS out
         }
 
-        data[i] = x;   // 03-04 will insert tone LPF + JFET buffer here
+        // 6. Post-clip tone LPF (reverse-wired, RAT-05)
+        toneState = toneAlpha * toneState + (1.0f - toneAlpha) * x;
+        x = toneState;
+
+        // 7. JFET output buffer: 18kHz LP (RAT-06)
+        jfetState = jfetAlpha * jfetState + (1.0f - jfetAlpha) * x;
+        x = jfetState * volumeGain;
+
+        data[i] = x;
     }
 }
 
