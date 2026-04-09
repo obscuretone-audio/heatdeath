@@ -25,7 +25,7 @@ decisions:
 metrics:
   duration: "~3 hours (multiple toolchain troubleshooting iterations)"
   completed: "2026-04-09"
-  tasks_completed: 2
+  tasks_completed: 3
   tasks_total: 3
   files_modified: 3
 ---
@@ -80,9 +80,18 @@ Architectures in the fat file: ... are: x86_64 arm64
 
 Universal binary confirmed (arm64 + x86_64).
 
-## DAW Verification (Task 3 — PENDING)
+## DAW Verification (Task 3 — COMPLETE)
 
-Awaiting human verification — Task 3 checkpoint not yet passed.
+User confirmed all six conditions passed in DAW (2026-04-09):
+
+a. Plugin name shows "HEATDEATH" in DAW browser/header — PASS
+b. Plugin loads without crash or error — PASS
+c. Dark (#111111) 800x540 panel with gold "HEATDEATH" label centered — PASS
+d. Audio passes through (same as no plugin) — PASS
+e. Bypass/unbypass does not click or crash — PASS
+f. DAW does NOT show MIDI input routing on this plugin — PASS
+
+DAW used: not specified (user confirmed "all 6 passed").
 
 ## Deviations from Plan
 
@@ -130,6 +139,11 @@ Phase 1 is a pure scaffold — all DSP stages (`TurboRat`, `MicroPitch`, `Undula
 
 None — no new network endpoints, auth paths, or file access patterns introduced beyond what the plan's threat model covers.
 
-## Self-Check: PENDING
+## Self-Check: PASSED
 
-(Full self-check runs after Task 3 checkpoint is resolved.)
+- build/HEATDEATH_artefacts/Release/VST3/HEATDEATH.vst3 — FOUND
+- build/HEATDEATH_artefacts/Release/AU/HEATDEATH.component — FOUND
+- .planning/phases/01-project-scaffold/build-artifacts.log — FOUND
+- Commits 072f1b6, d107b04 — FOUND
+- AU VALIDATION SUCCEEDED in build-artifacts.log — CONFIRMED
+- DAW verification: all 6 conditions confirmed by user — COMPLETE
