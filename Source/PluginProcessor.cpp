@@ -110,6 +110,23 @@ void HeatDeathProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
     workBuffer      .setSize (2, samplesPerBlock, false, true, false);
     preUndBuffer    .setSize (2, samplesPerBlock, false, true, false);
     preBurninBuffer .setSize (2, samplesPerBlock, false, true, false);
+
+    // CHAIN-02: prepare 4x oversampler and report its anti-alias filter latency.
+    oversampler.reset();
+    oversampler.initProcessing (static_cast<size_t> (samplesPerBlock));
+    setLatencySamples (static_cast<int> (oversampler.getLatencyInSamples()));
+
+    // WR-03: reset previousFeedbackSample on every prepare.
+    previousFeedbackSample = 0.0f;
+
+    // CHAIN-07 + PARAMS-04: reset and seed the three trim smoothers (20ms window).
+    trimPostRatSmooth  .reset (sampleRate, 0.02);
+    trimPostPitchSmooth.reset (sampleRate, 0.02);
+    trimPostUndSmooth  .reset (sampleRate, 0.02);
+
+    trimPostRatSmooth  .setCurrentAndTargetValue (juce::Decibels::decibelsToGain (pTrimPostRat  ->load()));
+    trimPostPitchSmooth.setCurrentAndTargetValue (juce::Decibels::decibelsToGain (pTrimPostPitch->load()));
+    trimPostUndSmooth  .setCurrentAndTargetValue (juce::Decibels::decibelsToGain (pTrimPostUnd  ->load()));
 }
 
 //==============================================================================
@@ -128,6 +145,8 @@ void HeatDeathProcessor::releaseResources()
     dcBlock3L.reset(); dcBlock3R.reset();
     feedbackLpf.reset();
     feedbackSample = 0.0f;
+
+    oversampler.reset();
 }
 
 //==============================================================================
@@ -162,11 +181,21 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     if (pGlobalFeedbackActive->load() > 0.5f)
     {
         const float fbAmount = (pGlobalFeedbackAmount->load() / 100.0f) * 0.15f;
-        const float fbSample = feedbackSample * fbAmount;
-
+        const float fbStart  = previousFeedbackSample * fbAmount;
+        const float fbEnd    = feedbackSample         * fbAmount;
+        const float invN     = (numSamples > 0)
+                               ? 1.0f / static_cast<float> (numSamples)
+                               : 0.0f;
         for (int i = 0; i < numSamples; ++i)
-            mono[i] += fbSample;  // same value per block — single-sample hold
-                                  // is intentional at these frequencies (<100Hz)
+        {
+            const float alpha = static_cast<float> (i) * invN;
+            mono[i] += fbStart + alpha * (fbEnd - fbStart);
+        }
+        previousFeedbackSample = feedbackSample;
+    }
+    else
+    {
+        previousFeedbackSample = 0.0f;
     }
 
     //--------------------------------------------------------------------------
@@ -184,6 +213,20 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     // 4. Stage 1 — Turbo RAT (mono in, mono out).
     //    Runs at 4× oversampling internally.
     //--------------------------------------------------------------------------
+
+    // CHAIN-02: exercise 4x oversampler around Stage 1 RAT.
+    // For Phase 2 the stage is a pass-through stub, so we run up/down
+    // purely to register anti-alias filter latency with the host and
+    // keep the signal path bit-identical. Phase 3 (TurboRat DSP) will
+    // move the stage processing onto the oversampled block.
+    {
+        juce::dsp::AudioBlock<float> monoBlock (buffer.getArrayOfWritePointers(),
+                                                1, static_cast<size_t> (numSamples));
+        auto osBlock = oversampler.processSamplesUp (monoBlock);
+        juce::ignoreUnused (osBlock);          // Phase 3 will process osBlock at 4x
+        oversampler.processSamplesDown (monoBlock);
+    }
+
     bypassSmoothRat.setTargetValue (pRatBypass->load() > 0.5f ? 0.0f : 1.0f);
 
     stageTurboRat->setParameters ({
@@ -209,10 +252,13 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     for (int i = 0; i < numSamples; ++i)
         mono[i] = dcBlock1L.processSample (mono[i]);
 
-    // Inter-stage trim post-RAT
+    // CHAIN-07 + PARAMS-04: per-sample smoothed trim post-RAT (mono)
+    trimPostRatSmooth.setTargetValue (
+        juce::Decibels::decibelsToGain (pTrimPostRat->load()));
     {
-        const float trimGain = juce::Decibels::decibelsToGain (pTrimPostRat->load());
-        buffer.applyGain (0, 0, numSamples, trimGain);
+        auto* m = buffer.getWritePointer (0);
+        for (int i = 0; i < numSamples; ++i)
+            m[i] *= trimPostRatSmooth.getNextValue();
     }
 
     //--------------------------------------------------------------------------
@@ -264,10 +310,18 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         }
     }
 
-    // Inter-stage trim post-MicroPitch — directed at workBuffer
+    // CHAIN-07 + PARAMS-04: per-sample smoothed trim post-MicroPitch (stereo)
+    trimPostPitchSmooth.setTargetValue (
+        juce::Decibels::decibelsToGain (pTrimPostPitch->load()));
     {
-        const float trimGain = juce::Decibels::decibelsToGain (pTrimPostPitch->load());
-        workBuffer.applyGain (trimGain);
+        auto* L = workBuffer.getWritePointer (0);
+        auto* R = workBuffer.getWritePointer (1);
+        for (int i = 0; i < numSamples; ++i)
+        {
+            const float g = trimPostPitchSmooth.getNextValue();
+            L[i] *= g;
+            R[i] *= g;
+        }
     }
 
     //--------------------------------------------------------------------------
@@ -328,10 +382,18 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         }
     }
 
-    // Trim post-Undulator on workBuffer (Plan 02-04 adjusts range)
+    // CHAIN-07 + PARAMS-04: per-sample smoothed trim post-Undulator (stereo)
+    trimPostUndSmooth.setTargetValue (
+        juce::Decibels::decibelsToGain (pTrimPostUnd->load()));
     {
-        const float trimGain = juce::Decibels::decibelsToGain (pTrimPostUnd->load());
-        workBuffer.applyGain (trimGain);
+        auto* L = workBuffer.getWritePointer (0);
+        auto* R = workBuffer.getWritePointer (1);
+        for (int i = 0; i < numSamples; ++i)
+        {
+            const float g = trimPostUndSmooth.getNextValue();
+            L[i] *= g;
+            R[i] *= g;
+        }
     }
 
     //--------------------------------------------------------------------------

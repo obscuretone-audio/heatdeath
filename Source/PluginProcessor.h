@@ -232,6 +232,26 @@ private:
     juce::AudioBuffer<float> preUndBuffer;     // bypass crossfade snapshot (pre-Undulator)
     juce::AudioBuffer<float> preBurninBuffer;  // bypass crossfade snapshot (pre-BurnIn)
 
+    // CHAIN-02: 4x polyphase IIR oversampler at plugin boundary (mono at Stage 1).
+    // Stages 3 and 4 will add stage-internal oversampling in Phases 5 and 6;
+    // for Phase 2 the single plugin-level oversampler is sufficient.
+    juce::dsp::Oversampling<float> oversampler {
+        1u,                                                                  // numChannels (mono at boundary)
+        2u,                                                                  // factor order = 4x
+        juce::dsp::Oversampling<float>::filterHalfBandPolyphaseIIR,
+        true,                                                                // max quality
+        false                                                                // do not interleave
+    };
+
+    // WR-03: Per-sample linear interpolation of feedback injection across the block
+    // avoids the step artefact at block boundaries. Holds previous block's feedback.
+    float previousFeedbackSample = 0.0f;
+
+    // CHAIN-07 + PARAMS-04: smoothed inter-stage trims (20ms window).
+    juce::SmoothedValue<float> trimPostRatSmooth;
+    juce::SmoothedValue<float> trimPostPitchSmooth;
+    juce::SmoothedValue<float> trimPostUndSmooth;
+
     //==========================================================================
 
     void  cacheParameterPointers();
