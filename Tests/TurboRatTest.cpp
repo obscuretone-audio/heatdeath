@@ -195,11 +195,82 @@ int main()
     }
 
     // -----------------------------------------------------------------------
-    // [RAT-04] Asymmetric tanh diode waveshaper (LED/Si/Lift) — pending
+    // [RAT-04] Asymmetric tanh diode waveshaper (LED/Si/Lift)
     // -----------------------------------------------------------------------
     {
         std::printf("\n[RAT-04] Asymmetric tanh diode waveshaper\n");
-        check(true, "[RAT-04] pending — implemented in 03-03");
+        TurboRat rat;
+        rat.prepare(44100.0, 512);
+
+        const double osSr = 176400.0;
+        const int    N    = 8192;
+
+        auto runSineAt = [&](int clipMode) -> std::vector<float> {
+            TurboRat::Parameters p{};
+            p.drive    = 72.0f;
+            p.filter   = 50.0f;
+            p.volume   = 65.0f;
+            p.asym     = 20.0f;
+            p.sag      = 25.0f;
+            p.clipMode = clipMode;
+            rat.setParameters(p);
+            rat.reset();
+            std::vector<float> buf(N);
+            for (int i = 0; i < N; ++i)
+                buf[i] = static_cast<float>(std::sin(2.0 * M_PI * 1000.0 * i / osSr));
+            float* ch[1] = { buf.data() };
+            juce::dsp::AudioBlock<float> block(ch, 1, (size_t)N);
+            rat.processOS(block);
+            return buf;
+        };
+
+        auto mav = [](const std::vector<float>& v) -> float {
+            double s = 0.0;
+            for (size_t i = v.size()/2; i < v.size(); ++i) s += std::abs(v[i]);
+            return static_cast<float>(s / (v.size()/2));
+        };
+        auto peak = [](const std::vector<float>& v) -> float {
+            float p = 0.0f;
+            for (size_t i = v.size()/2; i < v.size(); ++i) p = std::max(p, std::abs(v[i]));
+            return p;
+        };
+        auto dcOffset = [](const std::vector<float>& v) -> float {
+            double s = 0.0;
+            for (size_t i = v.size()/2; i < v.size(); ++i) s += v[i];
+            return static_cast<float>(s / (v.size()/2));
+        };
+
+        const auto ledBuf = runSineAt(0);
+        const auto siBuf  = runSineAt(1);
+        const auto liftBuf= runSineAt(2);
+
+        // Normalization: peak <= ~1.1 (some overshoot allowed for transient region)
+        check(peak(ledBuf)  < 1.1f, "LED mode: normalized peak < 1.1 (normalization works)");
+        check(peak(siBuf)   < 1.1f, "Silicon mode: normalized peak < 1.1");
+        check(peak(liftBuf) < 1.1f, "Lift mode: normalized peak < 1.1");
+
+        // Silicon (0.65V) clips harder than LED (1.7V) — MAV closer to peak.
+        const float mavLed = mav(ledBuf);
+        const float mavSi  = mav(siBuf);
+        check(mavSi > mavLed,
+              "Silicon flattens toward unity faster than LED (MAV_si > MAV_led)");
+
+        // Asymmetry: DC offset is non-zero (formula is not symmetric)
+        const float dcLed = dcOffset(ledBuf);
+        check(std::abs(dcLed) > 1e-4f,
+              "Asymmetric waveshaper produces non-zero DC offset on pure sine");
+
+        // No NaN / Inf in any output sample
+        bool finiteOk = true;
+        for (float v : ledBuf) if (!std::isfinite(v)) { finiteOk = false; break; }
+        for (float v : siBuf)  if (!std::isfinite(v)) { finiteOk = false; break; }
+        for (float v : liftBuf)if (!std::isfinite(v)) { finiteOk = false; break; }
+        check(finiteOk, "All waveshaper outputs are finite (no NaN/Inf)");
+
+        // Lift mode (threshold=12) on a ~1.0 amplitude signal is near-linear.
+        // peak/amplitude ratio should be much closer to unity than Silicon.
+        check(peak(liftBuf) > peak(siBuf),
+              "Lift mode preserves more peak amplitude than Silicon (softer knee)");
     }
 
     // -----------------------------------------------------------------------
