@@ -72,7 +72,7 @@ Layout createParameterLayout()
         std::make_unique<Float> (
             pid (RAT_FILTER), "Filter",
             linear (0.0f, 100.0f, 0.1f),
-            35.0f,
+            50.0f,
             Attr().withLabel ("%")),
 
         // Volume — output level.
@@ -81,7 +81,7 @@ Layout createParameterLayout()
         std::make_unique<Float> (
             pid (RAT_VOLUME), "Volume",
             linear (0.0f, 100.0f, 0.1f),
-            60.0f,
+            65.0f,
             Attr().withLabel ("%")),
 
         // Slew — LM308 HF rolloff curve. Higher = brighter.
@@ -105,7 +105,7 @@ Layout createParameterLayout()
         std::make_unique<Float> (
             pid (RAT_SAG), "Sag",
             linear (0.0f, 100.0f, 0.1f),
-            30.0f,
+            25.0f,
             Attr().withLabel ("%")),
 
         // Clip mode — diode selection.
@@ -306,7 +306,7 @@ Layout createParameterLayout()
         std::make_unique<Float> (
             pid (BURNIN_AMOUNT), "Burn-In",
             skewed (0.0f, 100.0f, 0.1f, 0.6f),
-            0.0f,
+            35.0f,
             Attr().withLabel ("%")),
 
         // Freeze — holds temp at its current value. Accumulator update bypassed.
@@ -335,7 +335,7 @@ Layout createParameterLayout()
     // Inter-Stage Trims
     //==========================================================================
 
-    auto trimGroup = std::make_unique<Group> ("trim", "Trims", "|",
+    auto trimGroup = std::make_unique<Group> ("trim", "Inter-Stage Trims", "|",
 
         // Post-RAT trim. Applied between Stage 1 output and Stage 2 input.
         // ±12dB, 0.1dB steps. Default 0dB.
@@ -411,7 +411,7 @@ Layout createParameterLayout()
     // Serialised — survives plugin reload. Timer continues from where it left off.
     //==========================================================================
 
-    auto timerGroup = std::make_unique<Group> ("timer", "Timer", "|",
+    auto timerGroup = std::make_unique<Group> ("timer", "Disintegration Timer", "|",
 
         // Duration choice.
         // 0 = 10 min, 1 = 20 min, 2 = 40 min, 3 = 74 min.
