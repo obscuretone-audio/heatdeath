@@ -110,3 +110,19 @@ target_compile_definitions(SmoothParamTest PRIVATE
 target_link_libraries(SmoothParamTest PRIVATE
     juce::juce_core
 )
+
+# ==============================================================================
+# Unit test target for TurboRat (Phase 03)
+# ==============================================================================
+
+add_executable(TurboRatTest Tests/TurboRatTest.cpp
+    Source/dsp/TurboRat.cpp)
+target_include_directories(TurboRatTest PRIVATE Source)
+target_compile_features(TurboRatTest PRIVATE cxx_std_17)
+target_link_libraries(TurboRatTest PRIVATE
+    juce::juce_core
+    juce::juce_audio_basics
+    juce::juce_dsp
+    juce::juce_audio_formats
+    juce::juce_audio_processors
+)
