@@ -2,6 +2,7 @@
 // Tests for the TurboRat LM308 circuit emulation (RAT-01..RAT-07).
 // Run: cmake --build build --target TurboRatTest && ./build/TurboRatTest
 
+#define TURBORAT_TEST_ACCESS 1
 #include "../Source/dsp/TurboRat.h"
 #include "../Source/utils/SmoothParam.h"
 #include <juce_audio_basics/juce_audio_basics.h>
@@ -281,27 +282,195 @@ int main()
     }
 
     // -----------------------------------------------------------------------
-    // [RAT-05] Reverse-wired tone LPF (475Hz–32kHz) — pending
+    // [RAT-05] Reverse-wired tone LPF (475Hz–32kHz)
     // -----------------------------------------------------------------------
+    // [RAT-05] Reverse-wired tone LPF
     {
         std::printf("\n[RAT-05] Reverse-wired tone LPF\n");
-        check(true, "[RAT-05] pending — implemented in 03-04");
+        TurboRat rat;
+        rat.prepare(44100.0, 512);
+
+        const double osSr = 176400.0;
+        const int    N    = 16384;
+
+        auto rmsAtFilter = [&](float filterPct, double freqHz) -> float {
+            TurboRat::Parameters p{};
+            p.drive    = 20.0f;        // low drive: waveshaper near linear
+            p.filter   = filterPct;
+            p.volume   = 50.0f;        // 1.0x gain
+            p.clipMode = 2;            // Lift (near-linear) so the test isolates the tone LPF
+            p.asym     = 20.0f;
+            p.sag      = 25.0f;
+            rat.setParameters(p);
+            rat.reset();
+            // Prime the smoothers by processing a short silence block first
+            std::vector<float> prime(2048, 0.0f);
+            float* pch[1] = { prime.data() };
+            juce::dsp::AudioBlock<float> pblock(pch, 1, (size_t)2048);
+            for (int k = 0; k < 20; ++k) rat.processOS(pblock);   // let smoothers converge
+
+            std::vector<float> buf(N);
+            for (int i = 0; i < N; ++i)
+                buf[i] = static_cast<float>(0.5 * std::sin(2.0 * M_PI * freqHz * i / osSr));
+            float* ch[1] = { buf.data() };
+            juce::dsp::AudioBlock<float> block(ch, 1, (size_t)N);
+            rat.processOS(block);
+            double sumSq = 0.0;
+            for (int i = N/2; i < N; ++i) sumSq += buf[i] * buf[i];
+            return static_cast<float>(std::sqrt(sumSq / (N/2)));
+        };
+
+        const float r0   = rmsAtFilter(0.0f,   5000.0);
+        const float r25  = rmsAtFilter(25.0f,  5000.0);
+        const float r50  = rmsAtFilter(50.0f,  5000.0);
+        const float r75  = rmsAtFilter(75.0f,  5000.0);
+        const float r100 = rmsAtFilter(100.0f, 5000.0);
+
+        check(r0 > r100,
+              "filter=0 passes more 5kHz than filter=100 (reverse-wired: 0=bright)");
+        check(r100 < r0 * 0.25f,
+              "filter=100 attenuates 5kHz by >12dB vs filter=0");
+        check(r0 >= r25 && r25 >= r50 && r50 >= r75 && r75 >= r100,
+              "Filter sweep 0->100 monotonically darkens 5kHz");
     }
 
     // -----------------------------------------------------------------------
-    // [RAT-06] JFET output buffer (18kHz LP + volume scalar) — pending
+    // [RAT-06] JFET output buffer (18kHz LP + volume scalar)
     // -----------------------------------------------------------------------
+    // [RAT-06] JFET output buffer (18kHz LP + volume scalar)
     {
         std::printf("\n[RAT-06] JFET output buffer\n");
-        check(true, "[RAT-06] pending — implemented in 03-04");
+        TurboRat rat;
+        rat.prepare(44100.0, 512);
+
+        const double osSr = 176400.0;
+        const int    N    = 16384;
+
+        auto rmsAtVolume = [&](float volumePct, double freqHz) -> float {
+            TurboRat::Parameters p{};
+            p.drive    = 20.0f;
+            p.filter   = 0.0f;         // bright — tone LPF out of the way
+            p.volume   = volumePct;
+            p.clipMode = 2;            // Lift
+            p.asym     = 20.0f;
+            p.sag      = 25.0f;
+            rat.setParameters(p);
+            rat.reset();
+            std::vector<float> prime(2048, 0.0f);
+            float* pch[1] = { prime.data() };
+            juce::dsp::AudioBlock<float> pblock(pch, 1, (size_t)2048);
+            for (int k = 0; k < 20; ++k) rat.processOS(pblock);
+
+            std::vector<float> buf(N);
+            for (int i = 0; i < N; ++i)
+                buf[i] = static_cast<float>(0.3 * std::sin(2.0 * M_PI * freqHz * i / osSr));
+            float* ch[1] = { buf.data() };
+            juce::dsp::AudioBlock<float> block(ch, 1, (size_t)N);
+            rat.processOS(block);
+            double sumSq = 0.0;
+            for (int i = N/2; i < N; ++i) sumSq += buf[i] * buf[i];
+            return static_cast<float>(std::sqrt(sumSq / (N/2)));
+        };
+
+        const float rV0   = rmsAtVolume(0.0f,   1000.0);
+        const float rV50  = rmsAtVolume(50.0f,  1000.0);
+        const float rV100 = rmsAtVolume(100.0f, 1000.0);
+
+        check(rV0 < 1e-3f,  "volume=0 -> silence");
+        check(rV100 > rV50 * 1.7f,
+              "volume=100 (2.0x) produces ~2x more RMS than volume=50 (1.0x)");
+
+        // JFET 18kHz LP: 20kHz sine is attenuated relative to 1kHz at full volume, filter=0
+        const float r1k  = rmsAtVolume(100.0f, 1000.0);
+        const float r20k = rmsAtVolume(100.0f, 20000.0);
+        check(r20k < r1k * 0.8f,
+              "20kHz attenuated by JFET LP (18kHz) vs 1kHz");
     }
 
     // -----------------------------------------------------------------------
-    // [RAT-07] Per-block coefficient update (no per-sample std::exp) — pending
+    // [RAT-07] Per-block coefficient update (no per-sample std::exp)
     // -----------------------------------------------------------------------
+    // [RAT-07] Per-block coefficient invariant + parameter smoothing
     {
-        std::printf("\n[RAT-07] Per-block coefficient update\n");
-        check(true, "[RAT-07] pending — implemented in 03-04");
+        std::printf("\n[RAT-07] Coefficient stability + smoothing\n");
+        TurboRat rat;
+        rat.prepare(44100.0, 512);
+        TurboRat::Parameters p{};
+        p.drive = 50.0f; p.filter = 50.0f; p.volume = 65.0f;
+        p.asym = 20.0f; p.sag = 25.0f; p.clipMode = 0;
+        rat.setParameters(p);
+        rat.reset();
+
+        // Prime smoothers to steady state
+        std::vector<float> prime(2048, 0.0f);
+        float* pch[1] = { prime.data() };
+        juce::dsp::AudioBlock<float> pblock(pch, 1, (size_t)2048);
+        for (int k = 0; k < 20; ++k) rat.processOS(pblock);
+
+        auto c1 = rat.getCoefficientsForTest();
+        // Second call with identical params: every coefficient must match exactly.
+        // (No per-sample mutation of alphas allowed — only updateCoefficients writes them.)
+        rat.processOS(pblock);
+        auto c2 = rat.getCoefficientsForTest();
+
+        check(c1.hpf1 == c2.hpf1, "hpf1Alpha stable across blocks at steady-state");
+        check(c1.hpf2 == c2.hpf2, "hpf2Alpha stable across blocks at steady-state");
+        check(c1.slew == c2.slew, "slewAlpha stable across blocks at steady-state");
+        check(c1.gbw  == c2.gbw,  "gbwAlpha  stable across blocks at steady-state");
+        check(c1.tone == c2.tone, "toneAlpha stable across blocks at steady-state");
+        check(c1.jfet == c2.jfet, "jfetAlpha stable across blocks at steady-state");
+
+        // Smoothing: changing drive target produces a RAMP in gbwAlpha across blocks,
+        // not an instant jump.
+        TurboRat::Parameters p2 = p;
+        p2.drive = 100.0f;
+        rat.setParameters(p2);
+        rat.processOS(pblock);               // block 1: smoothers advance ~512 host samples
+        auto c3 = rat.getCoefficientsForTest();
+        rat.processOS(pblock);               // block 2: further advance
+        auto c4 = rat.getCoefficientsForTest();
+
+        check(c3.gbw != c1.gbw,
+              "Changing drive target moves gbwAlpha after one block");
+        check(c3.gbw != c4.gbw,
+              "gbwAlpha still moving after block 2 (smoothing active, not snapping)");
+
+        // Click-free: process 1kHz sine across a drive flip; adjacent-sample deltas bounded
+        const double osSr = 176400.0;
+        const int    Nblk = 2048;
+        std::vector<float> sine(Nblk);
+        for (int i = 0; i < Nblk; ++i)
+            sine[i] = static_cast<float>(0.5 * std::sin(2.0 * M_PI * 1000.0 * i / osSr));
+
+        rat.setParameters(p);  rat.reset();
+        for (int k = 0; k < 10; ++k) {
+            std::vector<float> buf = sine;
+            float* ch[1] = { buf.data() };
+            juce::dsp::AudioBlock<float> block(ch, 1, (size_t)Nblk);
+            rat.processOS(block);
+        }
+        // Flip drive and measure first-block max delta
+        rat.setParameters(p2);
+        std::vector<float> buf = sine;
+        float* ch[1] = { buf.data() };
+        juce::dsp::AudioBlock<float> block(ch, 1, (size_t)Nblk);
+        rat.processOS(block);
+        float maxDelta = 0.0f;
+        for (int i = 1; i < Nblk; ++i)
+            maxDelta = std::max(maxDelta, std::abs(buf[i] - buf[i-1]));
+        check(maxDelta < 0.5f,
+              "No click on drive flip: adjacent-sample delta < 0.5");
+
+        // Silence in -> silence out after reset (regression guard)
+        rat.setParameters(p);
+        rat.reset();
+        std::vector<float> sil(512, 0.0f);
+        float* sch[1] = { sil.data() };
+        juce::dsp::AudioBlock<float> sblock(sch, 1, (size_t)512);
+        rat.processOS(sblock);
+        bool allSilent = true;
+        for (float v : sil) if (std::abs(v) > 1e-6f) { allSilent = false; break; }
+        check(allSilent, "Full chain: silence in -> silence out after reset()");
     }
 
     std::printf("\n=== Results: %d/%d tests passed ===\n",
