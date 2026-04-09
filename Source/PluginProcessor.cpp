@@ -217,16 +217,18 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
 
     //--------------------------------------------------------------------------
     // 5. Stage 2 — MicroPitch (mono in, stereo out).
-    //    Expands the buffer to stereo here. After this point all processing
-    //    is stereo. The dry buffer remains mono for the global mix blend.
+    //    WR-04 fix: mono→stereo expansion happens into the pre-allocated
+    //    workBuffer, not by resizing the host buffer.
+    //    After this point all processing is stereo in workBuffer.
+    //    The dry buffer remains mono for the global mix blend.
     //
     //    Runs at native sample rate — no oversampling needed (linear stage).
     //--------------------------------------------------------------------------
     bypassSmoothPitch.setTargetValue (pPitchBypass->load() > 0.5f ? 0.0f : 1.0f);
 
-    // Expand buffer to stereo before passing to MicroPitch
-    buffer.setSize (2, numSamples, true, false, true);
-    buffer.copyFrom (1, 0, buffer, 0, 0, numSamples);  // R = L (mono copy)
+    // Seed workBuffer channels 0 and 1 from the mono input (buffer ch 0).
+    workBuffer.copyFrom (0, 0, buffer, 0, 0, numSamples);
+    workBuffer.copyFrom (1, 0, buffer, 0, 0, numSamples);
 
     stageMicroPitch->setParameters ({
         .detuneL = pPitchDetuneL->load(),
@@ -235,12 +237,12 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         .width   = pPitchWidth->load()   / 100.0f
     });
 
-    stageMicroPitch->process (buffer, numSamples);
+    stageMicroPitch->process (workBuffer, numSamples);
 
-    // Bypass crossfade (stereo — mono dry expanded to stereo for blend)
+    // Bypass crossfade (stereo) — mono dry is broadcast to both channels
     {
-        auto* L = buffer.getWritePointer (0);
-        auto* R = buffer.getWritePointer (1);
+        auto* L = workBuffer.getWritePointer (0);
+        auto* R = workBuffer.getWritePointer (1);
         const auto* dry = dryBuffer.getReadPointer (0);
 
         for (int i = 0; i < numSamples; ++i)
@@ -251,10 +253,10 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         }
     }
 
-    // DC block post-MicroPitch (stereo)
+    // DC block post-MicroPitch (stereo), operates on workBuffer
     {
-        auto* L = buffer.getWritePointer (0);
-        auto* R = buffer.getWritePointer (1);
+        auto* L = workBuffer.getWritePointer (0);
+        auto* R = workBuffer.getWritePointer (1);
         for (int i = 0; i < numSamples; ++i)
         {
             L[i] = dcBlock2L.processSample (L[i]);
@@ -262,10 +264,10 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         }
     }
 
-    // Inter-stage trim post-MicroPitch
+    // Inter-stage trim post-MicroPitch — directed at workBuffer
     {
         const float trimGain = juce::Decibels::decibelsToGain (pTrimPostPitch->load());
-        buffer.applyGain (trimGain);
+        workBuffer.applyGain (trimGain);
     }
 
     //--------------------------------------------------------------------------
@@ -273,10 +275,11 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     //    Chip grit runs at 4× oversampling internally.
     //    All LFO and delay stages run at native rate.
     //--------------------------------------------------------------------------
-    bypassSmoothUnd.setTargetValue (pUndBypass->load() > 0.5f ? 0.0f : 1.0f);
+    // IN-01: Undulator cross-feed into MicroPitch detune will be wired
+    // inside Undulator::process in Phase 5. The Phase 1 dead call on
+    // stageMicroPitch->getLastLfoValue() has been removed.
 
-    stageMicroPitch->getLastLfoValue();  // cross-feed to MicroPitch detune
-                                         // (implemented inside MicroPitch::process)
+    bypassSmoothUnd.setTargetValue (pUndBypass->load() > 0.5f ? 0.0f : 1.0f);
 
     stageUndulator->setParameters ({
         .rate        = pUndRate->load(),
@@ -293,17 +296,16 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         .shape       = static_cast<int> (pUndShape->load())
     });
 
-    // Hold pre-Undulator buffer for bypass blend
-    juce::AudioBuffer<float> preUndBuffer (2, numSamples);
-    preUndBuffer.copyFrom (0, 0, buffer, 0, 0, numSamples);
-    preUndBuffer.copyFrom (1, 0, buffer, 1, 0, numSamples);
+    // Snapshot pre-Undulator state for bypass crossfade, into pre-allocated member
+    preUndBuffer.copyFrom (0, 0, workBuffer, 0, 0, numSamples);
+    preUndBuffer.copyFrom (1, 0, workBuffer, 1, 0, numSamples);
 
-    stageUndulator->process (buffer, numSamples);
+    stageUndulator->process (workBuffer, numSamples);
 
-    // Bypass crossfade (stereo)
+    // Bypass crossfade (stereo) against preUndBuffer
     {
-        auto* L    = buffer.getWritePointer (0);
-        auto* R    = buffer.getWritePointer (1);
+        auto* L    = workBuffer.getWritePointer (0);
+        auto* R    = workBuffer.getWritePointer (1);
         const auto* dryL = preUndBuffer.getReadPointer (0);
         const auto* dryR = preUndBuffer.getReadPointer (1);
 
@@ -315,10 +317,10 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         }
     }
 
-    // DC block post-Undulator (stereo)
+    // DC block post-Undulator (stereo) on workBuffer
     {
-        auto* L = buffer.getWritePointer (0);
-        auto* R = buffer.getWritePointer (1);
+        auto* L = workBuffer.getWritePointer (0);
+        auto* R = workBuffer.getWritePointer (1);
         for (int i = 0; i < numSamples; ++i)
         {
             L[i] = dcBlock3L.processSample (L[i]);
@@ -326,10 +328,10 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         }
     }
 
-    // Inter-stage trim post-Undulator
+    // Trim post-Undulator on workBuffer (Plan 02-04 adjusts range)
     {
         const float trimGain = juce::Decibels::decibelsToGain (pTrimPostUnd->load());
-        buffer.applyGain (trimGain);
+        workBuffer.applyGain (trimGain);
     }
 
     //--------------------------------------------------------------------------
@@ -339,10 +341,9 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     //--------------------------------------------------------------------------
     bypassSmoothBurnin.setTargetValue (pBurninBypass->load() > 0.5f ? 0.0f : 1.0f);
 
-    // Hold pre-Burn-In buffer for bypass blend
-    juce::AudioBuffer<float> preBurninBuffer (2, numSamples);
-    preBurninBuffer.copyFrom (0, 0, buffer, 0, 0, numSamples);
-    preBurninBuffer.copyFrom (1, 0, buffer, 1, 0, numSamples);
+    // Snapshot pre-BurnIn state for bypass crossfade, into pre-allocated member
+    preBurninBuffer.copyFrom (0, 0, workBuffer, 0, 0, numSamples);
+    preBurninBuffer.copyFrom (1, 0, workBuffer, 1, 0, numSamples);
 
     stageBurnIn->setParameters ({
         .heatRate  = pBurninAmount->load() / 100.0f,
@@ -353,12 +354,12 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         .timerProgress = getTimerProgress()  // 0.0–1.0
     });
 
-    stageBurnIn->process (buffer, numSamples);
+    stageBurnIn->process (workBuffer, numSamples);
 
-    // Bypass crossfade (stereo)
+    // Bypass crossfade (stereo) against preBurninBuffer
     {
-        auto* L    = buffer.getWritePointer (0);
-        auto* R    = buffer.getWritePointer (1);
+        auto* L    = workBuffer.getWritePointer (0);
+        auto* R    = workBuffer.getWritePointer (1);
         const auto* dryL = preBurninBuffer.getReadPointer (0);
         const auto* dryR = preBurninBuffer.getReadPointer (1);
 
@@ -369,6 +370,10 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
             R[i] = R[i] * wet + dryR[i] * (1.0f - wet);
         }
     }
+
+    // Copy fully processed stereo from workBuffer into host output buffer.
+    buffer.copyFrom (0, 0, workBuffer, 0, 0, numSamples);
+    buffer.copyFrom (1, 0, workBuffer, 1, 0, numSamples);
 
     //--------------------------------------------------------------------------
     // 8. Global wet/dry blend.
@@ -500,15 +505,18 @@ void HeatDeathProcessor::setStateInformation (const void* data, int sizeInBytes)
     // Restore APVTS parameters
     apvts.replaceState (newState);
 
-    // Restore thermal state — only applied if persist was enabled when saved.
-    // The actual injection into BurnIn happens in prepareToPlay() or on the
-    // next processBlock() call via stageBurnIn->setPersistedTemp().
-    persistedTemp     = static_cast<float> (
-                            newState.getProperty ("persistedTemp",     0.0f));
-    persistedTempPrev = static_cast<float> (
-                            newState.getProperty ("persistedTempPrev", 0.0f));
+    // Restore thermal state — only loaded and injected when persist is enabled.
+    // WR-05 fix: gate the property reads on persistEnabled so stale values
+    // from a previous session are never silently restored when persist is off.
+    const bool persistEnabled = (pBurninPersist->load() > 0.5f);
+    persistedTemp     = persistEnabled
+        ? static_cast<float> (newState.getProperty ("persistedTemp",     0.0f))
+        : 0.0f;
+    persistedTempPrev = persistEnabled
+        ? static_cast<float> (newState.getProperty ("persistedTempPrev", 0.0f))
+        : 0.0f;
 
-    if (pBurninPersist->load() > 0.5f)
+    if (persistEnabled)
         stageBurnIn->setPersistedTemp (persistedTemp, persistedTempPrev);
 
     // Restore timer elapsed time
