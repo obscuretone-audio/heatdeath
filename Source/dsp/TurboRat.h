@@ -74,4 +74,8 @@ private:
     // RAT-03: GBW dominant pole LP state + per-block coefficient
     float gbwState = 0.0f;
     float gbwAlpha = 0.0f;
+
+    // RAT-04: Clip mode threshold — set in updateCoefficients from params.clipMode.
+    // LED=1.7f, Silicon=0.65f, Lift=12.0f, Ruetz fallback=0.65f
+    float threshold = 1.7f;
 };

@@ -68,6 +68,17 @@ void TurboRat::updateCoefficients (double osSampleRate)
     const float gbwHz = juce::jlimit (200.0f, 8000.0f,
                                       600.0f / std::max (driveNorm, 0.01f));
     gbwAlpha = computeLPFAlpha (gbwHz, osSampleRate);
+
+    // RAT-04: Clip mode -> threshold mapping.
+    // Per 03-RESEARCH.md Open Question #2, Ruetz mode is an undocumented hidden mode;
+    // fallback to Silicon (0.65f) until spec provides a value.
+    switch (params.clipMode)
+    {
+        case 0:  threshold = 1.7f;  break;   // LED
+        case 1:  threshold = 0.65f; break;   // Silicon
+        case 2:  threshold = 12.0f; break;   // Lift (soft knee, near-linear for typical levels)
+        default: threshold = 0.65f; break;   // Ruetz — Silicon fallback
+    }
 }
 
 void TurboRat::processOS (juce::dsp::AudioBlock<float>& osBlock)
@@ -113,7 +124,27 @@ void TurboRat::processOS (juce::dsp::AudioBlock<float>& osBlock)
         gbwState = gbwAlpha * gbwState + (1.0f - gbwAlpha) * x;
         x = gbwState;
 
-        data[i] = x;   // 03-03..03-04 will insert further stages here
+        // 5. Asymmetric tanh diode waveshaper (RAT-04).
+        // Verbatim from heatdeath_vst_spec.md §2.
+        // Runs at 4x oversampling — hot path uses FastMathApproximations::tanh.
+        {
+            constexpr float kAsym = TurboRat::kDefaultAsym;   // 0.20f
+            float out;
+            if (x >= 0.0f)
+            {
+                out = threshold
+                    * juce::dsp::FastMathApproximations::tanh (10.0f * x / threshold);
+            }
+            else
+            {
+                const float negDenom = threshold * (1.0f + kAsym * 0.4f);
+                out = -threshold
+                    * juce::dsp::FastMathApproximations::tanh (10.0f * (-x) / negDenom);
+            }
+            x = out / threshold;   // normalize: unity-gain 0dBFS in -> 0dBFS out
+        }
+
+        data[i] = x;   // 03-04 will insert tone LPF + JFET buffer here
     }
 }
 

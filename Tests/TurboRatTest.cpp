@@ -267,10 +267,17 @@ int main()
         for (float v : liftBuf)if (!std::isfinite(v)) { finiteOk = false; break; }
         check(finiteOk, "All waveshaper outputs are finite (no NaN/Inf)");
 
-        // Lift mode (threshold=12) on a ~1.0 amplitude signal is near-linear.
-        // peak/amplitude ratio should be much closer to unity than Silicon.
-        check(peak(liftBuf) > peak(siBuf),
-              "Lift mode preserves more peak amplitude than Silicon (softer knee)");
+        // Lift mode (threshold=12) is near-linear: the waveshaper gain is tanh(10*x/12)
+        // which for small x gives 10x/12 = 0.83x — attenuates slightly and never saturates.
+        // Silicon (threshold=0.65) saturates hard: gain=10/0.65=15.4x, output clips to ~1.0.
+        // Correct check: Silicon's peak is much closer to saturation (1.0) than Lift.
+        // Silicon clips hard -> peak_si/mav_si ~= 1.0 (flat top).
+        // Lift is near-linear -> peak_lift/mav_lift ~= sqrt(2) (unclipped sine shape).
+        const float siCrestFactor   = peak(siBuf)   / (mavSi   > 0.0f ? mavSi   : 1.0f);
+        const float mavLift = mav(liftBuf);
+        const float liftCrestFactor = peak(liftBuf) / (mavLift > 0.0f ? mavLift : 1.0f);
+        check(liftCrestFactor > siCrestFactor,
+              "Lift is near-linear (crest factor > Silicon which clips flat)");
     }
 
     // -----------------------------------------------------------------------
