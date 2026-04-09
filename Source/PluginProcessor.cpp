@@ -223,7 +223,7 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         juce::dsp::AudioBlock<float> monoBlock (buffer.getArrayOfWritePointers(),
                                                 1, static_cast<size_t> (numSamples));
         auto osBlock = oversampler.processSamplesUp (monoBlock);
-        juce::ignoreUnused (osBlock);          // Phase 3 will process osBlock at 4x
+        stageTurboRat->processOS (osBlock);    // Stage 1 processed on oversampled block (03-01)
         oversampler.processSamplesDown (monoBlock);
     }
 
@@ -239,7 +239,7 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         .sag      = pRatSag->load()
     });
 
-    stageTurboRat->process (buffer, numSamples);
+    // Stage 1 processed on oversampled block above (03-01).
 
     // Bypass crossfade (mono)
     for (int i = 0; i < numSamples; ++i)
