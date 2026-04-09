@@ -175,7 +175,7 @@ private:
     // Prevents asymmetric waveshapers from accumulating DC offset across chain.
     //==========================================================================
 
-    juce::dsp::IIR::Filter<float> dcBlock1L, dcBlock1R;  // post-RAT
+    juce::dsp::IIR::Filter<float> dcBlock1L;              // post-RAT (mono)
     juce::dsp::IIR::Filter<float> dcBlock2L, dcBlock2R;  // post-MicroPitch
     juce::dsp::IIR::Filter<float> dcBlock3L, dcBlock3R;  // post-Undulator
 
@@ -222,6 +222,15 @@ private:
     //==========================================================================
 
     juce::AudioBuffer<float> dryBuffer;
+
+    // WR-04: Pre-allocated stereo working buffer for mono→stereo expansion.
+    // Sized to max block size in prepareToPlay. Never resized in processBlock.
+    juce::AudioBuffer<float> workBuffer;
+
+    // Pre-allocated buffers for bypass crossfade snapshots. Phase 1 allocated
+    // these inline inside processBlock (AudioBuffer ctor on stack = heap alloc).
+    juce::AudioBuffer<float> preUndBuffer;     // bypass crossfade snapshot (pre-Undulator)
+    juce::AudioBuffer<float> preBurninBuffer;  // bypass crossfade snapshot (pre-BurnIn)
 
     //==========================================================================
 

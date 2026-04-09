@@ -68,14 +68,10 @@ void HeatDeathProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
     stageBurnIn->prepare     (sampleRate, samplesPerBlock);
 
     // DC blocking filters — ~5Hz first-order highpass at each stage boundary.
-    // Coefficient: a = 1 - (2π * fc / fs). fc = 5Hz.
-    const float dcCoeff = 1.0f - (juce::MathConstants<float>::twoPi * 5.0f
-                                  / static_cast<float> (sampleRate));
     const auto  dcCoeffs = juce::dsp::IIR::Coefficients<float>::makeHighPass (
                                sampleRate, 5.0f);
 
     dcBlock1L.prepare (monoSpec); dcBlock1L.coefficients = dcCoeffs;
-    dcBlock1R.prepare (monoSpec); dcBlock1R.coefficients = dcCoeffs;
     dcBlock2L.prepare (monoSpec); dcBlock2L.coefficients = dcCoeffs;
     dcBlock2R.prepare (monoSpec); dcBlock2R.coefficients = dcCoeffs;
     dcBlock3L.prepare (monoSpec); dcBlock3L.coefficients = dcCoeffs;
@@ -90,8 +86,6 @@ void HeatDeathProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
     feedbackSample = 0.0f;
 
     // Bypass smoothers — 10ms window.
-    const float bypassRamp = static_cast<float> (samplesPerBlock) /
-                             static_cast<float> (sampleRate * 0.01);
     bypassSmoothRat.reset   (sampleRate, 0.01);
     bypassSmoothPitch.reset (sampleRate, 0.01);
     bypassSmoothUnd.reset   (sampleRate, 0.01);
@@ -109,7 +103,13 @@ void HeatDeathProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 
     // Dry buffer — pre-allocated to avoid real-time heap activity.
     // Holds mono input copy for global wet/dry blend.
-    dryBuffer.setSize (1, samplesPerBlock, false, true, false);
+    dryBuffer.setSize      (1, samplesPerBlock, false, true, false);
+
+    // WR-04: Pre-allocate stereo working and bypass-snapshot buffers.
+    // Sized once here; never resized in processBlock.
+    workBuffer      .setSize (2, samplesPerBlock, false, true, false);
+    preUndBuffer    .setSize (2, samplesPerBlock, false, true, false);
+    preBurninBuffer .setSize (2, samplesPerBlock, false, true, false);
 }
 
 //==============================================================================
@@ -123,7 +123,7 @@ void HeatDeathProcessor::releaseResources()
     stageUndulator->reset();
     stageBurnIn->reset();
 
-    dcBlock1L.reset(); dcBlock1R.reset();
+    dcBlock1L.reset();
     dcBlock2L.reset(); dcBlock2R.reset();
     dcBlock3L.reset(); dcBlock3R.reset();
     feedbackLpf.reset();
