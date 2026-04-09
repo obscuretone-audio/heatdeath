@@ -58,7 +58,6 @@ target_sources(HEATDEATH PRIVATE
     Source/dsp/MicroPitch.cpp
     Source/dsp/H3000Undulator.cpp
     Source/dsp/TapeBurnIn.cpp
-    Source/dsp/Oversampler.cpp
     Source/ui/HeatdeathLookAndFeel.cpp
     Source/ui/StagePanel.cpp
 )
