@@ -1,0 +1,1385 @@
+-- The C compiler identification is AppleClang 16.0.0.16000026
+-- The CXX compiler identification is AppleClang 16.0.0.16000026
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/clang - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/clang++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring juceaide
+-- Building juceaide
+-- Exporting juceaide
+CMake Warning (dev) at build/_deps/juce-src/extras/Build/CMake/JUCEUtils.cmake:695 (add_custom_command):
+  The following keywords are not supported when using
+  add_custom_command(TARGET): DEPENDS.
+
+  Policy CMP0175 is not set: add_custom_command() rejects invalid arguments.
+  Run "cmake --help-policy CMP0175" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+Call Stack (most recent call first):
+  build/_deps/juce-src/extras/Build/CMake/JUCEUtils.cmake:1328 (_juce_configure_bundle)
+  build/_deps/juce-src/extras/Build/CMake/JUCEUtils.cmake:1472 (_juce_link_plugin_wrapper)
+  build/_deps/juce-src/extras/Build/CMake/JUCEUtils.cmake:2031 (_juce_configure_plugin_targets)
+  CMakeLists.txt:31 (juce_add_plugin)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at build/_deps/juce-src/extras/Build/CMake/JUCEUtils.cmake:695 (add_custom_command):
+  The following keywords are not supported when using
+  add_custom_command(TARGET): DEPENDS.
+
+  Policy CMP0175 is not set: add_custom_command() rejects invalid arguments.
+  Run "cmake --help-policy CMP0175" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+Call Stack (most recent call first):
+  build/_deps/juce-src/extras/Build/CMake/JUCEUtils.cmake:1328 (_juce_configure_bundle)
+  build/_deps/juce-src/extras/Build/CMake/JUCEUtils.cmake:1472 (_juce_link_plugin_wrapper)
+  build/_deps/juce-src/extras/Build/CMake/JUCEUtils.cmake:2031 (_juce_configure_plugin_targets)
+  CMakeLists.txt:31 (juce_add_plugin)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Configuring done (39.3s)
+-- Generating done (0.0s)
+-- Build files have been written to: /Users/timmiller/Documents/CLAUDE/Heatdeath/build
+[  1%] Building CXX object CMakeFiles/juce_vst3_helper.dir/_deps/juce-src/modules/juce_audio_plugin_client/VST3/juce_VST3ManifestHelper.mm.o
+[  3%] Building CXX object CMakeFiles/HEATDEATH.dir/Source/PluginProcessor.cpp.o
+[  7%] Building CXX object CMakeFiles/HEATDEATH.dir/Source/dsp/TurboRat.cpp.o
+[  7%] Building CXX object CMakeFiles/HEATDEATH.dir/Source/PluginEditor.cpp.o
+[  9%] Building CXX object CMakeFiles/HEATDEATH.dir/Source/dsp/Oversampler.cpp.o
+[ 11%] Building CXX object CMakeFiles/HEATDEATH.dir/Source/dsp/MicroPitch.cpp.o
+[ 13%] Building CXX object CMakeFiles/HEATDEATH.dir/Source/ui/HeatdeathLookAndFeel.cpp.o
+[ 15%] Building CXX object CMakeFiles/HEATDEATH.dir/Source/dsp/TapeBurnIn.cpp.o
+[ 18%] Building CXX object CMakeFiles/HEATDEATH.dir/Source/dsp/H3000Undulator.cpp.o
+[ 18%] Building CXX object CMakeFiles/HEATDEATH.dir/Source/Parameters.cpp.o
+[ 20%] Building CXX object CMakeFiles/HEATDEATH.dir/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors_ara.cpp.o
+[ 22%] Building CXX object CMakeFiles/HEATDEATH.dir/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors_lv2_libs.cpp.o
+[ 24%] Building CXX object CMakeFiles/HEATDEATH.dir/Source/ui/StagePanel.cpp.o
+[ 26%] Building CXX object CMakeFiles/HEATDEATH.dir/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.mm.o
+[ 28%] Building CXX object CMakeFiles/HEATDEATH.dir/_deps/juce-src/modules/juce_gui_extra/juce_gui_extra.mm.o
+[ 30%] Building CXX object CMakeFiles/HEATDEATH.dir/_deps/juce-src/modules/juce_graphics/juce_graphics.mm.o
+[ 32%] Building CXX object CMakeFiles/HEATDEATH.dir/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.mm.o
+[ 33%] Building CXX object CMakeFiles/HEATDEATH.dir/_deps/juce-src/modules/juce_data_structures/juce_data_structures.mm.o
+[ 35%] Building CXX object CMakeFiles/HEATDEATH.dir/_deps/juce-src/modules/juce_audio_utils/juce_audio_utils.mm.o
+[ 37%] Building CXX object CMakeFiles/HEATDEATH.dir/_deps/juce-src/modules/juce_core/juce_core.mm.o
+[ 41%] Building CXX object CMakeFiles/HEATDEATH.dir/_deps/juce-src/modules/juce_dsp/juce_dsp.mm.o
+[ 43%] Building CXX object CMakeFiles/HEATDEATH.dir/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.mm.o
+[ 43%] Building CXX object CMakeFiles/HEATDEATH.dir/_deps/juce-src/modules/juce_events/juce_events.mm.o
+[ 45%] Building CXX object CMakeFiles/HEATDEATH.dir/_deps/juce-src/modules/juce_audio_devices/juce_audio_devices.mm.o
+[ 47%] Building CXX object CMakeFiles/HEATDEATH.dir/_deps/juce-src/modules/juce_audio_formats/juce_audio_formats.mm.o
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/TapeBurnIn.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/BurnIn.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginEditor.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginEditor.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.h:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/MicroPitch.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/MicroPitch.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginProcessor.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginProcessor.h:3:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.h:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/Parameters.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/Parameters.h:3:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.h:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/ui/StagePanel.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/ui/StagePanel.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/Oversampler.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/Oversampler.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/H3000Undulator.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/Undulator.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/ui/HeatdeathLookAndFeel.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/ui/HeatdeathLookAndFeel.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/TapeBurnIn.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/BurnIn.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginEditor.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginEditor.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.h:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/MicroPitch.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/MicroPitch.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/Oversampler.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/Oversampler.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginProcessor.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginProcessor.h:3:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.h:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/H3000Undulator.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/Undulator.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.mm:23:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.cpp:32:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_dsp/juce_dsp.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_dsp/juce_dsp.cpp:35:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_dsp/juce_dsp.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_data_structures/juce_data_structures.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_data_structures/juce_data_structures.cpp:35:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_data_structures/juce_data_structures.h:56:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_events/juce_events.h:52:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/TurboRat.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/TurboRat.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/Parameters.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/Parameters.h:3:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.h:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/ui/StagePanel.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/ui/StagePanel.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/ui/HeatdeathLookAndFeel.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/ui/HeatdeathLookAndFeel.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/TurboRat.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/TurboRat.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_dsp/juce_dsp.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_dsp/juce_dsp.cpp:35:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_dsp/juce_dsp.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_data_structures/juce_data_structures.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_data_structures/juce_data_structures.cpp:35:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_data_structures/juce_data_structures.h:56:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_events/juce_events.h:52:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.mm:23:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.cpp:32:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.cpp:41:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_extra/juce_gui_extra.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_extra/juce_gui_extra.cpp:48:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_extra/juce_gui_extra.h:59:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.cpp:41:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.h:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_devices/juce_audio_devices.mm:23:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_devices/juce_audio_devices.cpp:46:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_devices/juce_audio_devices.h:56:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_events/juce_events.h:52:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.mm:23:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.cpp:37:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.cpp:46:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/juce_audio_formats.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/juce_audio_formats.cpp:39:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/juce_audio_formats.h:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_events/juce_events.mm:23:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_events/juce_events.cpp:42:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_events/juce_events.h:52:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+ | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_utils/juce_audio_utils.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_utils/juce_audio_utils.cpp:40:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_utils/juce_audio_utils.h:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+2 warnings generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/MicroPitch.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/MicroPitch.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+2 warnings generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/MicroPitch.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/MicroPitch.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/TapeBurnIn.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/BurnIn.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/TapeBurnIn.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/BurnIn.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+2 warnings generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/H3000Undulator.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/Undulator.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+2 warnings generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/TurboRat.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/TurboRat.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/H3000Undulator.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/Undulator.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+2 warnings generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/Oversampler.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/Oversampler.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/TurboRat.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/TurboRat.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/Oversampler.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/dsp/Oversampler.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+2 warnings generated.
+2 warnings generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/ui/HeatdeathLookAndFeel.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/ui/HeatdeathLookAndFeel.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/ui/StagePanel.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/ui/StagePanel.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/ui/HeatdeathLookAndFeel.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/ui/HeatdeathLookAndFeel.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/ui/StagePanel.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/ui/StagePanel.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+/Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginProcessor.cpp:53:28: warning: unused variable 'spec' [-Wunused-variable]
+   53 |     juce::dsp::ProcessSpec spec { sampleRate,
+      |                            ^~~~
+/Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginProcessor.cpp:72:17: warning: unused variable 'dcCoeff' [-Wunused-variable]
+   72 |     const float dcCoeff = 1.0f - (juce::MathConstants<float>::twoPi * 5.0f
+      |                 ^~~~~~~
+/Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginProcessor.cpp:93:17: warning: unused variable 'bypassRamp' [-Wunused-variable]
+   93 |     const float bypassRamp = static_cast<float> (samplesPerBlock) /
+      |                 ^~~~~~~~~~
+/Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginProcessor.cpp:178:55: warning: implicit conversion changes signedness: 'const int' to 'size_t' (aka 'unsigned long') [-Wsign-conversion]
+  177 |         juce::dsp::AudioBlock<float>        block (buffer.getArrayOfWritePointers(),
+      |                                             ~~~~~
+  178 |                                                    1, numSamples);
+      |                                                       ^~~~~~~~~~
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/juce_audio_formats.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/juce_audio_formats.cpp:65:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/codecs/juce_FlacAudioFormat.cpp:156:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/codecs/flac/libFLAC/bitmath.c:37:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/codecs/flac/libFLAC/include/private/bitmath.h:39:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/codecs/flac/libFLAC/include/private/../../../compat.h:42:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.cpp:126:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/image_formats/juce_JPEGLoader.cpp:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/image_formats/jpglib/jcapimin.c:20:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/image_formats/jpglib/jinclude.h:38:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginEditor.cpp:1:
+/Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginEditor.h:17:25: warning: private field 'processorRef' is not used [-Wunused-private-field]
+   17 |     HeatDeathProcessor& processorRef;
+      |                         ^
+2 warnings generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.cpp:127:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/image_formats/juce_PNGLoader.cpp:282:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/image_formats/pnglib/png.h:335:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/image_formats/pnglib/pngconf.h:32:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+3 warnings generated.
+2 warnings generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginEditor.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginEditor.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.h:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+2 warnings generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_data_structures/juce_data_structures.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_data_structures/juce_data_structures.cpp:35:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_data_structures/juce_data_structures.h:56:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_events/juce_events.h:52:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginEditor.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginEditor.h:2:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.h:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.mm:23:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.cpp:186:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/zip/juce_GZIPDecompressorInputStream.cpp:51:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/zip/zlib/crc32.c:29:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/zip/zlib/zutil.h:21:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_data_structures/juce_data_structures.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_data_structures/juce_data_structures.cpp:35:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_data_structures/juce_data_structures.h:56:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_events/juce_events.h:52:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+2 warnings generated.
+2 warnings generated.
+2 warnings generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/juce_audio_formats.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/juce_audio_formats.cpp:67:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/codecs/juce_OggVorbisAudioFormat.cpp:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/codecs/oggvorbis/vorbisenc.h:31:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/codecs/oggvorbis/codec.h:25:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/codecs/oggvorbis/ogg.h:23:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+2 warnings generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/Parameters.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/Parameters.h:3:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.h:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+6 warnings generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/Parameters.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/Parameters.h:3:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.h:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginProcessor.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginProcessor.h:3:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.h:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginProcessor.cpp:1:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginProcessor.h:3:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.h:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+2 warnings generated.
+1 warning generated.
+2 warnings generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_events/juce_events.mm:23:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_events/juce_events.cpp:42:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_events/juce_events.h:52:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+2 warnings generated.
+/Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginProcessor.cpp:53:28: warning: unused variable 'spec' [-Wunused-variable]
+   53 |     juce::dsp::ProcessSpec spec { sampleRate,
+      |                            ^~~~
+/Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginProcessor.cpp:72:17: warning: unused variable 'dcCoeff' [-Wunused-variable]
+   72 |     const float dcCoeff = 1.0f - (juce::MathConstants<float>::twoPi * 5.0f
+      |                 ^~~~~~~
+/Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginProcessor.cpp:93:17: warning: unused variable 'bypassRamp' [-Wunused-variable]
+   93 |     const float bypassRamp = static_cast<float> (samplesPerBlock) /
+      |                 ^~~~~~~~~~
+/Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginProcessor.cpp:178:55: warning: implicit conversion changes signedness: 'const int' to 'size_t' (aka 'unsigned long') [-Wsign-conversion]
+  177 |         juce::dsp::AudioBlock<float>        block (buffer.getArrayOfWritePointers(),
+      |                                             ~~~~~
+  178 |                                                    1, numSamples);
+      |                                                       ^~~~~~~~~~
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginEditor.cpp:1:
+/Users/timmiller/Documents/CLAUDE/Heatdeath/Source/PluginEditor.h:17:25: warning: private field 'processorRef' is not used [-Wunused-private-field]
+   17 |     HeatDeathProcessor& processorRef;
+      |                         ^
+3 warnings generated.
+2 warnings generated.
+1 warning generated.
+6 warnings generated.
+1 warning generated.
+2 warnings generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.mm:23:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.cpp:32:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_devices/juce_audio_devices.mm:23:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_devices/juce_audio_devices.cpp:46:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_devices/juce_audio_devices.h:56:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_events/juce_events.h:52:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.mm:23:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.cpp:32:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_utils/juce_audio_utils.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_utils/juce_audio_utils.cpp:40:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_utils/juce_audio_utils.h:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+2 warnings generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_dsp/juce_dsp.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_dsp/juce_dsp.cpp:35:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_dsp/juce_dsp.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1787:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+1 warning generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_dsp/juce_dsp.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_dsp/juce_dsp.cpp:35:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_dsp/juce_dsp.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+1 warning generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_extra/juce_gui_extra.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_extra/juce_gui_extra.cpp:48:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_extra/juce_gui_extra.h:59:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+3 warnings generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/juce_audio_formats.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/juce_audio_formats.cpp:39:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/juce_audio_formats.h:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.h:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+[ 49%] Linking CXX executable juce_vst3_helper
+1 warning generated.
+1 warning generated.
+[ 49%] Built target juce_vst3_helper
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.cpp:41:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_processors/juce_audio_processors.h:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+1 warning generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/juce_audio_formats.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/juce_audio_formats.cpp:65:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/codecs/juce_FlacAudioFormat.cpp:156:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/codecs/flac/libFLAC/bitmath.c:37:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/codecs/flac/libFLAC/include/private/bitmath.h:39:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/codecs/flac/libFLAC/include/private/../../../compat.h:42:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/juce_audio_formats.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/juce_audio_formats.cpp:67:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/codecs/juce_OggVorbisAudioFormat.cpp:57:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/codecs/oggvorbis/vorbisenc.h:31:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/codecs/oggvorbis/codec.h:25:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_formats/codecs/oggvorbis/ogg.h:23:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+2 warnings generated.
+2 warnings generated.
+3 warnings generated.
+2 warnings generated.
+1 warning generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.cpp:41:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.mm:23:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.cpp:37:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.cpp:126:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/image_formats/juce_JPEGLoader.cpp:54:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/image_formats/jpglib/jcapimin.c:20:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/image_formats/jpglib/jinclude.h:38:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.cpp:127:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/image_formats/juce_PNGLoader.cpp:282:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/image_formats/pnglib/png.h:335:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/image_formats/pnglib/pngconf.h:32:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.mm:23:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.cpp:186:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/zip/juce_GZIPDecompressorInputStream.cpp:51:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/zip/zlib/crc32.c:29:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/zip/zlib/zutil.h:21:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+3 warnings generated.
+1 warning generated.
+3 warnings generated.
+2 warnings generated.
+1 warning generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.mm:26:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.cpp:46:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.h:60:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_graphics/juce_graphics.h:58:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/juce_core.h:204:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_core/system/juce_StandardHeader.h:50:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/algorithm:1804:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+1 warning generated.
+[ 50%] Linking CXX static library HEATDEATH_artefacts/Release/libHEATDEATH_SharedCode.a
+[ 50%] Built target HEATDEATH
+[ 54%] Generating HEATDEATH_artefacts/JuceLibraryCode/HEATDEATH_AU/PkgInfo
+[ 54%] Generating HEATDEATH_artefacts/JuceLibraryCode/HEATDEATH_VST3/PkgInfo
+[ 58%] Building CXX object CMakeFiles/HEATDEATH_AU.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_AAX_utils.cpp.o
+[ 60%] Building CXX object CMakeFiles/HEATDEATH_VST3.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_ARA.cpp.o
+[ 60%] Building CXX object CMakeFiles/HEATDEATH_VST3.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_Standalone.cpp.o
+[ 62%] Building CXX object CMakeFiles/HEATDEATH_AU.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_ARA.cpp.o
+[ 66%] Building CXX object CMakeFiles/HEATDEATH_AU.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_Unity.cpp.o
+[ 66%] Building CXX object CMakeFiles/HEATDEATH_VST3.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_1.mm.o
+[ 67%] Building CXX object CMakeFiles/HEATDEATH_AU.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_LV2.mm.o
+[ 69%] Building CXX object CMakeFiles/HEATDEATH_VST3.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_2.mm.o
+[ 71%] Building CXX object CMakeFiles/HEATDEATH_VST3.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_Unity.cpp.o
+[ 73%] Building CXX object CMakeFiles/HEATDEATH_AU.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_AAX.mm.o
+[ 75%] Building CXX object CMakeFiles/HEATDEATH_VST3.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_AUv3.mm.o
+[ 77%] Building CXX object CMakeFiles/HEATDEATH_AU.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_Standalone.cpp.o
+[ 81%] Building CXX object CMakeFiles/HEATDEATH_VST3.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_AAX_utils.cpp.o
+[ 81%] Building CXX object CMakeFiles/HEATDEATH_AU.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST2.mm.o
+[ 83%] Building CXX object CMakeFiles/HEATDEATH_VST3.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_AAX.mm.o
+[ 86%] Building CXX object CMakeFiles/HEATDEATH_AU.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_2.mm.o
+[ 86%] Building CXX object CMakeFiles/HEATDEATH_VST3.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST2.mm.o
+[ 88%] Building CXX object CMakeFiles/HEATDEATH_AU.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_AUv3.mm.o
+[ 90%] Building CXX object CMakeFiles/HEATDEATH_AU.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST3.mm.o
+[ 92%] Building CXX object CMakeFiles/HEATDEATH_VST3.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_LV2.mm.o
+[ 94%] Building CXX object CMakeFiles/HEATDEATH_AU.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_1.mm.o
+[ 96%] Building CXX object CMakeFiles/HEATDEATH_VST3.dir/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST3.mm.o
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_2.mm:90:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUBase.cpp:5:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUBase.h:10:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUBuffer.h:8:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUUtility.h:20:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/bitset:129:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/count.h:13:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_2.mm:90:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUBase.cpp:5:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUBase.h:10:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUBuffer.h:8:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUUtility.h:20:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/bitset:131:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_1.mm:56:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/MusicDeviceBase.h:8:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUMIDIBase.h:8:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUBase.h:10:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUBuffer.h:8:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUUtility.h:20:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/bitset:131:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+2 warnings generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_2.mm:90:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUBase.cpp:5:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUBase.h:10:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUBuffer.h:8:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUUtility.h:20:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/bitset:129:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/count.h:13:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iterator_operations.h:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/iter_swap.h:14:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__utility/swap.h:16:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_move_constructible.h:15:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:17:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstddef:43:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_2.mm:90:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUBase.cpp:5:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUBase.h:10:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUBuffer.h:8:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUUtility.h:20:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/bitset:131:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+2 warnings generated.
+1 warning generated.
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_1.mm:56:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/MusicDeviceBase.h:8:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUMIDIBase.h:8:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUBase.h:10:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUBuffer.h:8:
+In file included from /Users/timmiller/Documents/CLAUDE/Heatdeath/build/_deps/juce-src/modules/juce_audio_plugin_client/AU/AudioUnitSDK/AUUtility.h:20:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/bitset:131:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/find.h:31:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cwchar:114:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/wchar.h:109:
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/stddef.h:31:2: warning: #include_next is a language extension [-Wgnu-include-next]
+   31 | #include_next <stddef.h>
+      |  ^
+1 warning generated.
+[ 98%] Linking CXX CFBundle shared module HEATDEATH_artefacts/Release/AU/HEATDEATH.component/Contents/MacOS/HEATDEATH
+[100%] Linking CXX CFBundle shared module HEATDEATH_artefacts/Release/VST3/HEATDEATH.vst3/Contents/MacOS/HEATDEATH
+/Users/timmiller/Documents/CLAUDE/Heatdeath/build/HEATDEATH_artefacts/Release/AU/HEATDEATH.component: code object is not signed at all
+-- Replacing invalid signature with ad-hoc signature
+/Users/timmiller/Documents/CLAUDE/Heatdeath/build/HEATDEATH_artefacts/Release/AU/HEATDEATH.component: replacing existing signature
+-- Installing: /Users/timmiller/Library/Audio/Plug-Ins/Components/HEATDEATH.component
+-- Installing: /Users/timmiller/Library/Audio/Plug-Ins/Components/HEATDEATH.component/Contents
+-- Installing: /Users/timmiller/Library/Audio/Plug-Ins/Components/HEATDEATH.component/Contents/_CodeSignature
+-- Installing: /Users/timmiller/Library/Audio/Plug-Ins/Components/HEATDEATH.component/Contents/_CodeSignature/CodeResources
+-- Installing: /Users/timmiller/Library/Audio/Plug-Ins/Components/HEATDEATH.component/Contents/MacOS
+-- Installing: /Users/timmiller/Library/Audio/Plug-Ins/Components/HEATDEATH.component/Contents/MacOS/HEATDEATH
+-- Installing: /Users/timmiller/Library/Audio/Plug-Ins/Components/HEATDEATH.component/Contents/Info.plist
+-- Installing: /Users/timmiller/Library/Audio/Plug-Ins/Components/HEATDEATH.component/Contents/PkgInfo
+[100%] Built target HEATDEATH_AU
+/Users/timmiller/Documents/CLAUDE/Heatdeath/build/HEATDEATH_artefacts/Release/VST3/HEATDEATH.vst3: code object is not signed at all
+-- Replacing invalid signature with ad-hoc signature
+/Users/timmiller/Documents/CLAUDE/Heatdeath/build/HEATDEATH_artefacts/Release/VST3/HEATDEATH.vst3: replacing existing signature
+removing moduleinfo.json
+/Users/timmiller/Documents/CLAUDE/Heatdeath/build/HEATDEATH_artefacts/Release/VST3/HEATDEATH.vst3: a sealed resource is missing or invalid
+-- Replacing invalid signature with ad-hoc signature
+/Users/timmiller/Documents/CLAUDE/Heatdeath/build/HEATDEATH_artefacts/Release/VST3/HEATDEATH.vst3: replacing existing signature
+-- Installing: /Users/timmiller/Library/Audio/Plug-Ins/VST3/HEATDEATH.vst3
+-- Installing: /Users/timmiller/Library/Audio/Plug-Ins/VST3/HEATDEATH.vst3/Contents
+-- Installing: /Users/timmiller/Library/Audio/Plug-Ins/VST3/HEATDEATH.vst3/Contents/_CodeSignature
+-- Installing: /Users/timmiller/Library/Audio/Plug-Ins/VST3/HEATDEATH.vst3/Contents/_CodeSignature/CodeResources
+-- Installing: /Users/timmiller/Library/Audio/Plug-Ins/VST3/HEATDEATH.vst3/Contents/MacOS
+-- Installing: /Users/timmiller/Library/Audio/Plug-Ins/VST3/HEATDEATH.vst3/Contents/MacOS/HEATDEATH
+-- Installing: /Users/timmiller/Library/Audio/Plug-Ins/VST3/HEATDEATH.vst3/Contents/Resources
+-- Installing: /Users/timmiller/Library/Audio/Plug-Ins/VST3/HEATDEATH.vst3/Contents/Resources/moduleinfo.json
+-- Installing: /Users/timmiller/Library/Audio/Plug-Ins/VST3/HEATDEATH.vst3/Contents/Info.plist
+-- Installing: /Users/timmiller/Library/Audio/Plug-Ins/VST3/HEATDEATH.vst3/Contents/PkgInfo
+[100%] Built target HEATDEATH_VST3
+Architectures in the fat file: build/HEATDEATH_artefacts/Release/VST3/HEATDEATH.vst3/Contents/MacOS/HEATDEATH are: x86_64 arm64 

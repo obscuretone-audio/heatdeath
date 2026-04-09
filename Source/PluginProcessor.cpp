@@ -8,24 +8,13 @@
 #include "dsp/BurnIn.h"
 
 //==============================================================================
-// Bus layout helper
-//==============================================================================
-
-static juce::AudioProcessor::BusesProperties getDefaultBuses()
-{
-    // Mono input, stereo output — the stereo field is created by MicroPitch.
-    // Nothing upstream of MicroPitch generates stereo information.
-    return juce::AudioProcessor::BusesProperties()
-        .withInput  ("Input",  juce::AudioChannelSet::mono(),   true)
-        .withOutput ("Output", juce::AudioChannelSet::stereo(), true);
-}
-
-//==============================================================================
 // Constructor
 //==============================================================================
 
 HeatDeathProcessor::HeatDeathProcessor()
-    : AudioProcessor (getDefaultBuses()),
+    : AudioProcessor (BusesProperties()
+                          .withInput  ("Input",  juce::AudioChannelSet::mono(),   true)
+                          .withOutput ("Output", juce::AudioChannelSet::stereo(), true)),
       apvts (*this, nullptr, "HEATDEATH_STATE", Params::createParameterLayout())
 {
     // Construct DSP stages. They are initialised (sample rate, buffer size) in

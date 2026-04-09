@@ -225,8 +225,9 @@ private:
 
     //==========================================================================
 
-    void cacheParameterPointers();
-    void updateTimerState (int numSamples);
+    void  cacheParameterPointers();
+    void  updateTimerState (int numSamples);
+    float getTimerProgress() const;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (HeatDeathProcessor)
 };
