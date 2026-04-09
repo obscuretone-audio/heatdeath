@@ -1383,3 +1383,537 @@ removing moduleinfo.json
 -- Installing: /Users/timmiller/Library/Audio/Plug-Ins/VST3/HEATDEATH.vst3/Contents/PkgInfo
 [100%] Built target HEATDEATH_VST3
 Architectures in the fat file: build/HEATDEATH_artefacts/Release/VST3/HEATDEATH.vst3/Contents/MacOS/HEATDEATH are: x86_64 arm64 
+{
+  "AudioComponents" => [
+    0 => {
+      "description" => "HEATDEATH"
+      "factoryFunction" => "HEATDEATHAUFactory"
+      "manufacturer" => "TKHA"
+      "name" => "Tim Hecker Audio: HEATDEATH"
+      "resourceUsage" => {
+        "network.client" => 1
+        "temporary-exception.files.all.read-write" => 1
+      }
+      "subtype" => "HDTH"
+      "type" => "aufx"
+      "version" => 65536
+    }
+  ]
+  "CFBundleDisplayName" => "HEATDEATH"
+  "CFBundleExecutable" => "HEATDEATH"
+  "CFBundleIconFile" => ""
+  "CFBundleIdentifier" => "com.timheckeraudio.heatdeath"
+  "CFBundleName" => "HEATDEATH"
+  "CFBundlePackageType" => "BNDL"
+  "CFBundleShortVersionString" => "1.0.0"
+  "CFBundleSignature" => "????"
+  "CFBundleVersion" => "1.0.0"
+  "NSHighResolutionCapable" => 1
+  "NSHumanReadableCopyright" => ""
+}
+
+    AU Validation Tool
+    Version: 1.10.0 
+    Copyright 2003-2019, Apple Inc. All Rights Reserved.
+    Specify -h (-help) for command options
+
+--------------------------------------------------
+VALIDATING AUDIO UNIT: 'aufx' - 'HDTH' - 'TKHA'
+--------------------------------------------------
+Manufacturer String: Tim Hecker Audio
+AudioUnit Name: HEATDEATH
+Component Version: 1.0.0 (0x10000)
+
+* * PASS
+--------------------------------------------------
+TESTING OPEN TIMES:
+COLD:
+Time to open AudioUnit:         218.997 ms
+WARM:
+Time to open AudioUnit:         0.842  ms
+This AudioUnit is a version 2 implementation.
+FIRST TIME:
+Time for initialization:        0.005 ms
+
+* * PASS
+--------------------------------------------------
+VERIFYING DEFAULT SCOPE FORMATS:
+Input Scope Bus Configuration:
+ Default Bus Count:1
+    Bus Name: Input
+    Default Format: AudioStreamBasicDescription:  1 ch,  44100 Hz, Float32
+    Has Channel Layouts: 0x640001 
+    Default Layout:
+	Tag=0x640001, Num Chan Descs=0
+
+Output Scope Bus Configuration:
+ Default Bus Count:1
+    Bus Name: Output
+    Default Format: AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+    Has Channel Layouts: 0x650002 0x660002 0x670002 0x6A0002 
+    Default Layout:
+	Tag=0x650002, Num Chan Descs=0
+
+* * PASS
+--------------------------------------------------
+VERIFYING REQUIRED PROPERTIES:
+
+* * PASS
+--------------------------------------------------
+VERIFYING RECOMMENDED PROPERTIES:
+  VERIFYING PROPERTY: Latency
+    PASS
+  VERIFYING PROPERTY: Tail Time
+    PASS
+  VERIFYING PROPERTY: Bypass Effect
+    PASS
+
+* * PASS
+--------------------------------------------------
+VERIFYING OPTIONAL PROPERTIES:
+
+* * PASS
+--------------------------------------------------
+VERIFYING SPECIAL PROPERTIES:
+
+VERIFYING CUSTOM UI
+Cocoa Views Available: 1
+  JUCE_AUCocoaViewClass_4a485d8b7dbaec5e
+    PASS
+
+HAS FACTORY PRESETS
+    ID:   0    Name: Untitled
+
+VERIFYING CLASS INFO
+    PASS
+
+TESTING HOST CALLBACKS
+    PASS
+
+* * PASS
+--------------------------------------------------
+PUBLISHED PARAMETER INFO:
+
+# # # 40 Global Scope Parameters:
+Parameter ID:355007105
+Name: Acetate Mode
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+
+# # Parameters for clump: 1
+# Full Clump Name: RAT
+# Short (4 Chars limit) Clump Name: RAT
+Parameter ID:49366256
+Name: Drive
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 72.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:417146528
+Name: Asymmetry
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 20.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:417675429
+Name: LM308 Slew
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 68.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:983304383
+Name: Sag
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 30.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1479749186
+Name: RAT Bypass
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1579388114
+Name: Filter
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 35.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1610312088
+Name: Clip Mode
+Parameter Type: Indexed
+Values: Minimum = LED, Default = LED, Maximum = Ruetz
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+Parameter has Value Strings
+Num Strings = 4
+Value: 0,  String: LED
+Value: 1,  String: Silicon
+Value: 2,  String: Lift
+Value: 3,  String: Ruetz
+  -parameter PASS
+
+Parameter ID:2042996852
+Name: Volume
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 60.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+
+# # Parameters for clump: 2
+# Full Clump Name: MicroPitch
+# Short (4 Chars limit) Clump Name: MicroPitch
+Parameter ID:544536797
+Name: Mix
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 85.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:944925637
+Name: Detune L
+Parameter Type: Generic
+Values: Minimum = -25.0, Default = -7.0, Maximum = -2.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:944925643
+Name: Detune R
+Parameter Type: Generic
+Values: Minimum = 2.0, Default = 11.0, Maximum = 25.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1470555143
+Name: Width
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 100.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:2051440327
+Name: MicroPitch Bypass
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+
+# # Parameters for clump: 3
+# Full Clump Name: Undulator
+# Short (4 Chars limit) Clump Name: Undulator
+Parameter ID:508551410
+Name: Mod Depth
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 45.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:522720886
+Name: Mod Speed
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 35.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:935614063
+Name: Depth
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 82.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:935994197
+Name: Drift
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 40.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:946771239
+Name: St. Phase
+Parameter Type: Generic
+Values: Minimum = 0, Default = 180, Maximum = 360
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:949541709
+Name: LFO Shape
+Parameter Type: Indexed
+Values: Minimum = Sine, Default = Sine, Maximum = Envelope
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+Parameter has Value Strings
+Num Strings = 5
+Value: 0,  String: Sine
+Value: 1,  String: Triangle
+Value: 2,  String: Peak
+Value: 3,  String: Random
+Value: 4,  String: Envelope
+  -parameter PASS
+
+Parameter ID:1047942844
+Name: Undulator Bypass
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1263744209
+Name: Mod Rate
+Parameter Type: Generic
+Values: Minimum = 0.100, Default = 0.600, Maximum = 2.100
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1526389575
+Name: Spread
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 55.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1692850730
+Name: Chip Grit
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 62.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1693162420
+Name: Rate
+Parameter Type: Generic
+Values: Minimum = 0.500, Default = 2.400, Maximum = 8.500
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1696641113
+Name: Feedback
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 38.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1855728904
+Name: Wet Mix
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 100.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+
+# # Parameters for clump: 4
+# Full Clump Name: Burn-In
+# Short (4 Chars limit) Clump Name: Burn-In
+Parameter ID:735056841
+Name: Persist State
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1471964099
+Name: Burn-In
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 0.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1511686227
+Name: Burn-In Bypass
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1619414530
+Name: Freeze
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+
+# # Parameters for clump: 5
+# Full Clump Name: Trims
+# Short (4 Chars limit) Clump Name: Trims
+Parameter ID:472850206
+Name: Post-Pitch Trim
+Parameter Type: Generic
+Values: Minimum = -12.0, Default = 0.0, Maximum = 12.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1209430915
+Name: Post-RAT Trim
+Parameter Type: Generic
+Values: Minimum = -12.0, Default = 0.0, Maximum = 12.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1209434185
+Name: Post-Undulator Trim
+Parameter Type: Generic
+Values: Minimum = -12.0, Default = 0.0, Maximum = 12.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+
+# # Parameters for clump: 6
+# Full Clump Name: Global
+# Short (4 Chars limit) Clump Name: Global
+Parameter ID:1289048000
+Name: Mix
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 100.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1309332480
+Name: M/S Mode
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1969501284
+Name: Global Feedback
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1978598838
+Name: Feedback Amount
+Parameter Type: Generic
+Values: Minimum = 0.0, Default = 0.0, Maximum = 100.0
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+
+# # Parameters for clump: 7
+# Full Clump Name: Timer
+# Short (4 Chars limit) Clump Name: Timer
+Parameter ID:142136654
+Name: Timer Duration
+Parameter Type: Indexed
+Values: Minimum = 10 min, Default = 40 min, Maximum = 74 min
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+Parameter has Value Strings
+Num Strings = 4
+Value: 0,  String: 10 min
+Value: 1,  String: 20 min
+Value: 2,  String: 40 min
+Value: 3,  String: 74 min
+  -parameter PASS
+
+Parameter ID:527871296
+Name: Timer Active
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Testing that parameters retain value across reset and initialization
+  PASS
+
+* * PASS
+--------------------------------------------------
+FORMAT TESTS:
+
+Reported Channel Capabilities (explicit):
+      [1, 2]  
+
+Input/Output Channel Handling:
+1-1   1-2   1-4   1-5   1-6   1-7   1-8   2-2   2-4   2-5   2-6   2-7   2-8   4-4   4-5   5-5   6-6   7-7   8-8
+      X                                                                                                           
+
+# # AudioChannelLayouts (1), Input Scope:
+ChannelLayout is Writable: T
+The Unit publishes the following Channel Layouts:
+  0x640001, 
+
+Is Audio Channel Layout Available:
+Mono    Stereo  Binau.  AU_4    Ambi.   AU_5    AU_5_0  AU_6    AU_6_0  AU_7_0  AU_7_0F AU_8    AU_5_1  AU_6_1  AU_7_1  AU_7_1F 
+X                                                                                                                               
+
+Current Format:AudioStreamBasicDescription:  1 ch,  44100 Hz, Float32
+Current Format Tag = 0x640001, New Format Tag = 0x640001, Successsful
+
+# # AudioChannelLayouts (4), Output Scope:
+ChannelLayout is Writable: T
+The Unit publishes the following Channel Layouts:
+  0x650002, 0x660002, 0x670002, 0x6A0002, 
+
+Is Audio Channel Layout Available:
+Mono    Stereo  Binau.  AU_4    Ambi.   AU_5    AU_5_0  AU_6    AU_6_0  AU_7_0  AU_7_0F AU_8    AU_5_1  AU_6_1  AU_7_1  AU_7_1F 
+        X       X                                                                                                               
+
+Current Format:AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+Current Format Tag = 0x650002, New Format Tag = 0x650002, Successsful
+
+Current Format:AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+Current Format Tag = 0x650002, New Format Tag = 0x6A0002, Successsful
+
+* * PASS
+--------------------------------------------------
+RENDER TESTS:
+
+Input Format: AudioStreamBasicDescription:  1 ch,  44100 Hz, Float32
+Output Format: AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+Render Test at 512 frames
+Slicing Render Test at 64 frames
+  PASS
+
+
+Render Test at 64 frames, sample rate: 22050 Hz
+Render Test at 137 frames, sample rate: 96000 Hz
+Render Test at 4096 frames, sample rate: 48000 Hz
+Render Test at 4096 frames, sample rate: 192000 Hz
+Render Test at 4096 frames, sample rate: 11025 Hz
+Render Test at 512 frames, sample rate: 44100 Hz
+  PASS
+
+1 to 2 Channel Render Test at 256 frames
+  PASS
+
+Checking connection semantics:
+Connection format:
+AudioStreamBasicDescription:  1 ch,  44100 Hz, Float32
+  PASS
+
+Bad Max Frames - Render should fail
+  PASS
+
+Checking parameter setting
+Using AudioUnitSetParameter
+Using AudioUnitScheduleParameter
+  PASS
+
+Checking ramped parameter scheduling
+  PASS
+
+Test MIDI
+  PASS
+
+* * PASS
+--------------------------------------------------
+AU VALIDATION SUCCEEDED.
+--------------------------------------------------
+
+==== PHASE 1 BUILD VERIFICATION SUMMARY ====
+VST3 artifact: build/HEATDEATH_artefacts/Release/VST3/HEATDEATH.vst3  5.0M
+AU artifact: build/HEATDEATH_artefacts/Release/AU/HEATDEATH.component  4.9M
+Architectures: Architectures in the fat file: build/HEATDEATH_artefacts/Release/VST3/HEATDEATH.vst3/Contents/MacOS/HEATDEATH are: x86_64 arm64 
+auval result: PASS
+pluginval result: NOT INSTALLED
+Plugin identity observed: name=HEATDEATH manufacturer=TKHA subtype=HDTH
+============================================
