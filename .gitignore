@@ -1,0 +1,32 @@
+# Build directories
+build/
+build-*/
+cmake-build-*/
+out/
+
+# JUCE FetchContent cache
+_deps/
+juce-src/
+juce-build/
+
+# IDE
+.vscode/
+.idea/
+*.xcworkspace/
+*.xcodeproj/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# macOS
+.DS_Store
+*.dSYM/
+
+# Plugin build artifacts
+*.vst3
+*.component
+*.app
+
+# Generated
+JuceLibraryCode/
