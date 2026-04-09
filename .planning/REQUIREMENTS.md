@@ -8,7 +8,7 @@
 ### Project Scaffold
 
 - [x] **SCAF-01**: Fresh JUCE 7+ AudioPlugin project configured for VST3 + AU (macOS) and VST3 (Windows) targets using CMake
-- [ ] **SCAF-02**: Source tree organized as specified: `Source/dsp/`, `Source/ui/`, `Source/utils/` with all headers and implementation files stubbed
+- [x] **SCAF-02**: Source tree organized as specified: `Source/dsp/`, `Source/ui/`, `Source/utils/` with all headers and implementation files stubbed
 - [x] **SCAF-03**: CMakeLists.txt includes JUCE as a submodule or FetchContent dependency; builds cleanly on macOS and Windows
 - [x] **SCAF-04**: Plugin identity: name "HEATDEATH", no MIDI, mono-in/stereo-out bus layout, 4.0s tail length
 

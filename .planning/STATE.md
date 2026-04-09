@@ -24,20 +24,23 @@ See: `.planning/PROJECT.md` (updated 2026-04-09)
 ## Current Status
 
 **Milestone:** v1.0 — Initial release
-**Active phase:** Phase 01 — project-scaffold (Plan 01-01 complete)
-**Last action:** 01-01 complete — CMakeLists.txt with JUCE 7.0.12 FetchContent, VST3+AU targets, cmake configure passes
+**Active phase:** Phase 01 — project-scaffold (Plan 01-02 complete)
+**Last action:** 01-02 complete — Full Source/ tree with verbatim starter files, DSP/UI/utils stubs matching HeatDeathProcessor signatures, all 22 source files created
 
 ## Decisions
 
 - JUCE 7.0.12 pinned via GIT_TAG for reproducible builds (01-project-scaffold)
 - Homebrew LLVM required on this machine: Apple CommandLineTools clang lacks C++ stdlib headers (01-project-scaffold)
 - Stub source files added to allow cmake generate step to pass before Plan 01-02 writes real code (01-project-scaffold)
+- DSP class names from starter: TurboRat, MicroPitch, Undulator, BurnIn (not H3000Undulator/TapeBurnIn as plan templates suggested) (01-project-scaffold)
+- DSP stages use Parameters struct + setParameters() pattern, not raw positional args (01-project-scaffold)
+- createEditor() added to PluginProcessor.cpp — was declared in header but absent from starter .cpp (01-project-scaffold)
 
 ## Phase Progress
 
 | Phase | Name | Status |
 |-------|------|--------|
-| 1 | Project Scaffold | In Progress (1/3 plans done) |
+| 1 | Project Scaffold | In Progress (2/3 plans done) |
 | 2 | Core Infrastructure | Pending |
 | 3 | Stage 1: Turbo RAT | Pending |
 | 4 | Stage 2: MicroPitch | Pending |

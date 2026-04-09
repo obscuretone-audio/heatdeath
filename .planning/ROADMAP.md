@@ -37,7 +37,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 Plans:
 - [x] 01-01: Initialize CMakeLists.txt with JUCE FetchContent/submodule, define VST3 + AU targets with correct plugin identity (SCAF-01, SCAF-03, SCAF-04)
-- [ ] 01-02: Create source tree scaffold — `Source/dsp/`, `Source/ui/`, `Source/utils/`; stub all headers referenced in `Parameters.h` and `PluginProcessor.h` (SCAF-02)
+- [x] 01-02: Create source tree scaffold — `Source/dsp/`, `Source/ui/`, `Source/utils/`; stub all headers referenced in `Parameters.h` and `PluginProcessor.h` (SCAF-02)
 - [ ] 01-03: Verify clean build on macOS, confirm plugin validator accepts the bundle with correct name, bus layout, tail length, and no MIDI flag (SCAF-04)
 
 ### Phase 2: Core Infrastructure
@@ -197,7 +197,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Project Scaffold | 1/3 | In Progress|  |
+| 1. Project Scaffold | 2/3 | In Progress |  |
 | 2. Core Infrastructure | 0/4 | Not started | - |
 | 3. Stage 1 — Turbo RAT | 0/4 | Not started | - |
 | 4. Stage 2 — MicroPitch | 0/3 | Not started | - |
