@@ -2,10 +2,10 @@
 #include "PluginEditor.h"
 
 // DSP stage headers — implemented separately
-#include "DSP/TurboRat.h"
-#include "DSP/MicroPitch.h"
-#include "DSP/Undulator.h"
-#include "DSP/BurnIn.h"
+#include "dsp/TurboRat.h"
+#include "dsp/MicroPitch.h"
+#include "dsp/Undulator.h"
+#include "dsp/BurnIn.h"
 
 //==============================================================================
 // Bus layout helper
