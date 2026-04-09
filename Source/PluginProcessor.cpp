@@ -687,6 +687,15 @@ float HeatDeathProcessor::getTimerProgress() const
 }
 
 //==============================================================================
+// Editor
+//==============================================================================
+
+juce::AudioProcessorEditor* HeatDeathProcessor::createEditor()
+{
+    return new HeatDeathEditor (*this);
+}
+
+//==============================================================================
 // Plugin entry point (required by JUCE)
 //==============================================================================
 

@@ -1,1 +1,2 @@
-// Stub — implementation in Plan 01-02
+#include "StagePanel.h"
+// Intentionally empty — all methods inline in header for this stub.
