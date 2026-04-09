@@ -53,9 +53,9 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 02-01: Implement full APVTS in `Parameters.cpp` from `Parameters.h` constants; add parameter groups (RAT / MicroPitch / Undulator / Burn-In / Global); cache all pointers in `cacheParameterPointers()` (PARAMS-01, PARAMS-02, PARAMS-03)
-- [ ] 02-02: Implement parameter smoothing infrastructure — `juce::SmoothedValue` for all float params at 20ms, `und_speed` at 50ms, bypass crossfades at 10ms; attach to all parameter updates (PARAMS-04, CHAIN-05)
-- [ ] 02-03: Build `processBlock` skeleton — mono sum input, input limiter (soft tanh), four stage slots (pass-through stubs), DC block after each stage, per-stage bypass crossfade, global parallel wet/dry blend; pre-allocate dry buffer and feedback buffer in `prepareToPlay` (CHAIN-01, CHAIN-03, CHAIN-04, CHAIN-05, BUILD-04)
+- [x] 02-01: Implement full APVTS in `Parameters.cpp` from `Parameters.h` constants; add parameter groups (RAT / MicroPitch / Undulator / Burn-In / Global); cache all pointers in `cacheParameterPointers()` (PARAMS-01, PARAMS-02, PARAMS-03)
+- [x] 02-02: Implement parameter smoothing infrastructure — `juce::SmoothedValue` for all float params at 20ms, `und_speed` at 50ms, bypass crossfades at 10ms; attach to all parameter updates (PARAMS-04, CHAIN-05)
+- [x] 02-03: Build `processBlock` skeleton — mono sum input, input limiter (soft tanh), four stage slots (pass-through stubs), DC block after each stage, per-stage bypass crossfade, global parallel wet/dry blend; pre-allocate dry buffer and feedback buffer in `prepareToPlay` (CHAIN-01, CHAIN-03, CHAIN-04, CHAIN-05, BUILD-04)
 - [ ] 02-04: Wire 4x polyphase FIR oversampling at plugin boundary; add inter-stage trim controls (±12dB) at each stage junction; wire global feedback path stub with 100Hz LP filter (CHAIN-02, CHAIN-06, CHAIN-07)
 **UI hint**: no
 
