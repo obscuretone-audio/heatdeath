@@ -12,7 +12,7 @@ Starting from a fresh JUCE AudioPlugin project, HEATDEATH delivers a four-stage 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Project Scaffold** - Fresh JUCE CMake project with correct VST3/AU targets, source tree, and plugin identity
+- [x] **Phase 1: Project Scaffold** - Fresh JUCE CMake project with correct VST3/AU targets, source tree, and plugin identity
 - [ ] **Phase 2: Core Infrastructure** - APVTS parameter system, signal chain skeleton, oversampling, DC blocking, bypass, and smoothing
 - [ ] **Phase 3: Stage 1 — Turbo RAT** - Complete LM308 slew-rate distortion DSP with HPF chain, asymmetric diode clipper, tone filter, and JFET buffer
 - [ ] **Phase 4: Stage 2 — MicroPitch** - Dual-voice SSB pitch shift with asymmetric cent defaults, stereo spread, and delay shimmer
@@ -38,7 +38,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 Plans:
 - [x] 01-01: Initialize CMakeLists.txt with JUCE FetchContent/submodule, define VST3 + AU targets with correct plugin identity (SCAF-01, SCAF-03, SCAF-04)
 - [x] 01-02: Create source tree scaffold — `Source/dsp/`, `Source/ui/`, `Source/utils/`; stub all headers referenced in `Parameters.h` and `PluginProcessor.h` (SCAF-02)
-- [ ] 01-03: Verify clean build on macOS, confirm plugin validator accepts the bundle with correct name, bus layout, tail length, and no MIDI flag (SCAF-04)
+- [x] 01-03: Verify clean build on macOS, confirm plugin validator accepts the bundle with correct name, bus layout, tail length, and no MIDI flag (SCAF-04)
 
 ### Phase 2: Core Infrastructure
 **Goal**: The plugin processes audio end-to-end through a signal chain skeleton with APVTS parameters, oversampling, DC blocking, per-stage bypass, and parameter smoothing — all stages pass-through but the plumbing is complete
@@ -197,7 +197,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Project Scaffold | 2/3 | In Progress |  |
+| 1. Project Scaffold | 3/3 | Complete | 2026-04-09 |
 | 2. Core Infrastructure | 0/4 | Not started | - |
 | 3. Stage 1 — Turbo RAT | 0/4 | Not started | - |
 | 4. Stage 2 — MicroPitch | 0/3 | Not started | - |
