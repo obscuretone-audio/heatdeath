@@ -96,3 +96,18 @@ target_link_libraries(HEATDEATH PRIVATE
     juce::juce_recommended_lto_flags
     juce::juce_recommended_warning_flags
 )
+
+# ==============================================================================
+# Unit test target for SmoothParam (Phase 02-02)
+# ==============================================================================
+
+add_executable(SmoothParamTest Tests/SmoothParamTest.cpp)
+target_include_directories(SmoothParamTest PRIVATE Source)
+target_compile_features(SmoothParamTest PRIVATE cxx_std_17)
+target_compile_definitions(SmoothParamTest PRIVATE
+    JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1
+    JUCE_MODULE_AVAILABLE_juce_core=1
+)
+target_link_libraries(SmoothParamTest PRIVATE
+    juce::juce_core
+)
