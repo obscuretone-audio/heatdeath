@@ -70,4 +70,8 @@ private:
     // RAT-02: slew-rate LP state + per-block coefficient
     float slewState = 0.0f;
     float slewAlpha = 0.0f;
+
+    // RAT-03: GBW dominant pole LP state + per-block coefficient
+    float gbwState = 0.0f;
+    float gbwAlpha = 0.0f;
 };

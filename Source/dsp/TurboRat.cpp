@@ -28,6 +28,7 @@ void TurboRat::reset()
     hpf2PrevOut = 0.0f;
 
     slewState = 0.0f;
+    gbwState  = 0.0f;
 
     smoothDrive .reset (params.drive   / 100.0f);
     smoothFilter.reset (params.filter  / 100.0f);
@@ -60,6 +61,13 @@ void TurboRat::updateCoefficients (double osSampleRate)
     // directly per 03-RESEARCH.md open question #1 (literal alpha=0.68 at
     // osSr=176400 would give ~10.8kHz, not 1040Hz).
     slewAlpha = computeLPFAlpha (1040.0f, osSampleRate);
+
+    // RAT-03: GBW dominant pole — drive-dependent cutoff.
+    // driveNorm is the block-start smoothed value (smoothDrive was ticked in processOS).
+    const float driveNorm = smoothDrive.current;
+    const float gbwHz = juce::jlimit (200.0f, 8000.0f,
+                                      600.0f / std::max (driveNorm, 0.01f));
+    gbwAlpha = computeLPFAlpha (gbwHz, osSampleRate);
 }
 
 void TurboRat::processOS (juce::dsp::AudioBlock<float>& osBlock)
@@ -100,6 +108,10 @@ void TurboRat::processOS (juce::dsp::AudioBlock<float>& osBlock)
         // 3. Slew-rate LP (~1040Hz, fixed)
         slewState = slewAlpha * slewState + (1.0f - slewAlpha) * x;
         x = slewState;
+
+        // 4. GBW dominant pole LP (drive-dependent, block-stable)
+        gbwState = gbwAlpha * gbwState + (1.0f - gbwAlpha) * x;
+        x = gbwState;
 
         data[i] = x;   // 03-03..03-04 will insert further stages here
     }
