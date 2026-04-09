@@ -86,10 +86,12 @@ int main()
         const float rms30  = runSine(30.0);
         const float rms10k = runSine(10000.0);
 
-        check(rms10k > 0.3f,
-              "10kHz passes through HPF chain near unity (rms > 0.3)");
-        check(rms30 < rms10k * 0.1f,
-              "30Hz attenuated by >20dB relative to 10kHz (rms30 < 0.1 * rms10k)");
+        // Note: slew LP at ~1040Hz attenuates 10kHz significantly; updated
+        // threshold reflects the full chain (HPF60 + HPF1500 + slewLP1040).
+        check(rms10k > 0.05f,
+              "10kHz passes through chain with nonzero amplitude (rms > 0.05)");
+        check(rms30 < rms10k * 0.15f,
+              "30Hz attenuated by >16dB relative to 10kHz (HPF chain dominates at low end)");
 
         // Reset zeroes state
         rat.reset();
@@ -104,11 +106,44 @@ int main()
     }
 
     // -----------------------------------------------------------------------
-    // [RAT-02] LM308 slew-rate LP (~1040Hz) — pending
+    // [RAT-02] LM308 slew-rate LP (~1040Hz)
     // -----------------------------------------------------------------------
+    // [RAT-02] LM308 slew-rate LP (~1040Hz)
     {
-        std::printf("\n[RAT-02] LM308 slew-rate LP (~1040Hz)\n");
-        check(true, "[RAT-02] pending — implemented in 03-02");
+        std::printf("\n[RAT-02] LM308 slew-rate LP\n");
+        TurboRat rat;
+        rat.prepare(44100.0, 512);
+        rat.setParameters({});
+        rat.reset();
+
+        const double osSr = 176400.0;
+        const int    N    = 16384;
+
+        auto measure = [&](double freqHz) -> float {
+            std::vector<float> buf(N);
+            for (int i = 0; i < N; ++i)
+                buf[i] = static_cast<float>(std::sin(2.0 * M_PI * freqHz * i / osSr));
+            float* ch[1] = { buf.data() };
+            juce::dsp::AudioBlock<float> block(ch, 1, (size_t)N);
+            rat.reset();
+            rat.processOS(block);
+            double sumSq = 0.0;
+            for (int i = N/2; i < N; ++i) sumSq += buf[i] * buf[i];
+            return static_cast<float>(std::sqrt(sumSq / (N/2)));
+        };
+
+        const float rms500  = measure(500.0);
+        const float rms1k   = measure(1000.0);
+        const float rms10k  = measure(10000.0);
+
+        // Note: HPF2 at 1.5kHz attenuates 500Hz significantly (~0.20 RMS).
+        // Threshold reflects combined chain output, not just slew LP.
+        check(rms500 > 0.1f,
+              "500Hz passes through chain with nonzero amplitude");
+        check(rms10k < rms500 * 0.5f,
+              "10kHz attenuated by >6dB relative to 500Hz (slew LP rolloff visible)");
+        check(rms1k > 0.0f && rms1k < rms500 * 1.8f,
+              "1kHz output is in same ballpark as 500Hz (both below 1.5kHz HPF2 corner)");
     }
 
     // -----------------------------------------------------------------------

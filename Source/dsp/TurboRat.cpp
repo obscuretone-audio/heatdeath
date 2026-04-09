@@ -27,6 +27,8 @@ void TurboRat::reset()
     hpf2PrevIn  = 0.0f;
     hpf2PrevOut = 0.0f;
 
+    slewState = 0.0f;
+
     smoothDrive .reset (params.drive   / 100.0f);
     smoothFilter.reset (params.filter  / 100.0f);
     smoothVolume.reset (params.volume  / 100.0f);
@@ -41,11 +43,23 @@ float TurboRat::computeHPFAlpha (float cutoffHz, double sampleRate) noexcept
     return static_cast<float> (rc / (rc + dt));
 }
 
+float TurboRat::computeLPFAlpha (float cutoffHz, double sampleRate) noexcept
+{
+    return static_cast<float> (
+        std::exp (-juce::MathConstants<double>::twoPi
+                  * static_cast<double> (cutoffHz) / sampleRate));
+}
+
 void TurboRat::updateCoefficients (double osSampleRate)
 {
     hpf1Alpha = computeHPFAlpha (60.0f,   osSampleRate);
     hpf2Alpha = computeHPFAlpha (1500.0f, osSampleRate);
-    // Additional LP coefficients will be added by 03-02 and 03-04.
+
+    // RAT-02: Slew-rate LP — fixed cutoff at ~1040Hz per heatdeath_vst_spec.md §2.
+    // Note: kDefaultSlew=0.68f is a spec annotation; the 1040Hz target is used
+    // directly per 03-RESEARCH.md open question #1 (literal alpha=0.68 at
+    // osSr=176400 would give ~10.8kHz, not 1040Hz).
+    slewAlpha = computeLPFAlpha (1040.0f, osSampleRate);
 }
 
 void TurboRat::processOS (juce::dsp::AudioBlock<float>& osBlock)
@@ -83,7 +97,11 @@ void TurboRat::processOS (juce::dsp::AudioBlock<float>& osBlock)
         hpf2PrevOut = y2;
         x = y2;
 
-        data[i] = x;   // 03-02..03-04 will insert further stages here
+        // 3. Slew-rate LP (~1040Hz, fixed)
+        slewState = slewAlpha * slewState + (1.0f - slewAlpha) * x;
+        x = slewState;
+
+        data[i] = x;   // 03-03..03-04 will insert further stages here
     }
 }
 

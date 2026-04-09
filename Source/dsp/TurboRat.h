@@ -62,4 +62,12 @@ private:
 
     // Helper: compute one-pole HPF alpha from cutoff frequency and sample rate
     static float computeHPFAlpha (float cutoffHz, double sampleRate) noexcept;
+
+    // Helper: compute one-pole LPF alpha from cutoff frequency and sample rate
+    // alpha = exp(-2*pi*fc/sr); y[n] = alpha*y[n-1] + (1-alpha)*x[n]
+    static float computeLPFAlpha (float cutoffHz, double sampleRate) noexcept;
+
+    // RAT-02: slew-rate LP state + per-block coefficient
+    float slewState = 0.0f;
+    float slewAlpha = 0.0f;
 };
