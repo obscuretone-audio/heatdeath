@@ -227,8 +227,6 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         oversampler.processSamplesDown (monoBlock);
     }
 
-    bypassSmoothRat.setTargetValue (pRatBypass->load() > 0.5f ? 0.0f : 1.0f);
-
     stageTurboRat->setParameters ({
         .drive    = pRatDrive->load(),
         .filter   = pRatFilter->load(),
@@ -238,6 +236,8 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         .clipMode = static_cast<int> (pRatClipMode->load()),
         .sag      = pRatSag->load()
     });
+
+    bypassSmoothRat.setTargetValue (pRatBypass->load() > 0.5f ? 0.0f : 1.0f);
 
     // Stage 1 processed on oversampled block above (03-01).
 
