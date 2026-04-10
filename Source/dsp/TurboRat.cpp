@@ -90,6 +90,10 @@ void TurboRat::updateCoefficients (double osSampleRate)
     const float toneCutoff = std::exp (logHigh + filterNorm * (logLow - logHigh));
     toneAlpha = computeLPFAlpha (toneCutoff, osSampleRate);
 
+    // LM308 gain stage: 0–67dB exponential, controlled by drive knob.
+    // driveNorm=0 → 1x (0dB), driveNorm=1 → ~2239x (67dB).
+    driveGain = std::pow (10.0f, driveNorm * 67.0f / 20.0f);
+
     // RAT-06: JFET output buffer — fixed 18kHz LP + volume scalar (0..100 -> 0.0..2.0).
     jfetAlpha  = computeLPFAlpha (18000.0f, osSampleRate);
     volumeGain = smoothVolume.current * 2.0f;   // smoothVolume holds params.volume/100 normalized
@@ -137,6 +141,9 @@ void TurboRat::processOS (juce::dsp::AudioBlock<float>& osBlock)
         // 4. GBW dominant pole LP (drive-dependent, block-stable)
         gbwState = gbwAlpha * gbwState + (1.0f - gbwAlpha) * x;
         x = gbwState;
+
+        // LM308 gain stage (0–67dB) — drives signal into clipping
+        x *= driveGain;
 
         // 5. Asymmetric tanh diode waveshaper (RAT-04).
         // Verbatim from heatdeath_vst_spec.md §2.

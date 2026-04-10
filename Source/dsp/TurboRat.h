@@ -83,6 +83,9 @@ private:
     float toneState = 0.0f;
     float toneAlpha = 0.0f;
 
+    // LM308 drive gain (0–67dB, exponential from driveNorm) — applied before waveshaper
+    float driveGain = 1.0f;
+
     // RAT-06: JFET output buffer — fixed 18kHz LP + volume scalar [0.0..2.0]
     float jfetState  = 0.0f;
     float jfetAlpha  = 0.0f;
