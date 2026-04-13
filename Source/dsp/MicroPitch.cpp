@@ -38,9 +38,12 @@ void MicroPitch::process (juce::AudioBuffer<float>& buffer, int numSamples)
     {
         const float in = L[i];   // Both channels are identical mono input at this point
 
-        // AM at each channel's detuned frequency
-        const float shiftedL = in * static_cast<float> (std::cos (6.283185307179586 * phaseL));
-        const float shiftedR = in * static_cast<float> (std::cos (6.283185307179586 * phaseR));
+        // Unipolar AM at each channel's beat frequency — (1+cos)/2 keeps signal
+        // in phase at all times, giving clean beating without phase inversions.
+        const float amL = 0.5f + 0.5f * static_cast<float> (std::cos (6.283185307179586 * phaseL));
+        const float amR = 0.5f + 0.5f * static_cast<float> (std::cos (6.283185307179586 * phaseR));
+        const float shiftedL = in * amL;
+        const float shiftedR = in * amR;
 
         // Stereo width: 1.0 = hard L/R, 0.0 = both voices collapsed to centre
         const float mid  = (shiftedL + shiftedR) * 0.5f;

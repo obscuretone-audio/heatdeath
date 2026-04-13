@@ -56,7 +56,7 @@ Plans:
 - [x] 02-01: Implement full APVTS in `Parameters.cpp` from `Parameters.h` constants; add parameter groups (RAT / MicroPitch / Undulator / Burn-In / Global); cache all pointers in `cacheParameterPointers()` (PARAMS-01, PARAMS-02, PARAMS-03)
 - [x] 02-02: Implement parameter smoothing infrastructure — `juce::SmoothedValue` for all float params at 20ms, `und_speed` at 50ms, bypass crossfades at 10ms; attach to all parameter updates (PARAMS-04, CHAIN-05)
 - [x] 02-03: Build `processBlock` skeleton — mono sum input, input limiter (soft tanh), four stage slots (pass-through stubs), DC block after each stage, per-stage bypass crossfade, global parallel wet/dry blend; pre-allocate dry buffer and feedback buffer in `prepareToPlay` (CHAIN-01, CHAIN-03, CHAIN-04, CHAIN-05, BUILD-04)
-- [ ] 02-04: Wire 4x polyphase FIR oversampling at plugin boundary; add inter-stage trim controls (±12dB) at each stage junction; wire global feedback path stub with 100Hz LP filter (CHAIN-02, CHAIN-06, CHAIN-07)
+- [x] 02-04: Wire 4x polyphase FIR oversampling at plugin boundary; add inter-stage trim controls (±12dB) at each stage junction; wire global feedback path stub with 100Hz LP filter (CHAIN-02, CHAIN-06, CHAIN-07)
 **UI hint**: no
 
 ### Phase 3: Stage 1 — Turbo RAT
@@ -72,10 +72,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 03-01: Implement pre-clip HPF chain — two cascaded first-order HPFs at 60Hz (40dB/decade) and 1.5kHz (20dB/decade); update coefficients per-block from smoothed drive value (RAT-01)
-- [ ] 03-02: Implement LM308 gain path — slew-rate LP with baked `kDefaultSlew=0.68f` (~1040Hz bandwidth) and GBW dominant pole `gbwHz=600/max(drive,0.01)` clamped [200, 8000Hz]; both applied before waveshaper (RAT-02, RAT-03)
-- [ ] 03-03: Implement asymmetric tanh diode waveshaper — LED threshold 1.7V, Silicon 0.65V, Lift soft knee; baked asymmetry `kDefaultAsym=0.20f`; normalized to 0dBFS unity gain; runs at 4x oversample rate (RAT-04)
-- [ ] 03-04: Implement post-clip tone LPF (reverse-wired, 475Hz–32kHz) and JFET output buffer (18kHz LP + volume scalar 0–2.0); wire all RAT params through 20ms smoothers; per-block coefficient update (RAT-05, RAT-06, RAT-07)
+- [x] 03-01: Implement pre-clip HPF chain — two cascaded first-order HPFs at 60Hz (40dB/decade) and 1.5kHz (20dB/decade); update coefficients per-block from smoothed drive value (RAT-01)
+- [x] 03-02: Implement LM308 gain path — slew-rate LP with baked `kDefaultSlew=0.68f` (~1040Hz bandwidth) and GBW dominant pole `gbwHz=600/max(drive,0.01)` clamped [200, 8000Hz]; both applied before waveshaper (RAT-02, RAT-03)
+- [x] 03-03: Implement asymmetric tanh diode waveshaper — LED threshold 1.7V, Silicon 0.65V, Lift soft knee; baked asymmetry `kDefaultAsym=0.20f`; normalized to 0dBFS unity gain; runs at 4x oversample rate (RAT-04)
+- [x] 03-04: Implement post-clip tone LPF (reverse-wired, 475Hz–32kHz) and JFET output buffer (18kHz LP + volume scalar 0–2.0); wire all RAT params through 20ms smoothers; per-block coefficient update (RAT-05, RAT-06, RAT-07)
 
 ### Phase 4: Stage 2 — MicroPitch
 **Goal**: The MicroPitch stage converts mono RAT output to stereo via dual-voice SSB pitch shift with asymmetric cent defaults, pre-shimmer delay, stereo width control, and wet/dry blend

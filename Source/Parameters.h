@@ -145,16 +145,6 @@ namespace Params
     // The thermal accumulator's nonlinearity provides the rest of the curve shape.
     static constexpr auto BURNIN_AMOUNT   = "burnin_amount";
 
-    // Thermal freeze. When true: temp is held at its current value, accumulator
-    // update is bypassed. heat_rate parameter becomes read-only while active.
-    // AudioParameterBool.
-    static constexpr auto BURNIN_FREEZE   = "burnin_freeze";
-
-    // Thermal state persistence across sessions. When true: temp and temp_prev
-    // are serialised into plugin state and restored on reload.
-    // AudioParameterBool. Default false.
-    static constexpr auto BURNIN_PERSIST  = "burnin_persist";
-
     // Stage bypass.
     static constexpr auto BURNIN_BYPASS   = "burnin_bypass";
 
@@ -196,20 +186,6 @@ namespace Params
     // When true: input is decoded to M/S before Stage 4, re-encoded after.
     // AudioParameterBool.
     static constexpr auto GLOBAL_MS_MODE          = "global_ms_mode";
-
-    //==========================================================================
-    // Disintegration Timer (hidden feature)
-    // Visible only from the hidden UI trigger. Drives temp to 1.0 over duration.
-    //==========================================================================
-
-    // Duration choice. 0=10min, 1=20min, 2=40min, 3=74min.
-    // AudioParameterChoice. Default 2 (40 min).
-    static constexpr auto TIMER_DURATION  = "timer_duration";
-
-    // Timer active state. When true: Burn-In knob is locked, accumulator is
-    // driven by timer rather than knob. Serialised so it survives plugin reload.
-    // AudioParameterBool. Default false.
-    static constexpr auto TIMER_ACTIVE    = "timer_active";
 
     //==========================================================================
     // Acetate Mode (hidden feature — changes Burn-In breakup character)

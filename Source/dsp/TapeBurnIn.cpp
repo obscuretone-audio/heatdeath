@@ -122,8 +122,8 @@ void BurnIn::expandMacros() noexcept
     biasAmt    = 0.75f - b * 0.35f;
     wowDepth   = b * b * 0.007f;
     fltDepth   = b * b * 0.0025f;
-    hissLevel  = b * 0.22f;
-    aspNoise   = b * b * 0.45f;
+    hissLevel  = b * 0.010f;    // was 0.22 — tape hiss sits ~-40dBFS at full burn
+    aspNoise   = b * b * 0.020f; // was 0.45 — asperity stays below program level
     bumpGainDb = 1.5f + b * 3.5f;
 
     // Recompute head bump gain (only gain changes, freq/Q are fixed)
@@ -174,23 +174,9 @@ void BurnIn::process (juce::AudioBuffer<float>& buffer, int numSamples)
     auto* R = buffer.getWritePointer (1);
 
     //--------------------------------------------------------------------------
-    // 1. Update thermal accumulator
+    // 1. Set burn directly from knob — no thermal accumulation
     //--------------------------------------------------------------------------
-    if (params.timerActive)
-    {
-        // Timer drives burn directly
-        burn = params.timerProgress;
-        temp = burn;
-    }
-    else if (! params.freeze)
-    {
-        const float dt = static_cast<float> (numSamples) / static_cast<float> (sr);
-        tempPrev = temp;
-        temp = std::min (1.0f, temp + params.heatRate * dt / kThermalTimeSec);
-        burn = temp;
-    }
-    // else freeze: burn unchanged
-
+    burn = params.amount;
     expandMacros();
 
     //--------------------------------------------------------------------------
@@ -347,9 +333,9 @@ void BurnIn::process (juce::AudioBuffer<float>& buffer, int numSamples)
 //==============================================================================
 void BurnIn::reset()
 {
-    temp = 0.0f; tempPrev = 0.0f; burn = 0.0f;
+    burn = 0.0f;
     M_L = M_R = H_prev_L = H_prev_R = 0.0f;
-    biasPhase = flutterPhase = 0.0;
+    flutterPhase = 0.0;
     wowState = flutterNoise = 0.0f;
     aspEnvL = aspEnvR = 0.0f;
     wowWritePos = 0;

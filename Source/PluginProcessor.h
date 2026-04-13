@@ -111,8 +111,6 @@ public:
 
     // --- Stage 4: Burn-In ---
     std::atomic<float>* pBurninAmount  = nullptr;
-    std::atomic<float>* pBurninFreeze  = nullptr;
-    std::atomic<float>* pBurninPersist = nullptr;
     std::atomic<float>* pBurninBypass  = nullptr;
 
     // --- Trims ---
@@ -126,29 +124,8 @@ public:
     std::atomic<float>* pGlobalFeedbackActive  = nullptr;
     std::atomic<float>* pGlobalMsMode          = nullptr;
 
-    // --- Timer ---
-    std::atomic<float>* pTimerDuration = nullptr;  // cast to int at use site
-    std::atomic<float>* pTimerActive   = nullptr;
-
     // --- Hidden features ---
     std::atomic<float>* pAcetateMode   = nullptr;
-
-    //==========================================================================
-    // Thermal state — persisted separately from APVTS parameters if
-    // BURNIN_PERSIST is enabled. Written in getStateInformation(),
-    // restored in setStateInformation() only when pBurninPersist is true.
-    //==========================================================================
-
-    float persistedTemp     = 0.0f;
-    float persistedTempPrev = 0.0f;
-
-    //==========================================================================
-    // Timer state — persisted so a running timer survives project reload.
-    // timerElapsedSeconds counts up from 0; compared against the chosen
-    // duration to compute progress and current heat_rate target.
-    //==========================================================================
-
-    double timerElapsedSeconds = 0.0;
 
 private:
 
@@ -255,8 +232,6 @@ private:
     //==========================================================================
 
     void  cacheParameterPointers();
-    void  updateTimerState (int numSamples);
-    float getTimerProgress() const;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (HeatDeathProcessor)
 };

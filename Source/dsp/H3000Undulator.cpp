@@ -211,7 +211,7 @@ void Undulator::process (juce::AudioBuffer<float>& buffer, int numSamples)
         // ------------------------------------------------------------------
         if (params.grit > 0.001f)
         {
-            const float drive = 1.0f + params.grit * 7.0f;  // 1×–8× internal gain
+            const float drive = 1.0f + params.grit * 1.0f;  // 1×–2× — was 8×, crushed signal levels
             procL = q15Wrap (procL * drive) / drive;
             procR = q15Wrap (procR * drive) / drive;
         }

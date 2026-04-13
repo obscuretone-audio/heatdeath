@@ -298,30 +298,12 @@ Layout createParameterLayout()
 
     auto burninGroup = std::make_unique<Group> ("burnin", "Burn-In", "|",
 
-        // Amount — master heat rate. 0 = cold, 100 = maximum thermal accumulation.
-        // Skew 0.6: slight log weighting. Interesting behaviour begins around 20%.
-        // The thermal accumulator's own nonlinearity (asymmetric attack/release,
-        // signal-driven heating) shapes the final progression curve — this knob
-        // just sets the ceiling and rate, not the curve shape directly.
+        // Amount — direct burn level. 0 = fresh tape, 100 = fully degraded.
         std::make_unique<Float> (
             pid (BURNIN_AMOUNT), "Burn-In",
             skewed (0.0f, 100.0f, 0.1f, 0.6f),
             35.0f,
             Attr().withLabel ("%")),
-
-        // Freeze — holds temp at its current value. Accumulator update bypassed.
-        // The Burn-In knob becomes cosmetically read-only while this is active
-        // (its value is stored but not consumed by the accumulator).
-        std::make_unique<Bool> (
-            pid (BURNIN_FREEZE), "Freeze",
-            false),
-
-        // Persist — serialises temp and temp_prev into plugin state.
-        // When true: plugin reload restores the thermal state from the previous session.
-        // When false (default): temp always resets to 0.0 on load.
-        std::make_unique<Bool> (
-            pid (BURNIN_PERSIST), "Persist State",
-            false),
 
         // Bypass.
         std::make_unique<Bool> (
@@ -405,33 +387,7 @@ Layout createParameterLayout()
 
     layout.add (std::move (globalGroup));
 
-    //==========================================================================
-    // Disintegration Timer (hidden feature)
-    // Drives temp inexorably to 1.0 over a fixed duration.
-    // Serialised — survives plugin reload. Timer continues from where it left off.
-    //==========================================================================
-
-    auto timerGroup = std::make_unique<Group> ("timer", "Disintegration Timer", "|",
-
-        // Duration choice.
-        // 0 = 10 min, 1 = 20 min, 2 = 40 min, 3 = 74 min.
-        // 74 min = one full CD runtime. Default 2 (40 min).
-        std::make_unique<Choice> (
-            pid (TIMER_DURATION), "Timer Duration",
-            juce::StringArray { "10 min", "20 min", "40 min", "74 min" },
-            2),   // default: 40 min
-
-        // Active state. When true: Burn-In knob is locked, BURNIN_FREEZE is
-        // overridden, and temp is driven by the timer toward 1.0.
-        // Serialised so a running timer survives DAW project reload.
-        std::make_unique<Bool> (
-            pid (TIMER_ACTIVE), "Timer Active",
-            false)
-    );
-
-    layout.add (std::move (timerGroup));
-
-    //==========================================================================
+//==========================================================================
     // Acetate Mode (hidden feature)
     // Changes Burn-In breakup physics from polyester to acetate tape character.
     // Not labelled in UI. Discoverable only by accident.

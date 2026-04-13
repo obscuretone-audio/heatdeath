@@ -162,12 +162,6 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     auto* mono = buffer.getWritePointer (0);
 
     //--------------------------------------------------------------------------
-    // 0. Update disintegration timer state (if active).
-    //    Must happen before Stage 4 reads heat_rate, since the timer overrides it.
-    //--------------------------------------------------------------------------
-    updateTimerState (numSamples);
-
-    //--------------------------------------------------------------------------
     // 1. Hold a dry copy of the mono input for global wet/dry blend.
     //--------------------------------------------------------------------------
     dryBuffer.copyFrom (0, 0, buffer, 0, 0, numSamples);
@@ -408,12 +402,9 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     preBurninBuffer.copyFrom (1, 0, workBuffer, 1, 0, numSamples);
 
     stageBurnIn->setParameters ({
-        .heatRate  = pBurninAmount->load() / 100.0f,
-        .freeze    = pBurninFreeze->load()  > 0.5f,
-        .acetate   = pAcetateMode->load()   > 0.5f,
-        .msMode    = pGlobalMsMode->load()  > 0.5f,
-        .timerActive = pTimerActive->load() > 0.5f,
-        .timerProgress = getTimerProgress()  // 0.0–1.0
+        .amount  = pBurninAmount->load() / 100.0f,
+        .acetate = pAcetateMode->load()  > 0.5f,
+        .msMode  = pGlobalMsMode->load() > 0.5f
     });
 
     stageBurnIn->process (workBuffer, numSamples);
@@ -525,29 +516,7 @@ bool HeatDeathProcessor::isBusesLayoutSupported (const BusesLayout& layouts) con
 
 void HeatDeathProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    // Serialise APVTS parameters (all knob positions, choices, booleans)
     auto state = apvts.copyState();
-
-    // If thermal persistence is enabled, write temp into the state tree
-    // as additional properties alongside the parameter values.
-    if (pBurninPersist->load() > 0.5f)
-    {
-        state.setProperty ("persistedTemp",     persistedTemp,     nullptr);
-        state.setProperty ("persistedTempPrev", persistedTempPrev, nullptr);
-    }
-    else
-    {
-        // Explicitly write 0.0 so that toggling persist off clears any
-        // previously saved temp rather than leaving stale data
-        state.setProperty ("persistedTemp",     0.0f, nullptr);
-        state.setProperty ("persistedTempPrev", 0.0f, nullptr);
-    }
-
-    // Serialise timer elapsed time so a running timer survives project reload
-    state.setProperty ("timerElapsedSeconds",
-                       static_cast<double> (timerElapsedSeconds), nullptr);
-
-    // Write to memory block
     std::unique_ptr<juce::XmlElement> xml (state.createXml());
     copyXmlToBinary (*xml, destData);
 }
@@ -562,28 +531,7 @@ void HeatDeathProcessor::setStateInformation (const void* data, int sizeInBytes)
     if (! xml->hasTagName (apvts.state.getType()))
         return;
 
-    auto newState = juce::ValueTree::fromXml (*xml);
-
-    // Restore APVTS parameters
-    apvts.replaceState (newState);
-
-    // Restore thermal state — only loaded and injected when persist is enabled.
-    // WR-05 fix: gate the property reads on persistEnabled so stale values
-    // from a previous session are never silently restored when persist is off.
-    const bool persistEnabled = (pBurninPersist->load() > 0.5f);
-    persistedTemp     = persistEnabled
-        ? static_cast<float> (newState.getProperty ("persistedTemp",     0.0f))
-        : 0.0f;
-    persistedTempPrev = persistEnabled
-        ? static_cast<float> (newState.getProperty ("persistedTempPrev", 0.0f))
-        : 0.0f;
-
-    if (persistEnabled)
-        stageBurnIn->setPersistedTemp (persistedTemp, persistedTempPrev);
-
-    // Restore timer elapsed time
-    timerElapsedSeconds = static_cast<double> (
-        newState.getProperty ("timerElapsedSeconds", 0.0));
+    apvts.replaceState (juce::ValueTree::fromXml (*xml));
 }
 
 //==============================================================================
@@ -630,8 +578,6 @@ void HeatDeathProcessor::cacheParameterPointers()
 
     // Stage 4 — Burn-In
     pBurninAmount  = apvts.getRawParameterValue (BURNIN_AMOUNT);
-    pBurninFreeze  = apvts.getRawParameterValue (BURNIN_FREEZE);
-    pBurninPersist = apvts.getRawParameterValue (BURNIN_PERSIST);
     pBurninBypass  = apvts.getRawParameterValue (BURNIN_BYPASS);
 
     // Trims
@@ -644,10 +590,6 @@ void HeatDeathProcessor::cacheParameterPointers()
     pGlobalFeedbackAmount = apvts.getRawParameterValue (GLOBAL_FEEDBACK_AMOUNT);
     pGlobalFeedbackActive = apvts.getRawParameterValue (GLOBAL_FEEDBACK_ACTIVE);
     pGlobalMsMode         = apvts.getRawParameterValue (GLOBAL_MS_MODE);
-
-    // Timer
-    pTimerDuration = apvts.getRawParameterValue (TIMER_DURATION);
-    pTimerActive   = apvts.getRawParameterValue (TIMER_ACTIVE);
 
     // Hidden features
     pAcetateMode   = apvts.getRawParameterValue (ACETATE_MODE);
@@ -685,8 +627,6 @@ void HeatDeathProcessor::cacheParameterPointers()
     jassert (pUndBypass    != nullptr);
 
     jassert (pBurninAmount  != nullptr);
-    jassert (pBurninFreeze  != nullptr);
-    jassert (pBurninPersist != nullptr);
     jassert (pBurninBypass  != nullptr);
 
     jassert (pTrimPostRat   != nullptr);
@@ -698,52 +638,9 @@ void HeatDeathProcessor::cacheParameterPointers()
     jassert (pGlobalFeedbackActive != nullptr);
     jassert (pGlobalMsMode         != nullptr);
 
-    jassert (pTimerDuration != nullptr);
-    jassert (pTimerActive   != nullptr);
     jassert (pAcetateMode   != nullptr);
 }
 
-//==============================================================================
-// updateTimerState
-// Called at the top of processBlock. Advances timerElapsedSeconds when active.
-// The timer drives BurnIn's heat_rate toward 1.0 over the chosen duration —
-// the stage itself reads this via the timerProgress value in its params struct.
-//==============================================================================
-
-void HeatDeathProcessor::updateTimerState (int numSamples)
-{
-    if (pTimerActive->load() < 0.5f)
-        return;
-
-    // Duration lookup in seconds
-    static constexpr double durations[] = { 600.0, 1200.0, 2400.0, 4440.0 };
-    const int durationIndex = juce::jlimit (0, 3,
-                                  static_cast<int> (pTimerDuration->load()));
-    const double totalDuration = durations[durationIndex];
-
-    // Advance elapsed time
-    const double blockDuration = static_cast<double> (numSamples) / currentSampleRate;
-    timerElapsedSeconds += blockDuration;
-
-    // Clamp — timer stops at full duration (does not reset automatically)
-    timerElapsedSeconds = std::min (timerElapsedSeconds, totalDuration);
-
-    // Update BurnIn persisted temp tracker (for serialisation)
-    persistedTemp     = stageBurnIn->getCurrentTemp();
-    persistedTempPrev = stageBurnIn->getPreviousTemp();
-}
-
-float HeatDeathProcessor::getTimerProgress() const
-{
-    if (pTimerActive->load() < 0.5f)
-        return 0.0f;
-
-    static constexpr double durations[] = { 600.0, 1200.0, 2400.0, 4440.0 };
-    const int durationIndex = juce::jlimit (0, 3,
-                                  static_cast<int> (pTimerDuration->load()));
-
-    return static_cast<float> (timerElapsedSeconds / durations[durationIndex]);
-}
 
 //==============================================================================
 // Editor
