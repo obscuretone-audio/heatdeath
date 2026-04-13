@@ -19,6 +19,8 @@ public:
     void reset();
 
 private:
-    double sr = 44100.0;
+    double sr      = 44100.0;
+    double phaseL  = 0.0;   // normalised [0, 1) — avoids kTwoPi multiply drift
+    double phaseR  = 0.0;
     Parameters params;
 };
