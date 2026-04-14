@@ -231,6 +231,30 @@ void HeatDeathEditor::setShape (int idx)
     }
 }
 
+void HeatDeathEditor::mouseDown (const juce::MouseEvent& e)
+{
+    struct Circle { int cx; const char* param; };
+    static constexpr Circle circles[] = {
+        { 35,  Params::RAT_BYPASS    },
+        { 225, Params::PITCH_BYPASS  },
+        { 429, Params::UND_BYPASS    },
+        { 685, Params::BURNIN_BYPASS }
+    };
+    const int cy = L::mainY + 23;
+    constexpr int r2 = 17 * 17;
+    for (auto& c : circles)
+    {
+        const int dx = e.x - c.cx, dy = e.y - cy;
+        if (dx * dx + dy * dy <= r2)
+        {
+            if (auto* p = processorRef.apvts.getParameter (c.param))
+                p->setValueNotifyingHost (p->getValue() > 0.5f ? 0.0f : 1.0f);
+            repaint (c.cx - 20, cy - 20, 40, 40);
+            return;
+        }
+    }
+}
+
 //==============================================================================
 // resized
 //==============================================================================
@@ -339,14 +363,14 @@ void HeatDeathEditor::resized()
         vUndWaver.setBounds (valueLabelBounds (sUndWaver));
         vUndGrit .setBounds (valueLabelBounds (sUndGrit));
 
-        // Wide button
-        const int wideY = sUndSpace.getBottom() + 20;
-        bWide.setBounds (x, wideY, w, 26);
-
-        // Mix (36x36)
-        const int mixY = wideY + 36;
+        // Mix (36x36) — before Wide button
+        const int mixY = sUndSpace.getBottom() + 16;
         sUndMix.setBounds (centeredKnob (x, halfW, mixY, 36));
         vUndMix.setBounds (valueLabelBounds (sUndMix));
+
+        // Wide button — below Mix, narrower (8px margin each side)
+        const int wideY = mixY + 36 + 26;
+        bWide.setBounds (x + 8, wideY, w - 16, 22);
     }
 
     //=== Burn-In ===
@@ -399,10 +423,15 @@ void HeatDeathEditor::paint (juce::Graphics& g)
     drawDivider (g, 650, L::mainY, 460);
 
     // ---- Stage headers ----
-    drawStampCircle (g, 35,  L::mainY + 23, 0);   // RAT
-    drawStampCircle (g, 225, L::mainY + 23, 1);   // μPitch
-    drawStampCircle (g, 429, L::mainY + 23, 2);   // Undulator
-    drawStampCircle (g, 685, L::mainY + 23, 3);   // Burn-In
+    auto isBypassed = [&](const char* id) -> bool {
+        if (auto* p = processorRef.apvts.getRawParameterValue (id))
+            return p->load() > 0.5f;
+        return false;
+    };
+    drawStampCircle (g, 35,  L::mainY + 23, 0, isBypassed (Params::RAT_BYPASS));
+    drawStampCircle (g, 225, L::mainY + 23, 1, isBypassed (Params::PITCH_BYPASS));
+    drawStampCircle (g, 429, L::mainY + 23, 2, isBypassed (Params::UND_BYPASS));
+    drawStampCircle (g, 685, L::mainY + 23, 3, isBypassed (Params::BURNIN_BYPASS));
 
     g.setFont (HD::monoFont (8.5f));
     g.setColour (juce::Colour (HD::colAccent));
@@ -525,17 +554,17 @@ void HeatDeathEditor::drawDivider (juce::Graphics& g, int x, int yTop, int heigh
                 fx + 5.0f, yt + float (height) * 0.75f, 1.0f);
 }
 
-void HeatDeathEditor::drawStampCircle (juce::Graphics& g, int cx, int cy, int stage) const
+void HeatDeathEditor::drawStampCircle (juce::Graphics& g, int cx, int cy, int stage, bool bypassed) const
 {
     const float r = 17.0f;
     const float fcx = float (cx), fcy = float (cy);
 
-    // Dark circle
-    g.setColour (juce::Colour (HD::colAccent));
+    // Circle fill — dim when bypassed
+    g.setColour (bypassed ? juce::Colour (HD::colBorder) : juce::Colour (HD::colAccent));
     g.fillEllipse (fcx - r, fcy - r, r * 2.0f, r * 2.0f);
 
-    // Icon in light colour
-    g.setColour (juce::Colour (HD::colBackground));
+    // Icon colour — dimmer when bypassed
+    g.setColour (bypassed ? juce::Colour (HD::colLabelDim) : juce::Colour (HD::colBackground));
 
     switch (stage)
     {
@@ -596,6 +625,13 @@ void HeatDeathEditor::drawStampCircle (juce::Graphics& g, int cx, int cy, int st
             break;
         }
         default: break;
+    }
+
+    // Bypass slash — diagonal line across circle
+    if (bypassed)
+    {
+        g.setColour (juce::Colour (HD::colBackground).withAlpha (0.7f));
+        g.drawLine (fcx - 10, fcy + 10, fcx + 10, fcy - 10, 2.0f);
     }
 }
 

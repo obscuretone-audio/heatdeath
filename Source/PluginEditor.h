@@ -32,7 +32,8 @@ private:
     // Paint helpers
     void drawSignalDots    (juce::Graphics&) const;
     void drawDivider       (juce::Graphics&, int x, int yTop, int height) const;
-    void drawStampCircle   (juce::Graphics&, int cx, int cy, int stage) const;
+    void drawStampCircle   (juce::Graphics&, int cx, int cy, int stage, bool bypassed) const;
+    void mouseDown         (const juce::MouseEvent&) override;
     void drawSubHead       (juce::Graphics&, int x, int y, int w,
                             const juce::String& text) const;
     void drawKnobName      (juce::Graphics&, const juce::Slider&,

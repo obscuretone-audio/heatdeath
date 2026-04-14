@@ -81,6 +81,11 @@ void Undulator::process (juce::AudioBuffer<float>& buffer, int numSamples)
     // R channel LFO phase offset, normalised [0, 1)
     const double phaseOffR = params.phase / 360.0;
 
+    // Grit LP cutoff: 16kHz at grit=0, 4kHz at grit=1 — computed once per block
+    const float gritLPCutoff = 16000.0f - params.grit * 12000.0f;
+    const float gritLPAlpha  = static_cast<float> (
+        std::exp (-kTwoPi * static_cast<double> (gritLPCutoff) / sr));
+
     for (int i = 0; i < numSamples; ++i)
     {
         const float inL = L[i];
@@ -206,14 +211,19 @@ void Undulator::process (juce::AudioBuffer<float>& buffer, int numSamples)
 
         // ------------------------------------------------------------------
         // Grit: TMS32010 Q15 two's-complement wrap-around saturation.
-        // Drive scales input into the Q15 ceiling; wrap folds back rather
-        // than clamping. Divide by drive after to stay in output range.
+        // Quadratic drive curve (1×–7×) gives gradual onset at low grit.
+        // Post-wrap LP (16kHz→4kHz as grit increases) tames harsh harmonics.
         // ------------------------------------------------------------------
         if (params.grit > 0.001f)
         {
-            const float drive = 1.0f + params.grit * 1.0f;  // 1×–2× — was 8×, crushed signal levels
+            const float drive = 1.0f + params.grit * params.grit * 6.0f;
             procL = q15Wrap (procL * drive) / drive;
             procR = q15Wrap (procR * drive) / drive;
+
+            gritLPL = gritLPAlpha * gritLPL + (1.0f - gritLPAlpha) * procL;
+            gritLPR = gritLPAlpha * gritLPR + (1.0f - gritLPAlpha) * procR;
+            procL = gritLPL;
+            procR = gritLPR;
         }
 
         // ------------------------------------------------------------------
@@ -253,6 +263,8 @@ void Undulator::reset()
     driftR    = 0.0;
     envL      = 0.0f;
     envR      = 0.0f;
+    gritLPL   = 0.0f;
+    gritLPR   = 0.0f;
     delayWritePos = 0;
 
     std::fill (delayBufL.begin(), delayBufL.end(), 0.0f);

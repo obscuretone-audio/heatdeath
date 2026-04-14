@@ -58,6 +58,10 @@ private:
     BiquadFilter preEmphL, preEmphR;
     BiquadFilter deEmphL,  deEmphR;
 
+    // Post-grit one-pole LP state — tames wrap-around harmonics
+    float gritLPL = 0.0f;
+    float gritLPR = 0.0f;
+
     juce::Random rng;
 
     // Compute high-shelf biquad coefficients (Audio EQ Cookbook, S=1)

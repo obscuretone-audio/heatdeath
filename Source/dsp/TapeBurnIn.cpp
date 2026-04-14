@@ -117,18 +117,23 @@ void BurnIn::setButterworthLP (BiquadFilter& f, double sr, float freq) noexcept
 void BurnIn::expandMacros() noexcept
 {
     const float b = burn;
-    drive      = b * 0.55f;
+    drive      = b * 0.85f;          // was 0.55 — push harder into JA saturation
     msSat      = 0.15f + b * 0.75f;
     biasAmt    = 0.75f - b * 0.35f;
     wowDepth   = b * b * 0.007f;
-    fltDepth   = b * b * 0.0025f;
-    hissLevel  = b * 0.010f;    // was 0.22 — tape hiss sits ~-40dBFS at full burn
-    aspNoise   = b * b * 0.020f; // was 0.45 — asperity stays below program level
+    fltDepth   = b * b * 0.0008f;   // was 0.0025 — flutter was too strong at max
+    hissLevel  = b * 0.005f;        // was 0.010 — further reduce noise floor
+    aspNoise   = b * b * 0.010f;    // was 0.020 — halved
     bumpGainDb = 1.5f + b * 3.5f;
 
     // Recompute head bump gain (only gain changes, freq/Q are fixed)
     setPeakingEQ (headBumpL, sr, 90.0f, 1.5f, bumpGainDb);
     setPeakingEQ (headBumpR, sr, 90.0f, 1.5f, bumpGainDb);
+
+    // HF loss cutoff tracks burn: 10.5kHz (cold) → 5kHz (full burn)
+    const float hfCutoff = 10500.0f - b * 5500.0f;
+    setButterworthLP (hfLossL, sr, hfCutoff);
+    setButterworthLP (hfLossR, sr, hfCutoff);
 }
 
 //==============================================================================

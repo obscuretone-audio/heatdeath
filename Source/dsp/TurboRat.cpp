@@ -107,15 +107,21 @@ void TurboRat::processOS (juce::dsp::AudioBlock<float>& osBlock)
     smoothVolume.setTarget (params.volume  / 100.0f);
     smoothAsym  .setTarget (params.asym    / 100.0f);
 
-    // Advance smoothers ONCE at block start — values used for per-block coefficients
-    (void) smoothDrive .tick();
-    (void) smoothFilter.tick();
-    (void) smoothVolume.tick();
-    (void) smoothAsym  .tick();
+    // Tick smoothers once per HOST sample (OS factor = 4).
+    // SmoothParam coefficients are computed for per-sample ticking at host rate —
+    // ticking only once per block caused ~seconds of lag at typical block sizes.
+    const int numOsSamples   = static_cast<int> (osBlock.getNumSamples());
+    const int numHostSamples = numOsSamples / 4;
+    for (int i = 0; i < numHostSamples; ++i)
+    {
+        smoothDrive .tick();
+        smoothFilter.tick();
+        smoothVolume.tick();
+        smoothAsym  .tick();
+    }
 
     updateCoefficients (osSr);
 
-    const int numOsSamples = static_cast<int> (osBlock.getNumSamples());
     float* data = osBlock.getChannelPointer (0);
 
     for (int i = 0; i < numOsSamples; ++i)
