@@ -210,23 +210,6 @@ void Undulator::process (juce::AudioBuffer<float>& buffer, int numSamples)
         float procR = preEmphR.process (delayedR);
 
         // ------------------------------------------------------------------
-        // Grit: TMS32010 Q15 two's-complement wrap-around saturation.
-        // Quadratic drive curve (1×–7×) gives gradual onset at low grit.
-        // Post-wrap LP (16kHz→4kHz as grit increases) tames harsh harmonics.
-        // ------------------------------------------------------------------
-        if (params.grit > 0.001f)
-        {
-            const float drive = 1.0f + params.grit * params.grit * 6.0f;
-            procL = q15Wrap (procL * drive) / drive;
-            procR = q15Wrap (procR * drive) / drive;
-
-            gritLPL = gritLPAlpha * gritLPL + (1.0f - gritLPAlpha) * procL;
-            gritLPR = gritLPAlpha * gritLPR + (1.0f - gritLPAlpha) * procR;
-            procL = gritLPL;
-            procR = gritLPR;
-        }
-
-        // ------------------------------------------------------------------
         // AM envelope: never clips, never fully silences at depth < 1.0.
         // Range is [1−depth, 1] as lfo sweeps [−1, +1].
         // ------------------------------------------------------------------
@@ -239,6 +222,26 @@ void Undulator::process (juce::AudioBuffer<float>& buffer, int numSamples)
         // ------------------------------------------------------------------
         procL = deEmphL.process (procL);
         procR = deEmphR.process (procR);
+
+        // ------------------------------------------------------------------
+        // Grit: TMS32010 Q15 wrap-around — applied AFTER de-emphasis so the
+        // +6dB pre-emphasis boost doesn't inflate levels into the wrapper.
+        // Clamp to ±1 first so drive behaviour is predictable.
+        // Quadratic curve (1×–5×), post-wrap LP (16kHz→4kHz with grit).
+        // ------------------------------------------------------------------
+        if (params.grit > 0.001f)
+        {
+            procL = std::clamp (procL, -1.0f, 1.0f);
+            procR = std::clamp (procR, -1.0f, 1.0f);
+            const float drive = 1.0f + params.grit * params.grit * 4.0f;
+            procL = q15Wrap (procL * drive) / drive;
+            procR = q15Wrap (procR * drive) / drive;
+
+            gritLPL = gritLPAlpha * gritLPL + (1.0f - gritLPAlpha) * procL;
+            gritLPR = gritLPAlpha * gritLPR + (1.0f - gritLPAlpha) * procR;
+            procL = gritLPL;
+            procR = gritLPR;
+        }
 
         // ------------------------------------------------------------------
         // Wet/dry blend

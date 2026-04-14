@@ -264,7 +264,7 @@ Layout createParameterLayout()
         std::make_unique<Float> (
             pid (UND_GRIT), "Chip Grit",
             linear (0.0f, 100.0f, 0.1f),
-            62.0f,
+            0.0f,
             Attr().withLabel ("%")),
 
         // Wet Mix — stage wet/dry. 100% = fully processed, 0% = bypass with

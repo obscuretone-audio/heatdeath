@@ -55,8 +55,8 @@ float TurboRat::computeLPFAlpha (float cutoffHz, double sampleRate) noexcept
 
 void TurboRat::updateCoefficients (double osSampleRate)
 {
-    hpf1Alpha = computeHPFAlpha (60.0f,   osSampleRate);
-    hpf2Alpha = computeHPFAlpha (1500.0f, osSampleRate);
+    hpf1Alpha = computeHPFAlpha (60.0f,  osSampleRate);
+    hpf2Alpha = computeHPFAlpha (120.0f, osSampleRate);  // was 1500Hz — caused HPF+slew-LP dead zone
 
     // RAT-02: Slew-rate LP — fixed cutoff at ~1040Hz per heatdeath_vst_spec.md §2.
     // Note: kDefaultSlew=0.68f is a spec annotation; the 1040Hz target is used
