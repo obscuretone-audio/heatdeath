@@ -213,14 +213,8 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     // purely to register anti-alias filter latency with the host and
     // keep the signal path bit-identical. Phase 3 (TurboRat DSP) will
     // move the stage processing onto the oversampled block.
-    {
-        juce::dsp::AudioBlock<float> monoBlock (buffer.getArrayOfWritePointers(),
-                                                1, static_cast<size_t> (numSamples));
-        auto osBlock = oversampler.processSamplesUp (monoBlock);
-        stageTurboRat->processOS (osBlock);    // Stage 1 processed on oversampled block (03-01)
-        oversampler.processSamplesDown (monoBlock);
-    }
-
+    // Parameters must be set BEFORE processOS so the RAT runs on the current
+    // block's knob values, not the previous block's.
     stageTurboRat->setParameters ({
         .drive    = pRatDrive->load(),
         .filter   = pRatFilter->load(),
@@ -232,6 +226,14 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     });
 
     bypassSmoothRat.setTargetValue (pRatBypass->load() > 0.5f ? 0.0f : 1.0f);
+
+    {
+        juce::dsp::AudioBlock<float> monoBlock (buffer.getArrayOfWritePointers(),
+                                                1, static_cast<size_t> (numSamples));
+        auto osBlock = oversampler.processSamplesUp (monoBlock);
+        stageTurboRat->processOS (osBlock);    // Stage 1 processed on oversampled block (03-01)
+        oversampler.processSamplesDown (monoBlock);
+    }
 
     // Stage 1 processed on oversampled block above (03-01).
 
