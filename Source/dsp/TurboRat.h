@@ -8,9 +8,9 @@ class TurboRat
 public:
     struct Parameters
     {
-        float drive    = 72.f;
-        float filter   = 50.f;  // corrected default per 03-RESEARCH.md Pitfall 6
-        float volume   = 65.f;  // corrected default per 03-RESEARCH.md Pitfall 6
+        float drive    = 9.f;
+        float filter   = 1.5f;
+        float volume   = 24.5f;
         float slew     = 68.f;
         float asym     = 20.f;
         int   clipMode = 0;

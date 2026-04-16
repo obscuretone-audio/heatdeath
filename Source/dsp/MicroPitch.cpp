@@ -50,9 +50,10 @@ void MicroPitch::process (juce::AudioBuffer<float>& buffer, int numSamples)
         const float wetL = shiftedL * width + mid * (1.0f - width);
         const float wetR = shiftedR * width + mid * (1.0f - width);
 
-        // Wet/dry blend
-        L[i] = in * dry + wetL * mix;
-        R[i] = in * dry + wetR * mix;
+        // Wet/dry blend — wet × 2 compensates the 0.5 average of the (1+cos)/2 envelope.
+        // Without this the stage averages −6 dB; the correction restores parity.
+        L[i] = in * dry + wetL * mix * 2.0f;
+        R[i] = in * dry + wetR * mix * 2.0f;
 
         // Advance and wrap phases — floor() handles both positive and negative increments
         phaseL += incL;

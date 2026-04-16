@@ -59,29 +59,30 @@ Layout createParameterLayout()
 
     auto ratGroup = std::make_unique<Group> ("rat", "RAT", "|",
 
-        // Drive — 0–100, default 72.
-        // Skew 0.7: slight log weighting. Most musical range is 40–80. Above 80
-        // the op-amp dominates and character changes slowly; below 20 it is clean.
+        // Drive — 0–60, default 9.
+        // Skew 0.7: slight log weighting. Range capped at 60 — above that the
+        // op-amp gain becomes unusable in practice.
         std::make_unique<Float> (
             pid (RAT_DRIVE), "Drive",
-            skewed (0.0f, 100.0f, 0.1f, 0.7f),
-            72.0f,
+            skewed (0.0f, 60.0f, 0.1f, 0.7f),
+            9.0f,
             Attr().withLabel ("%")),
 
         // Filter — reverse-wired LPF. 0 = bright (32kHz), 100 = dark (475Hz).
+        // Default 1.5 ≈ 30kHz (near-flat, just off maximum brightness).
         std::make_unique<Float> (
             pid (RAT_FILTER), "Filter",
             linear (0.0f, 100.0f, 0.1f),
-            50.0f,
+            1.5f,
             Attr().withLabel ("%")),
 
         // Volume — output level.
-        // 0–100 maps to an internal gain scalar. Not in dB deliberately — matches
-        // the hardware's Volume knob feel (which is a voltage divider, not a fader).
+        // 0–75 maps to an internal gain scalar. Range capped at 75 — higher values
+        // produce excessive output gain in practice.
         std::make_unique<Float> (
             pid (RAT_VOLUME), "Volume",
-            linear (0.0f, 100.0f, 0.1f),
-            65.0f,
+            linear (0.0f, 75.0f, 0.1f),
+            24.5f,
             Attr().withLabel ("%")),
 
         // Slew — LM308 HF rolloff curve. Higher = brighter.
@@ -132,20 +133,20 @@ Layout createParameterLayout()
     auto pitchGroup = std::make_unique<Group> ("pitch", "MicroPitch", "|",
 
         // Detune L — left channel pitch shift.
-        // Range: −25¢ to 0¢. Default −7¢. 0¢ = no detuning, no beating.
+        // Range: −25¢ to 0¢. Default −25¢ (maximum detune).
         // Linear, 0.1¢ steps. DAW will display negative values correctly.
         std::make_unique<Float> (
             pid (PITCH_DETUNE_L), "Detune L",
             linear (-25.0f, 0.0f, 0.1f),
-            -7.0f,
+            -25.0f,
             Attr().withLabel ("\u00a2")),   // ¢ symbol
 
         // Detune R — right channel pitch shift.
-        // Range: 0¢ to +25¢. Default +11¢. 0¢ = no detuning, no beating.
+        // Range: 0¢ to +25¢. Default +25¢ (maximum detune).
         std::make_unique<Float> (
             pid (PITCH_DETUNE_R), "Detune R",
             linear (0.0f, 25.0f, 0.1f),
-            11.0f,
+            25.0f,
             Attr().withLabel ("\u00a2")),
 
         // Mix — wet/dry. 0% = dry mono pass-through, 100% = full stereo shift.
@@ -188,13 +189,13 @@ Layout createParameterLayout()
             2.4f,
             Attr().withLabel ("Hz")),
 
-        // Depth — AM depth. 0–100. Default 82.
+        // Depth — AM depth. 0–100. Default 68.
         // 0 = no modulation. 82 = near-silence at trough (but never fully silent
         // — the AM envelope has a floor). 100 = approaches full silence at trough.
         std::make_unique<Float> (
             pid (UND_DEPTH), "Depth",
             linear (0.0f, 100.0f, 0.1f),
-            82.0f,
+            68.0f,
             Attr().withLabel ("%")),
 
         // St. Phase — stereo phase offset between L and R LFOs. 0–360°.
@@ -302,7 +303,7 @@ Layout createParameterLayout()
         std::make_unique<Float> (
             pid (BURNIN_AMOUNT), "Burn-In",
             skewed (0.0f, 100.0f, 0.1f, 0.6f),
-            35.0f,
+            60.0f,
             Attr().withLabel ("%")),
 
         // Bypass.
