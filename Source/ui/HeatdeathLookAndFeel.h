@@ -22,7 +22,8 @@ namespace HD
 
     inline juce::Font monoFont (float size)
     {
-        return juce::Font (juce::Font::getDefaultMonospacedFontName(), size, juce::Font::plain);
+        // Jost (https://fonts.google.com/specimen/Jost) — embed via BinaryData for distribution
+        return juce::Font ("Jost", size, juce::Font::plain);
     }
 }
 

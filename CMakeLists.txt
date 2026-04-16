@@ -47,6 +47,14 @@ juce_add_plugin(HEATDEATH
 )
 
 # ==============================================================================
+# Binary resources
+# ==============================================================================
+
+juce_add_binary_data(HeatdeathAssets SOURCES
+    bground1.png
+)
+
+# ==============================================================================
 # Sources — files created in Plan 01-02
 # ==============================================================================
 
@@ -80,6 +88,7 @@ target_compile_definitions(HEATDEATH PUBLIC
 # ==============================================================================
 
 target_link_libraries(HEATDEATH PRIVATE
+    HeatdeathAssets
     juce::juce_audio_utils
     juce::juce_audio_processors
     juce::juce_audio_plugin_client

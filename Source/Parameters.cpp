@@ -303,7 +303,7 @@ Layout createParameterLayout()
         std::make_unique<Float> (
             pid (BURNIN_AMOUNT), "Burn-In",
             skewed (0.0f, 100.0f, 0.1f, 0.6f),
-            60.0f,
+            70.0f,
             Attr().withLabel ("%")),
 
         // Bypass.

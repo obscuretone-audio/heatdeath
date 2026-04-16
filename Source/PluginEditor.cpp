@@ -1,9 +1,10 @@
 #include "PluginEditor.h"
 #include "PluginProcessor.h"
 #include "Parameters.h"
+#include <BinaryData.h>
 
 //==============================================================================
-// Layout constants — all positions relative to 800×540 fixed canvas
+// Layout constants — virtual canvas 800×440; scaled at runtime in resized/paint
 //==============================================================================
 namespace L
 {
@@ -13,11 +14,15 @@ namespace L
     static constexpr int undX  = 412, undW  = 238;
     static constexpr int bnX   = 668, bnW   = 114;
 
-    static constexpr int mainY = 63;   // top of column content
+    static constexpr int mainY = 82;   // top of column content (expanded header)
     static constexpr int topY  = 18;   // top bar y
 
     // Stamp header height
     static constexpr int hdrH  = 46;
+
+    // Base canvas size — resized() and paint() scale to match actual window size
+    static constexpr int baseW = 800;
+    static constexpr int baseH = 440;
 }
 
 //==============================================================================
@@ -26,8 +31,8 @@ namespace L
 HeatDeathEditor::HeatDeathEditor (HeatDeathProcessor& p)
     : juce::AudioProcessorEditor (&p), processorRef (p)
 {
-    setSize (800, 540);
-    setResizable (false, false);
+    setSize (L::baseW, L::baseH);
+    setOpaque (true);
 
     //--- RAT ---------------------------------------------------------------
     setupSlider (sRatDrive, vRatDrive, [](double v){ return juce::String (v, 0); });
@@ -90,34 +95,28 @@ HeatDeathEditor::HeatDeathEditor (HeatDeathProcessor& p)
                         juce::dontSendNotification);
     vMpMix.setText (juce::String (sMpMix.getValue(), 0) + "%", juce::dontSendNotification);
 
-    setupButton (bMpStyleI,  "I",  false);
-    setupButton (bMpStyleII, "II", false);
-    bMpStyleII.setToggleState (true, juce::dontSendNotification);
-    bMpStyleI.onClick  = [this]{ bMpStyleI.setToggleState (true,  juce::dontSendNotification);
-                                  bMpStyleII.setToggleState (false, juce::dontSendNotification); };
-    bMpStyleII.onClick = [this]{ bMpStyleII.setToggleState (true,  juce::dontSendNotification);
-                                  bMpStyleI.setToggleState (false,  juce::dontSendNotification); };
+    // bMpStyleI / bMpStyleII removed from UI
 
     //--- Undulator ----------------------------------------------------------
     setupSlider (sUndDepth, vUndDepth, [](double v){ return juce::String (v, 0); });
     setupSlider (sUndSpeed, vUndSpeed, [](double v){ return juce::String (v, 2) + "Hz"; });
     setupSlider (sUndSpace, vUndSpace, [](double v){ return juce::String (v, 0); });
     setupSlider (sUndWaver, vUndWaver, [](double v){ return juce::String (v, 0); });
-    setupSlider (sUndGrit,  vUndGrit,  [](double v){ return juce::String (v, 0); });
+    // setupSlider (sUndGrit, ...) — grit knob removed
     setupSlider (sUndMix,   vUndMix,   [](double v){ return juce::String (v, 0) + "%"; });
 
     aUndDepth = std::make_unique<SA> (p.apvts, Params::UND_DEPTH,     sUndDepth);
     aUndSpeed = std::make_unique<SA> (p.apvts, Params::UND_RATE,      sUndSpeed);
     aUndSpace = std::make_unique<SA> (p.apvts, Params::UND_SPREAD,    sUndSpace);
     aUndWaver = std::make_unique<SA> (p.apvts, Params::UND_MOD_DEPTH, sUndWaver);
-    aUndGrit  = std::make_unique<SA> (p.apvts, Params::UND_GRIT,      sUndGrit);
+    // aUndGrit removed
     aUndMix   = std::make_unique<SA> (p.apvts, Params::UND_MIX,       sUndMix);
 
     vUndDepth.setText (juce::String (sUndDepth.getValue(), 0), juce::dontSendNotification);
     vUndSpeed.setText (juce::String (sUndSpeed.getValue(), 2) + "Hz", juce::dontSendNotification);
     vUndSpace.setText (juce::String (sUndSpace.getValue(), 0), juce::dontSendNotification);
     vUndWaver.setText (juce::String (sUndWaver.getValue(), 0), juce::dontSendNotification);
-    vUndGrit.setText  (juce::String (sUndGrit.getValue(),  0), juce::dontSendNotification);
+    // vUndGrit removed
     vUndMix.setText   (juce::String (sUndMix.getValue(),   0) + "%", juce::dontSendNotification);
 
     // Shape buttons: SIN TRI PKK RND RMP SQ S&H ENV ADS
@@ -249,51 +248,45 @@ void HeatDeathEditor::mouseDown (const juce::MouseEvent& e)
         {
             if (auto* p = processorRef.apvts.getParameter (c.param))
                 p->setValueNotifyingHost (p->getValue() > 0.5f ? 0.0f : 1.0f);
-            repaint (c.cx - 20, cy - 20, 40, 40);
+            repaint();
             return;
         }
     }
 }
 
 //==============================================================================
-// resized
+// resized — all positions in virtual 800×440 space, scaled to actual window
 //==============================================================================
 void HeatDeathEditor::resized()
 {
-    // Helper: center a knob of given size within a cell
-    auto centeredKnob = [](int cellX, int cellW, int y, int sz) -> juce::Rectangle<int>
+    auto S = [](int x, int y, int w, int h) -> juce::Rectangle<int>
     {
-        return { cellX + (cellW - sz) / 2, y, sz, sz };
-    };
-    // Helper: value label below a slider (below name text)
-    auto valueLabelBounds = [](const juce::Slider& s) -> juce::Rectangle<int>
-    {
-        return s.getBounds().withY (s.getBottom() + 15).withHeight (12);
+        return { x, y, w, h };
     };
 
-    const int mainY = L::mainY + L::hdrH;  // y below the stamp header
+    const int mainY = L::mainY + L::hdrH;  // virtual: 82+46=128
 
     //=== RAT ===
     {
         const int x = L::ratX, w = L::ratW;
         const int cellW = w / 3;
+        const int kY = mainY + 6;    // 134
+        const int kSz = 46;
 
-        // Three main knobs (46x46)
-        const int kY = mainY + 6;
-        sRatDrive .setBounds (centeredKnob (x,          cellW, kY, 46));
-        sRatFilter.setBounds (centeredKnob (x + cellW,  cellW, kY, 46));
-        sRatVol   .setBounds (centeredKnob (x + cellW*2, cellW, kY, 46));
+        sRatDrive .setBounds (S (x + (cellW - kSz) / 2,             kY, kSz, kSz));
+        sRatFilter.setBounds (S (x + cellW + (cellW - kSz) / 2,     kY, kSz, kSz));
+        sRatVol   .setBounds (S (x + cellW*2 + (cellW - kSz) / 2,   kY, kSz, kSz));
 
-        vRatDrive .setBounds (valueLabelBounds (sRatDrive));
-        vRatFilter.setBounds (valueLabelBounds (sRatFilter));
-        vRatVol   .setBounds (valueLabelBounds (sRatVol));
+        const int vY = kY + kSz + 15;   // 195
+        vRatDrive .setBounds (S (x,           vY, cellW, 12));
+        vRatFilter.setBounds (S (x + cellW,   vY, cellW, 12));
+        vRatVol   .setBounds (S (x + cellW*2, vY, cellW, 12));
 
-        // Clip buttons
-        const int clipY  = sRatDrive.getBottom() + 30;
+        const int clipY  = kY + kSz + 36;   // 216
         const int clipBW = (w - 8) / 3;
-        bClipLed .setBounds (x,                 clipY, clipBW, 24);
-        bClipSi  .setBounds (x + clipBW + 4,    clipY, clipBW, 24);
-        bClipLift.setBounds (x + 2*(clipBW + 4), clipY, w - 2*(clipBW + 4), 24);
+        bClipLed .setBounds (S (x,                   clipY, clipBW, 24));
+        bClipSi  .setBounds (S (x + clipBW + 4,      clipY, clipBW, 24));
+        bClipLift.setBounds (S (x + 2*(clipBW + 4),  clipY, w - 2*(clipBW + 4), 24));
     }
 
     //=== MicroPitch ===
@@ -301,93 +294,86 @@ void HeatDeathEditor::resized()
         const int x = L::mpX, w = L::mpW;
         const int halfW = w / 2;
 
-        // Detune knobs (44x44)
-        const int detY = mainY + 20;
-        sMpDetuneL.setBounds (centeredKnob (x,         halfW, detY, 44));
-        sMpDetuneR.setBounds (centeredKnob (x + halfW, halfW, detY, 44));
-        vMpDetuneL.setBounds (valueLabelBounds (sMpDetuneL));
-        vMpDetuneR.setBounds (valueLabelBounds (sMpDetuneR));
+        // Detune (44×44) at mainY+20
+        const int detY = mainY + 20;   // 148
+        const int sz1  = 44;
+        sMpDetuneL.setBounds (S (x + (halfW - sz1)/2,          detY, sz1, sz1));
+        sMpDetuneR.setBounds (S (x + halfW + (halfW - sz1)/2,  detY, sz1, sz1));
+        vMpDetuneL.setBounds (S (x,        detY + sz1 + 15, halfW, 12));
+        vMpDetuneR.setBounds (S (x + halfW, detY + sz1 + 15, halfW, 12));
 
-        // Delay knobs (40x40)
-        const int dlyY = sMpDetuneL.getBottom() + 30;
-        sMpDelayL.setBounds (centeredKnob (x,         halfW, dlyY, 40));
-        sMpDelayR.setBounds (centeredKnob (x + halfW, halfW, dlyY, 40));
-        vMpDelayL.setBounds (valueLabelBounds (sMpDelayL));
-        vMpDelayR.setBounds (valueLabelBounds (sMpDelayR));
+        // Delay (40×40) — +56 gives room for value labels + section sub-head
+        const int sz2  = 40;
+        const int dlyY = detY + sz1 + 56;   // 248
+        sMpDelayL.setBounds (S (x + (halfW - sz2)/2,          dlyY, sz2, sz2));
+        sMpDelayR.setBounds (S (x + halfW + (halfW - sz2)/2,  dlyY, sz2, sz2));
+        vMpDelayL.setBounds (S (x,         dlyY + sz2 + 15, halfW, 12));
+        vMpDelayR.setBounds (S (x + halfW, dlyY + sz2 + 15, halfW, 12));
 
-        // Mix + Focus knobs (40x40)
-        const int outY = sMpDelayL.getBottom() + 30;
-        sMpMix  .setBounds (centeredKnob (x,         halfW, outY, 40));
-        sMpFocus.setBounds (centeredKnob (x + halfW, halfW, outY, 40));
-        vMpMix  .setBounds (valueLabelBounds (sMpMix));
-        vMpFocus.setBounds (valueLabelBounds (sMpFocus));
-
-        // Style buttons
-        const int styleY = sMpMix.getBottom() + 30;
-        const int styleBW = (w - 4) / 2;
-        bMpStyleI .setBounds (x,               styleY, styleBW, 24);
-        bMpStyleII.setBounds (x + styleBW + 4, styleY, w - styleBW - 4, 24);
+        // Focus + Mix (40×40) — Mix is last (right)
+        const int outY = dlyY + sz2 + 56;   // 344
+        sMpFocus.setBounds (S (x + (halfW - sz2)/2,          outY, sz2, sz2));
+        sMpMix  .setBounds (S (x + halfW + (halfW - sz2)/2,  outY, sz2, sz2));
+        vMpFocus.setBounds (S (x,         outY + sz2 + 15, halfW, 12));
+        vMpMix  .setBounds (S (x + halfW, outY + sz2 + 15, halfW, 12));
+        // Style buttons removed (type I/II removed from UI)
     }
 
     //=== Undulator ===
     {
         const int x = L::undX, w = L::undW;
-        const int halfW = w / 2;
+        const int halfW  = w / 2;
+        const int thirdW = w / 3;
 
-        // Depth + Speed (44x44)
-        const int tremY = mainY + 20;
-        sUndDepth.setBounds (centeredKnob (x,         halfW, tremY, 44));
-        sUndSpeed.setBounds (centeredKnob (x + halfW, halfW, tremY, 44));
-        vUndDepth.setBounds (valueLabelBounds (sUndDepth));
-        vUndSpeed.setBounds (valueLabelBounds (sUndSpeed));
+        // Depth + Speed (44×44)
+        const int tremY = mainY + 20;   // 148
+        const int sz1   = 44;
+        sUndDepth.setBounds (S (x + (halfW - sz1)/2,          tremY, sz1, sz1));
+        sUndSpeed.setBounds (S (x + halfW + (halfW - sz1)/2,  tremY, sz1, sz1));
+        vUndDepth.setBounds (S (x,         tremY + sz1 + 15, halfW, 12));
+        vUndSpeed.setBounds (S (x + halfW, tremY + sz1 + 15, halfW, 12));
 
-        // Shape rows
-        const int shY1 = sUndDepth.getBottom() + 10;
-        const int shY2 = shY1 + 26;
-        // Row 1: 5 buttons (SIN TRI PKK RND RMP)
+        // Shape buttons — start after value labels (219) + "Shape" sub-head gap
+        const int und_val_bot = tremY + sz1 + 27;   // 219
+        const int shY1 = und_val_bot + 26;           // 245
         const int sh1W = (w - 12) / 5;
         for (int i = 0; i < 5; ++i)
-            bShape[i].setBounds (x + i * (sh1W + 3), shY1, sh1W, 22);
-        // Row 2: 4 buttons (SQ S&H ENV ADS)
+            bShape[i].setBounds (S (x + i * (sh1W + 3), shY1, sh1W, 22));
+
+        const int shY2 = shY1 + 26;   // 271
         const int sh2W = (w - 9) / 4;
         for (int i = 0; i < 4; ++i)
-            bShape[5 + i].setBounds (x + i * (sh2W + 3), shY2, sh2W, 22);
+            bShape[5 + i].setBounds (S (x + i * (sh2W + 3), shY2, sh2W, 22));
 
-        // Space / Waver / Grit (38x38)
-        const int swY = shY2 + 36;
-        const int thirdW = w / 3;
-        sUndSpace.setBounds (centeredKnob (x,            thirdW, swY, 38));
-        sUndWaver.setBounds (centeredKnob (x + thirdW,   thirdW, swY, 38));
-        sUndGrit .setBounds (centeredKnob (x + thirdW*2, thirdW, swY, 38));
-        vUndSpace.setBounds (valueLabelBounds (sUndSpace));
-        vUndWaver.setBounds (valueLabelBounds (sUndWaver));
-        vUndGrit .setBounds (valueLabelBounds (sUndGrit));
+        // Space / Waver / Mix (38×38) — after shape rows + sub-head gap
+        const int sh2_bot = shY2 + 22;   // 293
+        const int sz2     = 38;
+        const int swY     = sh2_bot + 26; // 319
+        sUndSpace.setBounds (S (x + (thirdW - sz2)/2,             swY, sz2, sz2));
+        sUndWaver.setBounds (S (x + thirdW + (thirdW - sz2)/2,    swY, sz2, sz2));
+        sUndMix  .setBounds (S (x + thirdW*2 + (thirdW - sz2)/2,  swY, sz2, sz2));
+        vUndSpace.setBounds (S (x,             swY + sz2 + 15, thirdW, 12));
+        vUndWaver.setBounds (S (x + thirdW,    swY + sz2 + 15, thirdW, 12));
+        vUndMix  .setBounds (S (x + thirdW*2,  swY + sz2 + 15, thirdW, 12));
 
-        // Mix (36x36) — before Wide button
-        const int mixY = sUndSpace.getBottom() + 16;
-        sUndMix.setBounds (centeredKnob (x, halfW, mixY, 36));
-        vUndMix.setBounds (valueLabelBounds (sUndMix));
-
-        // Wide button — below Mix, narrower (8px margin each side)
-        const int wideY = mixY + 36 + 26;
-        bWide.setBounds (x + 8, wideY, w - 16, 22);
+        // Wide button — below value labels
+        const int sw_val_bot = swY + sz2 + 27;   // 384
+        bWide.setBounds (S (x + 8, sw_val_bot + 8, w - 16, 22));   // 392
     }
 
     //=== Burn-In ===
     {
         const int x = L::bnX, w = L::bnW;
-
-        // Burn knob (58x58) — leaves room for reel above it
-        const int burnKY = mainY + 76;
-        sBurn.setBounds (centeredKnob (x, w, burnKY, 58));
-        vBurn.setBounds (valueLabelBounds (sBurn));
+        const int burnKY = mainY + 76;   // 204
+        const int kSz    = 58;
+        sBurn.setBounds (S (x + (w - kSz)/2, burnKY, kSz, kSz));
+        vBurn.setBounds (S (x, burnKY + kSz + 15, w, 12));
     }
 
     //=== Master (top bar) ===
     {
-        // 32x32 at far right of top bar
-        sMaster.setBounds (748, L::topY + 4, 32, 32);
-        vMaster.setBounds (740, L::topY + 38, 48, 12);
+        sMaster.setBounds (S (742, 14, 34, 34));   // virtual: y=14, bottom=48
+        vMaster.setBounds (S (726, 50, 64, 10));   // virtual: y=50 (value %)
     }
 }
 
@@ -397,30 +383,35 @@ void HeatDeathEditor::resized()
 void HeatDeathEditor::paint (juce::Graphics& g)
 {
     // Background
-    g.fillAll (juce::Colour (HD::colBackground));
+    {
+        auto img = juce::ImageCache::getFromMemory (BinaryData::bground1_png, BinaryData::bground1_pngSize);
+        if (img.isValid())
+            g.drawImage (img, 0, 0, L::baseW, L::baseH, 0, 0, img.getWidth(), img.getHeight());
+        else
+            g.fillAll (juce::Colour (HD::colBackground));
+    }
 
     // Top bar separator
     g.setColour (juce::Colour (HD::colAccent));
     g.drawLine (18.0f, float (L::mainY), 782.0f, float (L::mainY), 1.5f);
 
     // Plugin title
-    g.setFont (HD::monoFont (10.0f));
+    g.setFont (HD::monoFont (16.0f));
     g.setColour (juce::Colour (HD::colAccent));
-    g.drawText (juce::CharPointer_UTF8 ("HEATDEATH \xe2\x80\x94 RAT / \xce\xbcPITCH / UNDULATOR / BURN-IN"),
-                18, 22, 540, 14, juce::Justification::left, false);
+    g.drawText ("HEATDEATH", 18, 18, 300, 22, juce::Justification::left, false);
 
-    // Signal dots
-    drawSignalDots (g);
+    // Signal dots removed (top-right circles removed per UI spec)
 
-    // Master label
+    // Global Mix label — below value readout, with breathing room above separator
     g.setFont (HD::monoFont (7.5f));
     g.setColour (juce::Colour (HD::colLabel));
-    g.drawText ("MASTER", 740, 36, 48, 10, juce::Justification::centred, false);
+    g.drawText ("GLOBAL MIX", 726, 62, 64, 10, juce::Justification::centred, false);
 
-    // Vertical dividers
-    drawDivider (g, 190, L::mainY, 460);
-    drawDivider (g, 394, L::mainY, 460);
-    drawDivider (g, 650, L::mainY, 460);
+    // Vertical dividers — height fills virtual canvas below header
+    const int divH = L::baseH - L::mainY;   // 440-82=358
+    drawDivider (g, 190, L::mainY, divH);
+    drawDivider (g, 394, L::mainY, divH);
+    drawDivider (g, 650, L::mainY, divH);
 
     // ---- Stage headers ----
     auto isBypassed = [&](const char* id) -> bool {
@@ -446,37 +437,39 @@ void HeatDeathEditor::paint (juce::Graphics& g)
         drawKnobName (g, sRatDrive,  "Drive");
         drawKnobName (g, sRatFilter, "Filter");
         drawKnobName (g, sRatVol,    "Vol");
-
-        // "Output" sub-head
-        const int outY = bClipLed.getBottom() + 6;
+        // "Output" sub-head: component bounds are scaled; divide by paintSy to get virtual y
+        const int outY = int (bClipLed.getBottom() / 1) + 6;
         drawSubHead (g, L::ratX, outY, L::ratW, "Output");
     }
 
     // ---- MicroPitch ----
+    // Sub-head offset from knob bottom (virtual): val_gap(15)+val_h(12)+gap(8)=35
     {
         const int x = L::mpX, w = L::mpW;
-        drawSubHead (g, x, L::mainY + L::hdrH + 6,          w, "Detune");
-        drawSubHead (g, x, sMpDetuneL.getBottom() + 18,     w, "Delay (Haas)");
-        drawSubHead (g, x, sMpDelayL.getBottom() + 18,      w, "Output");
-        drawSubHead (g, x, sMpMix.getBottom() + 18,         w, "Style");
+        drawSubHead (g, x, L::mainY + L::hdrH + 6,                      w, "Detune");
+        drawSubHead (g, x, int (sMpDetuneL.getBottom() / 1) + 35, w, "Delay (Haas)");
+        drawSubHead (g, x, int (sMpDelayL.getBottom()  / 1) + 35, w, "Output");
         drawKnobName (g, sMpDetuneL, "L Cents");
         drawKnobName (g, sMpDetuneR, "R Cents");
         drawKnobName (g, sMpDelayL,  "L Delay");
         drawKnobName (g, sMpDelayR,  "R Delay");
-        drawKnobName (g, sMpMix,     "Mix");
         drawKnobName (g, sMpFocus,   "Focus");
+        drawKnobName (g, sMpMix,     "Mix");
     }
 
     // ---- Undulator ----
     {
         const int x = L::undX, w = L::undW;
-        drawSubHead (g, x, L::mainY + L::hdrH + 6,          w, "Tremolo");
-        drawSubHead (g, x, bShape[4].getBottom() + 8,        w, "Space / Waver");
+        drawSubHead (g, x, L::mainY + L::hdrH + 6,                      w, "Tremolo");
+        // "Shape" sub-head: below depth/speed value labels (offset 35 from knob bottom)
+        drawSubHead (g, x, int (sUndDepth.getBottom() / 1) + 35,  w, "Shape");
+        // "Space/Waver/Mix" sub-head: below last shape row
+        drawSubHead (g, x, int (bShape[8].getBottom() / 1) + 8,   w, "Space / Waver / Mix");
         drawKnobName (g, sUndDepth, "Depth");
         drawKnobName (g, sUndSpeed, "Speed");
         drawKnobName (g, sUndSpace, "Space");
         drawKnobName (g, sUndWaver, "Waver");
-        drawKnobName (g, sUndGrit,  "Grit");
+        // drawKnobName (g, sUndGrit, "Grit") — removed
         drawKnobName (g, sUndMix,   "Mix");
     }
 
@@ -650,10 +643,14 @@ void HeatDeathEditor::drawKnobName (juce::Graphics& g, const juce::Slider& s,
                                      const juce::String& name) const
 {
     if (s.getWidth() == 0) return;
+    // Component bounds are in actual pixels; unscale to virtual space for the transformed context
     const auto r = s.getBounds();
+    const int vx = int (r.getX()      / 1);
+    const int vy = int (r.getBottom() / 1);
+    const int vw = int (r.getWidth()  / 1);
     g.setFont (HD::monoFont (7.5f));
     g.setColour (juce::Colour (HD::colLabel));
-    g.drawText (name.toUpperCase(), r.getX() - 8, r.getBottom() + 3, r.getWidth() + 16, 12,
+    g.drawText (name.toUpperCase(), vx - 8, vy + 3, vw + 16, 12,
                 juce::Justification::centred, false);
 }
 
