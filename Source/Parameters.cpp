@@ -152,7 +152,7 @@ Layout createParameterLayout()
         std::make_unique<Float> (
             pid (PITCH_MIX), "Mix",
             linear (0.0f, 100.0f, 0.1f),
-            85.0f,
+            100.0f,
             Attr().withLabel ("%")),
 
         // Width — stereo image width.

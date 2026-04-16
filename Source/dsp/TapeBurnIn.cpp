@@ -117,11 +117,11 @@ void BurnIn::setButterworthLP (BiquadFilter& f, double sr, float freq) noexcept
 void BurnIn::expandMacros() noexcept
 {
     const float b = burn;
-    drive      = b * 0.85f;          // was 0.55 — push harder into JA saturation
+    drive      = b * 0.65f;          // was 0.85 — still too much compression/volume drop
     msSat      = 0.15f + b * 0.75f;
     biasAmt    = 0.75f - b * 0.35f;
     wowDepth   = b * b * 0.007f;
-    fltDepth   = b * b * 0.0008f;   // was 0.0025 — flutter was too strong at max
+    fltDepth   = b * b * 0.0003f;   // was 0.0008 — flutter still too prominent
     hissLevel  = b * 0.005f;        // was 0.010 — further reduce noise floor
     aspNoise   = b * b * 0.010f;    // was 0.020 — halved
     bumpGainDb = 1.5f + b * 3.5f;

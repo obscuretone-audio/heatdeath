@@ -281,17 +281,18 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
 
     stageMicroPitch->process (workBuffer, numSamples);
 
-    // Bypass crossfade (stereo) — mono dry is broadcast to both channels
+    // Bypass crossfade (stereo) — dry is post-RAT mono (buffer ch 0),
+    // NOT dryBuffer (which is pre-RAT and would discard RAT processing).
     {
         auto* L = workBuffer.getWritePointer (0);
         auto* R = workBuffer.getWritePointer (1);
-        const auto* dry = dryBuffer.getReadPointer (0);
+        const auto* postRat = buffer.getReadPointer (0);
 
         for (int i = 0; i < numSamples; ++i)
         {
             const float wet = bypassSmoothPitch.getNextValue();
-            L[i] = L[i] * wet + dry[i] * (1.0f - wet);
-            R[i] = R[i] * wet + dry[i] * (1.0f - wet);
+            L[i] = L[i] * wet + postRat[i] * (1.0f - wet);
+            R[i] = R[i] * wet + postRat[i] * (1.0f - wet);
         }
     }
 

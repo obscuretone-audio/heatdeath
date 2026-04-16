@@ -82,7 +82,7 @@ void Undulator::process (juce::AudioBuffer<float>& buffer, int numSamples)
     const double phaseOffR = params.phase / 360.0;
 
     // Grit LP cutoff: 16kHz at grit=0, 4kHz at grit=1 — computed once per block
-    const float gritLPCutoff = 16000.0f - params.grit * 12000.0f;
+    const float gritLPCutoff = 6000.0f - params.grit * 3000.0f;  // 6kHz→3kHz — was 16kHz→4kHz, too open
     const float gritLPAlpha  = static_cast<float> (
         std::exp (-kTwoPi * static_cast<double> (gritLPCutoff) / sr));
 
