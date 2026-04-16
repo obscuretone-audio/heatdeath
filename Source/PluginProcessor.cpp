@@ -332,16 +332,22 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
 
     bypassSmoothUnd.setTargetValue (pUndBypass->load() > 0.5f ? 0.0f : 1.0f);
 
+    // Waver [0,1] expands into four secondary-LFO parameters simultaneously.
+    // Space [0,1] couples spread and feedback at a fixed ratio.
+    // This matches the spec: single-knob macros rather than exposed internals.
+    const float waver = pUndModDepth->load() / 100.0f;
+    const float space = pUndSpread->load()   / 100.0f;
+
     stageUndulator->setParameters ({
         .rate        = pUndRate->load(),
         .depth       = pUndDepth->load()     / 100.0f,
         .phase       = pUndPhase->load(),
-        .drift       = pUndDrift->load()     / 100.0f,
-        .modRate     = pUndModRate->load(),
-        .modDepth    = pUndModDepth->load()  / 100.0f,
-        .modSpeed    = pUndModSpeed->load()  / 100.0f,
-        .spread      = pUndSpread->load()    / 100.0f,
-        .feedback    = pUndFeedback->load()  / 100.0f,
+        .drift       = waver * 0.55f,
+        .modRate     = 0.25f + waver * 0.85f,
+        .modDepth    = waver * 0.70f,
+        .modSpeed    = waver * 0.50f,
+        .spread      = space,
+        .feedback    = space * 0.65f,
         .grit        = pUndGrit->load()      / 100.0f,
         .mix         = pUndMix->load()       / 100.0f,
         .shape       = static_cast<int> (pUndShape->load())

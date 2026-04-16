@@ -71,12 +71,18 @@ void Undulator::process (juce::AudioBuffer<float>& buffer, int numSamples)
     auto* L = buffer.getWritePointer (0);
     auto* R = buffer.getWritePointer (1);
 
-    // Delay times are constant within a block (params set once per block).
+    // Target delay times (fractional samples). Smoothed per-sample below to avoid clicks.
     // L = half of spread, R = full — creates asymmetric stereo spread.
-    const int delaySamplesL = std::max (1, std::min (
-        static_cast<int> (params.spread * 0.050 * sr), delayBufSize - 1));
-    const int delaySamplesR = std::max (1, std::min (
-        static_cast<int> (params.spread * 0.100 * sr), delayBufSize - 1));
+    // delayBufSize - 2 leaves one guard sample for linear interpolation.
+    const float targetDelaySamplesL = std::max (1.0f, std::min (
+        params.spread * 0.050f * static_cast<float> (sr),
+        static_cast<float> (delayBufSize - 2)));
+    const float targetDelaySamplesR = std::max (1.0f, std::min (
+        params.spread * 0.100f * static_cast<float> (sr),
+        static_cast<float> (delayBufSize - 2)));
+
+    // 5ms smoothing coefficient — ramps delay length to avoid read-position jumps
+    const float kDelSmooth = static_cast<float> (std::exp (-1.0 / (sr * 0.005)));
 
     // R channel LFO phase offset, normalised [0, 1)
     const double phaseOffR = params.phase / 360.0;
@@ -191,12 +197,25 @@ void Undulator::process (juce::AudioBuffer<float>& buffer, int numSamples)
         // ------------------------------------------------------------------
         // Detuned feedback delay
         // L delay = spread*50ms (half), R delay = spread*100ms (full)
+        // Smooth toward target each sample to eliminate clicks on Space adjust.
         // ------------------------------------------------------------------
-        const int readPosL = (delayWritePos - delaySamplesL + delayBufSize) % delayBufSize;
-        const int readPosR = (delayWritePos - delaySamplesR + delayBufSize) % delayBufSize;
+        smoothDelaySamplesL = kDelSmooth * smoothDelaySamplesL + (1.0f - kDelSmooth) * targetDelaySamplesL;
+        smoothDelaySamplesR = kDelSmooth * smoothDelaySamplesR + (1.0f - kDelSmooth) * targetDelaySamplesR;
 
-        const float delayedL = delayBufL[static_cast<size_t> (readPosL)];
-        const float delayedR = delayBufR[static_cast<size_t> (readPosR)];
+        // Linear interpolation between adjacent integer positions
+        const int   dIntL  = static_cast<int> (smoothDelaySamplesL);
+        const float dFracL = smoothDelaySamplesL - static_cast<float> (dIntL);
+        const int   rL0 = (delayWritePos - dIntL     + delayBufSize) % delayBufSize;
+        const int   rL1 = (delayWritePos - dIntL - 1 + delayBufSize) % delayBufSize;
+        const float delayedL = delayBufL[static_cast<size_t> (rL0)] * (1.0f - dFracL)
+                             + delayBufL[static_cast<size_t> (rL1)] * dFracL;
+
+        const int   dIntR  = static_cast<int> (smoothDelaySamplesR);
+        const float dFracR = smoothDelaySamplesR - static_cast<float> (dIntR);
+        const int   rR0 = (delayWritePos - dIntR     + delayBufSize) % delayBufSize;
+        const int   rR1 = (delayWritePos - dIntR - 1 + delayBufSize) % delayBufSize;
+        const float delayedR = delayBufR[static_cast<size_t> (rR0)] * (1.0f - dFracR)
+                             + delayBufR[static_cast<size_t> (rR1)] * dFracR;
 
         delayBufL[static_cast<size_t> (delayWritePos)] = inL + delayedL * params.feedback;
         delayBufR[static_cast<size_t> (delayWritePos)] = inR + delayedR * params.feedback;
@@ -268,7 +287,9 @@ void Undulator::reset()
     envR      = 0.0f;
     gritLPL   = 0.0f;
     gritLPR   = 0.0f;
-    delayWritePos = 0;
+    delayWritePos       = 0;
+    smoothDelaySamplesL = 1.0f;
+    smoothDelaySamplesR = 1.0f;
 
     std::fill (delayBufL.begin(), delayBufL.end(), 0.0f);
     std::fill (delayBufR.begin(), delayBufR.end(), 0.0f);

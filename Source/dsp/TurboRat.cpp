@@ -82,6 +82,7 @@ void TurboRat::updateCoefficients (double osSampleRate)
         default: threshold = 0.65f; break;   // Ruetz — Silicon fallback
     }
 
+
     // RAT-05: Reverse-wired tone LPF — log-spaced interpolation between 32kHz (bright) and 475Hz (dark).
     // filterNorm=0 -> bright (32kHz), filterNorm=1 -> dark (475Hz).
     const float filterNorm = smoothFilter.current;

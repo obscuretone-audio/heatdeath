@@ -131,20 +131,20 @@ Layout createParameterLayout()
 
     auto pitchGroup = std::make_unique<Group> ("pitch", "MicroPitch", "|",
 
-        // Detune L — left channel pitch shift. Both bounds negative.
-        // Range: −25¢ to −2¢. Default −7¢.
+        // Detune L — left channel pitch shift.
+        // Range: −25¢ to 0¢. Default −7¢. 0¢ = no detuning, no beating.
         // Linear, 0.1¢ steps. DAW will display negative values correctly.
         std::make_unique<Float> (
             pid (PITCH_DETUNE_L), "Detune L",
-            linear (-25.0f, -2.0f, 0.1f),
+            linear (-25.0f, 0.0f, 0.1f),
             -7.0f,
             Attr().withLabel ("\u00a2")),   // ¢ symbol
 
         // Detune R — right channel pitch shift.
-        // Range: +2¢ to +25¢. Default +11¢.
+        // Range: 0¢ to +25¢. Default +11¢. 0¢ = no detuning, no beating.
         std::make_unique<Float> (
             pid (PITCH_DETUNE_R), "Detune R",
-            linear (2.0f, 25.0f, 0.1f),
+            linear (0.0f, 25.0f, 0.1f),
             11.0f,
             Attr().withLabel ("\u00a2")),
 
@@ -198,12 +198,12 @@ Layout createParameterLayout()
             Attr().withLabel ("%")),
 
         // St. Phase — stereo phase offset between L and R LFOs. 0–360°.
-        // Default 180°: one channel at maximum while other is at minimum.
-        // 0° = both channels move identically (mono tremolo, no stereo movement).
+        // Default 0°: both channels move identically (mono tremolo, no stereo movement).
+        // 180° = one channel at maximum while other is at minimum (antiphase autopanner).
         std::make_unique<Float> (
             pid (UND_PHASE), "St. Phase",
             linear (0.0f, 360.0f, 1.0f),
-            180.0f,
+            0.0f,
             Attr().withLabel ("\u00b0")),   // ° symbol
 
         // Drift — LFO phase randomisation. 0–100. Default 40.

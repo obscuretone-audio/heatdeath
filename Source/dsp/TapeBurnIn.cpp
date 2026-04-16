@@ -122,8 +122,8 @@ void BurnIn::expandMacros() noexcept
     biasAmt    = 0.75f - b * 0.35f;
     wowDepth   = b * b * 0.007f;
     fltDepth   = b * b * 0.0003f;   // was 0.0008 — flutter still too prominent
-    hissLevel  = b * 0.005f;        // was 0.010 — further reduce noise floor
-    aspNoise   = b * b * 0.010f;    // was 0.020 — halved
+    hissLevel  = b * 0.002f;        // was 0.005 — reduce further; barely audible at max
+    aspNoise   = b * b * 0.002f;    // was 0.010 — main source of audible noise, halved again
     bumpGainDb = 1.5f + b * 3.5f;
 
     // Recompute head bump gain (only gain changes, freq/Q are fixed)
@@ -202,8 +202,11 @@ void BurnIn::process (juce::AudioBuffer<float>& buffer, int numSamples)
 
     // Output normalisation: makes model transparent in the linear regime at any drive.
     // In linear region M/Ms ≈ H / (3·a), so we divide back by the same ratio.
-    // This gives unity gain at low burn and graceful compression as saturation kicks in.
-    const float jaOutGain = 3.0f * a_ja / (H_scale * driveFactor);
+    // Makeup gain compensates for JA saturation compression: at burn=1 with 0dBFS
+    // input the Langevin function saturates to ~0.72 (≈−3dB); makeupGain ramps from
+    // 1.0 (burn=0, no correction needed) to ~1.65 (+4.3dB) at burn=1 to restore level.
+    const float makeupGain = 1.0f + burn * 1.0f;   // linear; compensates HF loss + JA compression
+    const float jaOutGain  = 3.0f * a_ja / (H_scale * driveFactor) * makeupGain;
 
     // Bias note: the spec calls for a 55kHz ultrasonic signal to linearise the recording.
     // At 44.1kHz native SR, 55kHz = 1.25 cycles/sample — can't be resolved without

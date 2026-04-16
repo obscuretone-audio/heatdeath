@@ -130,8 +130,8 @@ HeatDeathEditor::HeatDeathEditor (HeatDeathProcessor& p)
     }
     bShape[0].setToggleState (true, juce::dontSendNotification);
 
-    setupButton (bWide, juce::CharPointer_UTF8 ("L\xe2\x86\x94R ANTI-PHASE"), true);
-    bWide.setToggleState (true, juce::dontSendNotification);
+    setupButton (bWide, "L=R IN-PHASE", true);
+    bWide.setToggleState (false, juce::dontSendNotification);
     bWide.onClick = [this]
     {
         if (auto* param = processorRef.apvts.getParameter (Params::UND_PHASE))

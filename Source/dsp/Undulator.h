@@ -51,8 +51,12 @@ private:
 
     // Circular delay buffers — allocated in prepare()
     std::vector<float> delayBufL, delayBufR;
-    int delayWritePos = 0;
-    int delayBufSize  = 0;
+    int   delayWritePos = 0;
+    int   delayBufSize  = 0;
+
+    // Smoothed delay times (fractional samples) — avoids clicks on Space adjust
+    float smoothDelaySamplesL = 1.0f;
+    float smoothDelaySamplesR = 1.0f;
 
     // H3000 pre-emphasis (+6dB HF shelf) and de-emphasis (−6dB HF shelf) at 3kHz
     BiquadFilter preEmphL, preEmphR;
