@@ -144,10 +144,15 @@ HeatDeathEditor::HeatDeathEditor (HeatDeathProcessor& p)
     //--- Burn-In ------------------------------------------------------------
     setupSlider (sBurn,    vBurn,    [](double v){ return juce::String (v, 0) + "%"; });
     setupSlider (sBurnMix, vBurnMix, [](double v){ return juce::String (v, 0) + "%"; });
+    setupSlider (sBurnVol, vBurnVol, [](double v){
+        return (v >= 0.0 ? "+" : "") + juce::String (v, 1) + "dB";
+    });
     aBurn    = std::make_unique<SA> (p.apvts, Params::BURNIN_AMOUNT, sBurn);
     aBurnMix = std::make_unique<SA> (p.apvts, Params::BURNIN_MIX,    sBurnMix);
+    aBurnVol = std::make_unique<SA> (p.apvts, Params::BURNIN_VOL,    sBurnVol);
     vBurn.setText    (juce::String (sBurn.getValue(),    0) + "%", juce::dontSendNotification);
     vBurnMix.setText (juce::String (sBurnMix.getValue(), 0) + "%", juce::dontSendNotification);
+    vBurnVol.setText ("+0.0dB", juce::dontSendNotification);
 
     //--- Master (top bar) ---------------------------------------------------
     setupSlider (sMaster, vMaster, [](double v){ return juce::String (v, 0) + "%"; });
@@ -355,14 +360,16 @@ void HeatDeathEditor::resized()
 
     //=== Burn-In ===
     {
-        const int x     = L::bnX, w = L::bnW;
-        const int halfW = w / 2;          // 57
-        const int sz    = 46;
-        const int burnKY = mainY + 76;    // 204
-        sBurn   .setBounds (S (x + (halfW - sz) / 2,          burnKY, sz, sz));
-        sBurnMix.setBounds (S (x + halfW + (halfW - sz) / 2,  burnKY, sz, sz));
-        vBurn   .setBounds (S (x,        burnKY + sz + 15, halfW, 12));
-        vBurnMix.setBounds (S (x + halfW, burnKY + sz + 15, halfW, 12));
+        const int x      = L::bnX, w = L::bnW;
+        const int thirdW = w / 3;         // 38
+        const int sz     = 30;
+        const int burnKY = mainY + 76;    // 158
+        sBurn   .setBounds (S (x + (thirdW - sz) / 2,              burnKY, sz, sz));
+        sBurnVol.setBounds (S (x + thirdW + (thirdW - sz) / 2,     burnKY, sz, sz));
+        sBurnMix.setBounds (S (x + thirdW*2 + (thirdW - sz) / 2,   burnKY, sz, sz));
+        vBurn   .setBounds (S (x,              burnKY + sz + 15, thirdW, 12));
+        vBurnVol.setBounds (S (x + thirdW,     burnKY + sz + 15, thirdW, 12));
+        vBurnMix.setBounds (S (x + thirdW*2,   burnKY + sz + 15, thirdW, 12));
     }
 
     //=== Master (top bar) ===
@@ -468,6 +475,7 @@ void HeatDeathEditor::paint (juce::Graphics& g)
     // ---- Burn-In ----
     drawTapeReel (g);
     drawKnobName (g, sBurn,    "Burn");
+    drawKnobName (g, sBurnVol, "Vol");
     drawKnobName (g, sBurnMix, "Mix");
 }
 

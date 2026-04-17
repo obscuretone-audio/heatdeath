@@ -329,6 +329,13 @@ Layout createParameterLayout()
             0.0f,
             Attr().withLabel ("%")),
 
+        // Vol — output level trim. ±12dB. Default 0dB (unity).
+        std::make_unique<Float> (
+            pid (BURNIN_VOL), "Burn-In Vol",
+            linear (-12.0f, 12.0f, 0.1f),
+            0.0f,
+            Attr().withLabel ("dB")),
+
         // Bypass.
         std::make_unique<Bool> (
             pid (BURNIN_BYPASS), "Burn-In Bypass",

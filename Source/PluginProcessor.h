@@ -114,6 +114,7 @@ public:
     // --- Stage 4: Burn-In ---
     std::atomic<float>* pBurninAmount  = nullptr;
     std::atomic<float>* pBurninMix     = nullptr;
+    std::atomic<float>* pBurninVol     = nullptr;
     std::atomic<float>* pBurninBypass  = nullptr;
 
     // --- Trims ---

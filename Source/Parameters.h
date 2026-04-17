@@ -153,8 +153,11 @@ namespace Params
     static constexpr auto BURNIN_AMOUNT   = "burnin_amount";
 
     // Wet/dry mix for the Burn-In stage. 0 = fully dry, 100 = fully wet.
-    // Linear. Default 100 (fully wet, matching prior behaviour).
+    // Linear. Default 0 (off until deliberately dialled in).
     static constexpr auto BURNIN_MIX      = "burnin_mix";
+
+    // Output volume trim. ±12dB. Default 0dB.
+    static constexpr auto BURNIN_VOL      = "burnin_vol";
 
     // Stage bypass.
     static constexpr auto BURNIN_BYPASS   = "burnin_bypass";

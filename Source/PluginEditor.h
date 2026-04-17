@@ -88,9 +88,9 @@ private:
     //==========================================================================
     // Burn-In controls
     //==========================================================================
-    juce::Slider  sBurn, sBurnMix;
-    juce::Label   vBurn, vBurnMix;
-    std::unique_ptr<SA> aBurn, aBurnMix;
+    juce::Slider  sBurn, sBurnMix, sBurnVol;
+    juce::Label   vBurn, vBurnMix, vBurnVol;
+    std::unique_ptr<SA> aBurn, aBurnMix, aBurnVol;
 
     //==========================================================================
     // Global — Master knob in top bar

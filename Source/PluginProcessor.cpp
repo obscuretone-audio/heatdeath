@@ -446,6 +446,16 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         }
     }
 
+    // Burn-In output volume trim (±12dB)
+    {
+        const float gain = juce::Decibels::decibelsToGain (pBurninVol->load());
+        if (std::abs (gain - 1.0f) > 0.0001f)
+        {
+            workBuffer.applyGain (0, 0, numSamples, gain);
+            workBuffer.applyGain (1, 0, numSamples, gain);
+        }
+    }
+
     // Bypass crossfade (stereo) against preBurninBuffer
     {
         auto* L    = workBuffer.getWritePointer (0);
@@ -618,6 +628,7 @@ void HeatDeathProcessor::cacheParameterPointers()
     // Stage 4 — Burn-In
     pBurninAmount  = apvts.getRawParameterValue (BURNIN_AMOUNT);
     pBurninMix     = apvts.getRawParameterValue (BURNIN_MIX);
+    pBurninVol     = apvts.getRawParameterValue (BURNIN_VOL);
     pBurninBypass  = apvts.getRawParameterValue (BURNIN_BYPASS);
 
     // Trims
@@ -670,6 +681,7 @@ void HeatDeathProcessor::cacheParameterPointers()
 
     jassert (pBurninAmount  != nullptr);
     jassert (pBurninMix     != nullptr);
+    jassert (pBurninVol     != nullptr);
     jassert (pBurninBypass  != nullptr);
 
     jassert (pTrimPostRat   != nullptr);
