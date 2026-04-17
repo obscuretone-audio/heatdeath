@@ -435,7 +435,7 @@ void HeatDeathEditor::paint (juce::Graphics& g)
         drawSubHead (g, x, int (sMpDetuneL.getBottom() / 1) + 35, w, "Output");
         drawKnobName (g, sMpDetuneL, "L Cents");
         drawKnobName (g, sMpDetuneR, "R Cents");
-        drawKnobName (g, sMpFocus,   "Focus");
+        drawKnobName (g, sMpFocus,   "Rate");
         drawKnobName (g, sMpMix,     "Mix");
     }
 

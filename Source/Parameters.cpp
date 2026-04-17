@@ -165,6 +165,14 @@ Layout createParameterLayout()
             100.0f,
             Attr().withLabel ("%")),
 
+        // Rate — beat reference frequency. 20–2000 Hz. Skew toward low end.
+        // Lower = slower/more subtle beating; higher = faster.
+        std::make_unique<Float> (
+            pid (PITCH_FOCUS), "Rate",
+            skewed (20.0f, 2000.0f, 1.0f, 0.4f),
+            440.0f,
+            Attr().withLabel ("Hz")),
+
         // Bypass.
         std::make_unique<Bool> (
             pid (PITCH_BYPASS), "MicroPitch Bypass",
@@ -304,6 +312,14 @@ Layout createParameterLayout()
             pid (BURNIN_AMOUNT), "Burn-In",
             skewed (0.0f, 100.0f, 0.1f, 0.6f),
             70.0f,
+            Attr().withLabel ("%")),
+
+        // Mix — wet/dry blend. 0 = dry pass-through, 100 = fully processed.
+        // Default 0: Burn-In is off until deliberately dialled in.
+        std::make_unique<Float> (
+            pid (BURNIN_MIX), "Burn-In Mix",
+            linear (0.0f, 100.0f, 0.1f),
+            0.0f,
             Attr().withLabel ("%")),
 
         // Bypass.
