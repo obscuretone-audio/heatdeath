@@ -59,30 +59,31 @@ Layout createParameterLayout()
 
     auto ratGroup = std::make_unique<Group> ("rat", "RAT", "|",
 
-        // Drive — 0–60, default 9.
+        // Drive — 0–60, default 10.
         // Skew 0.7: slight log weighting. Range capped at 60 — above that the
         // op-amp gain becomes unusable in practice.
         std::make_unique<Float> (
             pid (RAT_DRIVE), "Drive",
             skewed (0.0f, 60.0f, 0.1f, 0.7f),
-            9.0f,
+            10.0f,
             Attr().withLabel ("%")),
 
         // Filter — reverse-wired LPF. 0 = bright (32kHz), 100 = dark (475Hz).
-        // Default 1.5 ≈ 30kHz (near-flat, just off maximum brightness).
+        // Default 15.2 ≈ 27.2kHz.
         std::make_unique<Float> (
             pid (RAT_FILTER), "Filter",
             linear (0.0f, 100.0f, 0.1f),
-            1.5f,
+            15.2f,
             Attr().withLabel ("%")),
 
         // Volume — output level.
-        // 0–75 maps to an internal gain scalar. Range capped at 75 — higher values
-        // produce excessive output gain in practice.
+        // 0–17: center (8.5) = output parity with plugin bypassed.
+        // volumeGain = value / 50.0 internally, so 8.5 → 0.17 gain (parity given RAT amplification).
+        // Max 17 = +6dB over parity. Default 8.5 = 12 o'clock.
         std::make_unique<Float> (
             pid (RAT_VOLUME), "Volume",
-            linear (0.0f, 75.0f, 0.1f),
-            24.5f,
+            linear (0.0f, 17.0f, 0.1f),
+            8.5f,
             Attr().withLabel ("%")),
 
         // Slew — LM308 HF rolloff curve. Higher = brighter.
@@ -140,27 +141,27 @@ Layout createParameterLayout()
     auto pitchGroup = std::make_unique<Group> ("pitch", "MicroPitch", "|",
 
         // Detune L — left channel pitch shift.
-        // Range: −25¢ to 0¢. Default −25¢ (maximum detune).
+        // Range: −25¢ to 0¢. Default −1.3¢.
         // Linear, 0.1¢ steps. DAW will display negative values correctly.
         std::make_unique<Float> (
             pid (PITCH_DETUNE_L), "Detune L",
             linear (-25.0f, 0.0f, 0.1f),
-            -25.0f,
+            -1.3f,
             Attr().withLabel ("\u00a2")),   // ¢ symbol
 
         // Detune R — right channel pitch shift.
-        // Range: 0¢ to +25¢. Default +25¢ (maximum detune).
+        // Range: 0¢ to +25¢. Default +4.6¢.
         std::make_unique<Float> (
             pid (PITCH_DETUNE_R), "Detune R",
             linear (0.0f, 25.0f, 0.1f),
-            25.0f,
+            4.6f,
             Attr().withLabel ("\u00a2")),
 
         // Mix — wet/dry. 0% = dry mono pass-through, 100% = full stereo shift.
         std::make_unique<Float> (
             pid (PITCH_MIX), "Mix",
             linear (0.0f, 100.0f, 0.1f),
-            100.0f,
+            88.0f,
             Attr().withLabel ("%")),
 
         // Width — stereo image width.
@@ -177,7 +178,7 @@ Layout createParameterLayout()
         std::make_unique<Float> (
             pid (PITCH_FOCUS), "Rate",
             skewed (20.0f, 2000.0f, 1.0f, 0.4f),
-            440.0f,
+            1393.0f,
             Attr().withLabel ("Hz")),
 
         // Bypass.
@@ -201,7 +202,7 @@ Layout createParameterLayout()
         std::make_unique<Float> (
             pid (UND_RATE), "Rate",
             skewed (0.5f, 8.5f, 0.001f, 0.4f),
-            2.4f,
+            4.53f,
             Attr().withLabel ("Hz")),
 
         // Depth — AM depth. 0–100. Default 68.
@@ -210,7 +211,7 @@ Layout createParameterLayout()
         std::make_unique<Float> (
             pid (UND_DEPTH), "Depth",
             linear (0.0f, 100.0f, 0.1f),
-            68.0f,
+            72.0f,
             Attr().withLabel ("%")),
 
         // St. Phase — stereo phase offset between L and R LFOs. 0–360°.
@@ -244,7 +245,7 @@ Layout createParameterLayout()
         std::make_unique<Float> (
             pid (UND_MOD_DEPTH), "Mod Depth",
             linear (0.0f, 100.0f, 0.1f),
-            45.0f,
+            56.0f,
             Attr().withLabel ("%")),
 
         // Mod Speed — secondary LFO → primary rate modulation amount.
@@ -261,7 +262,7 @@ Layout createParameterLayout()
         std::make_unique<Float> (
             pid (UND_SPREAD), "Spread",
             linear (0.0f, 100.0f, 0.1f),
-            55.0f,
+            28.0f,
             Attr().withLabel ("%")),
 
         // Feedback — delay feedback amount. 0–100%. Default 38%.
