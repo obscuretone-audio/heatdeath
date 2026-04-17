@@ -77,7 +77,14 @@ private:
 
     // RAT-04: Clip mode threshold — set in updateCoefficients from params.clipMode.
     // LED=1.7f, Silicon=0.65f, Lift=12.0f, Ruetz fallback=0.65f
-    float threshold = 1.7f;
+    float threshold  = 1.7f;
+
+    // Lift-mode makeup gain — threshold_lift / threshold_led (≈7.06).
+    // Applied only for Lift via a bounding tanh so output stays in ±1:
+    //   x = tanh(x * clipMakeup)
+    // In the linear regime this normalises Lift's gain to match LED.
+    // 1.0f for all other modes (tanh skipped entirely).
+    float clipMakeup = 1.0f;
 
     // RAT-05: Post-clip tone LPF (reverse-wired: filter=0 -> 32kHz bright, filter=1 -> 475Hz dark)
     float toneState = 0.0f;

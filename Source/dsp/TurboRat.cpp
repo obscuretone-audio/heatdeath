@@ -76,10 +76,10 @@ void TurboRat::updateCoefficients (double osSampleRate)
     // fallback to Silicon (0.65f) until spec provides a value.
     switch (params.clipMode)
     {
-        case 0:  threshold = 1.7f;  break;   // LED
-        case 1:  threshold = 0.65f; break;   // Silicon
-        case 2:  threshold = 12.0f; break;   // Lift (soft knee, near-linear for typical levels)
-        default: threshold = 0.65f; break;   // Ruetz — Silicon fallback
+        case 0:  threshold = 1.7f;   clipMakeup = 1.0f;           break;   // LED
+        case 1:  threshold = 0.65f;  clipMakeup = 1.0f;           break;   // Silicon
+        case 2:  threshold = 12.0f;  clipMakeup = 12.0f / 1.7f;  break;   // Lift — makeup normalises linear gain to LED
+        default: threshold = 0.65f;  clipMakeup = 1.0f;           break;   // Ruetz — Silicon fallback
     }
 
 
@@ -170,6 +170,11 @@ void TurboRat::processOS (juce::dsp::AudioBlock<float>& osBlock)
                     * juce::dsp::FastMathApproximations::tanh (10.0f * (-x) / negDenom);
             }
             x = out / threshold;   // normalize: unity-gain 0dBFS in -> 0dBFS out
+
+            // Lift makeup: tanh(x * clipMakeup) normalises linear gain to LED
+            // while keeping output bounded at ±1.  No-op for other modes (clipMakeup == 1.0).
+            if (clipMakeup != 1.0f)
+                x = juce::dsp::FastMathApproximations::tanh (x * clipMakeup);
         }
 
         // 6. Post-clip tone LPF (reverse-wired, RAT-05)

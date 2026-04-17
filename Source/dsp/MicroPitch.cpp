@@ -1,9 +1,8 @@
 #include "MicroPitch.h"
 #include <cmath>
 
-// Fixed reference frequency for beat-rate calculation.
-// The spec calibrates beating at A440 — -7¢ left gives ~1.78 Hz beat, +11¢ right ~2.80 Hz.
-static constexpr double kRefFreq = 440.0;
+// Reference frequency for beat-rate calculation comes from params.focus (20–2000 Hz).
+// At A440 with -7¢/-11¢: ~1.78/2.80 Hz beat. Lower focus = slower beats.
 
 void MicroPitch::prepare (double sampleRate, int /*samplesPerBlock*/)
 {
@@ -20,8 +19,9 @@ void MicroPitch::setParameters (const Parameters& p)
 void MicroPitch::process (juce::AudioBuffer<float>& buffer, int numSamples)
 {
     // Frequency shift in Hz from cents — can be negative (detuneL is always negative)
-    const double freqShiftL = kRefFreq * (std::pow (2.0, params.detuneL / 1200.0) - 1.0);
-    const double freqShiftR = kRefFreq * (std::pow (2.0, params.detuneR / 1200.0) - 1.0);
+    const double refFreq    = static_cast<double> (params.focus);
+    const double freqShiftL = refFreq * (std::pow (2.0, params.detuneL / 1200.0) - 1.0);
+    const double freqShiftR = refFreq * (std::pow (2.0, params.detuneR / 1200.0) - 1.0);
 
     // Normalised phase increments (phase is kept in [0, 1) — cos is called as cos(2π*phase))
     const double incL = freqShiftL / sr;

@@ -10,6 +10,7 @@ public:
         float detuneR = 11.f;
         float mix     = 0.85f;
         float width   = 1.0f;
+        float focus   = 440.f;  // Hz — reference frequency for beat-rate calculation
     };
 
     void prepare (double sampleRate, int samplesPerBlock);
