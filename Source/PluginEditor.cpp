@@ -432,7 +432,7 @@ void HeatDeathEditor::paint (juce::Graphics& g)
     {
         const int x = L::mpX, w = L::mpW;
         drawSubHead (g, x, L::mainY + L::hdrH + 6,                      w, "Detune");
-        drawSubHead (g, x, int (sMpDetuneL.getBottom() / 1) + 35, w, "Output");
+        drawSubHead (g, x, int (sMpDetuneL.getBottom() / 1) + 35, w, "Rate / Mix");
         drawKnobName (g, sMpDetuneL, "L Cents");
         drawKnobName (g, sMpDetuneR, "R Cents");
         drawKnobName (g, sMpFocus,   "Rate");
