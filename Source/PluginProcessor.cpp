@@ -244,6 +244,14 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         mono[i] = mono[i] * wet + dryBuffer.getSample (0, i) * (1.0f - wet);
     }
 
+    // RAT wet/dry mix — blend processed with pre-RAT dry signal
+    {
+        const float ratMix = pRatMix->load() / 100.0f;
+        if (ratMix < 0.9999f)
+            for (int i = 0; i < numSamples; ++i)
+                mono[i] = mono[i] * ratMix + dryBuffer.getSample (0, i) * (1.0f - ratMix);
+    }
+
     // DC block post-RAT (mono — only one channel exists here)
     for (int i = 0; i < numSamples; ++i)
         mono[i] = dcBlock1L.processSample (mono[i]);
@@ -276,7 +284,8 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         .detuneL = pPitchDetuneL->load(),
         .detuneR = pPitchDetuneR->load(),
         .mix     = pPitchMix->load()     / 100.0f,
-        .width   = pPitchWidth->load()   / 100.0f
+        .width   = pPitchWidth->load()   / 100.0f,
+        .focus   = pPitchFocus->load()
     });
 
     stageMicroPitch->process (workBuffer, numSamples);
@@ -417,6 +426,25 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     });
 
     stageBurnIn->process (workBuffer, numSamples);
+
+    // Burn-In wet/dry mix — blend processed output with pre-BurnIn signal.
+    // preBurninBuffer already holds the snapshot taken above.
+    {
+        const float burninMix = pBurninMix->load() / 100.0f;
+        if (burninMix < 0.9999f)
+        {
+            auto* L          = workBuffer.getWritePointer (0);
+            auto* R          = workBuffer.getWritePointer (1);
+            const auto* dryL = preBurninBuffer.getReadPointer (0);
+            const auto* dryR = preBurninBuffer.getReadPointer (1);
+            const float dry  = 1.0f - burninMix;
+            for (int i = 0; i < numSamples; ++i)
+            {
+                L[i] = L[i] * burninMix + dryL[i] * dry;
+                R[i] = R[i] * burninMix + dryR[i] * dry;
+            }
+        }
+    }
 
     // Bypass crossfade (stereo) against preBurninBuffer
     {
@@ -561,6 +589,7 @@ void HeatDeathProcessor::cacheParameterPointers()
     pRatAsym       = apvts.getRawParameterValue (RAT_ASYM);
     pRatClipMode   = apvts.getRawParameterValue (RAT_CLIP_MODE);
     pRatSag        = apvts.getRawParameterValue (RAT_SAG);
+    pRatMix        = apvts.getRawParameterValue (RAT_MIX);
     pRatBypass     = apvts.getRawParameterValue (RAT_BYPASS);
 
     // Stage 2 — MicroPitch
@@ -568,6 +597,7 @@ void HeatDeathProcessor::cacheParameterPointers()
     pPitchDetuneR  = apvts.getRawParameterValue (PITCH_DETUNE_R);
     pPitchMix      = apvts.getRawParameterValue (PITCH_MIX);
     pPitchWidth    = apvts.getRawParameterValue (PITCH_WIDTH);
+    pPitchFocus    = apvts.getRawParameterValue (PITCH_FOCUS);
     pPitchBypass   = apvts.getRawParameterValue (PITCH_BYPASS);
 
     // Stage 3 — Undulator
@@ -587,6 +617,7 @@ void HeatDeathProcessor::cacheParameterPointers()
 
     // Stage 4 — Burn-In
     pBurninAmount  = apvts.getRawParameterValue (BURNIN_AMOUNT);
+    pBurninMix     = apvts.getRawParameterValue (BURNIN_MIX);
     pBurninBypass  = apvts.getRawParameterValue (BURNIN_BYPASS);
 
     // Trims
@@ -613,12 +644,14 @@ void HeatDeathProcessor::cacheParameterPointers()
     jassert (pRatAsym     != nullptr);
     jassert (pRatClipMode != nullptr);
     jassert (pRatSag      != nullptr);
+    jassert (pRatMix      != nullptr);
     jassert (pRatBypass   != nullptr);
 
     jassert (pPitchDetuneL != nullptr);
     jassert (pPitchDetuneR != nullptr);
     jassert (pPitchMix     != nullptr);
     jassert (pPitchWidth   != nullptr);
+    jassert (pPitchFocus   != nullptr);
     jassert (pPitchBypass  != nullptr);
 
     jassert (pUndRate      != nullptr);
@@ -636,6 +669,7 @@ void HeatDeathProcessor::cacheParameterPointers()
     jassert (pUndBypass    != nullptr);
 
     jassert (pBurninAmount  != nullptr);
+    jassert (pBurninMix     != nullptr);
     jassert (pBurninBypass  != nullptr);
 
     jassert (pTrimPostRat   != nullptr);

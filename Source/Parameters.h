@@ -53,6 +53,9 @@ namespace Params
     // Linear. Internal mapping to rail droop amount.
     static constexpr auto RAT_SAG         = "rat_sag";
 
+    // Wet/dry mix. 0 = dry pass-through, 100 = fully processed. Default 100.
+    static constexpr auto RAT_MIX         = "rat_mix";
+
     // Stage bypass. True = signal passes through unmodified.
     static constexpr auto RAT_BYPASS      = "rat_bypass";
 
@@ -75,6 +78,10 @@ namespace Params
     // Stereo width. 100 = hard L/R pan (default), 0 = both voices centre (chorus).
     // Linear.
     static constexpr auto PITCH_WIDTH     = "pitch_width";
+
+    // Beat reference frequency for MicroPitch. 20–2000 Hz. Default 440 Hz.
+    // Controls beat rate: lower = slower beats, higher = faster.
+    static constexpr auto PITCH_FOCUS     = "pitch_focus";
 
     // Stage bypass.
     static constexpr auto PITCH_BYPASS    = "pitch_bypass";
@@ -144,6 +151,10 @@ namespace Params
     // Skew 0.6: slight log weighting — interesting range begins around 20%.
     // The thermal accumulator's nonlinearity provides the rest of the curve shape.
     static constexpr auto BURNIN_AMOUNT   = "burnin_amount";
+
+    // Wet/dry mix for the Burn-In stage. 0 = fully dry, 100 = fully wet.
+    // Linear. Default 100 (fully wet, matching prior behaviour).
+    static constexpr auto BURNIN_MIX      = "burnin_mix";
 
     // Stage bypass.
     static constexpr auto BURNIN_BYPASS   = "burnin_bypass";

@@ -59,10 +59,10 @@ private:
     //==========================================================================
     // RAT controls
     //==========================================================================
-    juce::Slider     sRatDrive, sRatFilter, sRatVol;
-    juce::Label      vRatDrive, vRatFilter, vRatVol;
+    juce::Slider     sRatDrive, sRatFilter, sRatVol, sRatMix;
+    juce::Label      vRatDrive, vRatFilter, vRatVol, vRatMix;
     juce::TextButton bClipLed, bClipSi, bClipLift;
-    std::unique_ptr<SA> aRatDrive, aRatFilter, aRatVol;
+    std::unique_ptr<SA> aRatDrive, aRatFilter, aRatVol, aRatMix;
 
     //==========================================================================
     // MicroPitch controls

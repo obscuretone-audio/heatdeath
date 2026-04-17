@@ -118,6 +118,13 @@ Layout createParameterLayout()
             juce::StringArray { "LED", "Silicon", "Lift", "Ruetz" },
             0),   // default: LED
 
+        // Mix — wet/dry blend. 0 = dry pass-through, 100 = fully processed.
+        std::make_unique<Float> (
+            pid (RAT_MIX), "Mix",
+            linear (0.0f, 100.0f, 0.1f),
+            100.0f,
+            Attr().withLabel ("%")),
+
         // Bypass.
         std::make_unique<Bool> (
             pid (RAT_BYPASS), "RAT Bypass",

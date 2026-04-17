@@ -85,6 +85,7 @@ public:
     std::atomic<float>* pRatAsym       = nullptr;
     std::atomic<float>* pRatClipMode   = nullptr;  // cast to int at use site
     std::atomic<float>* pRatSag        = nullptr;
+    std::atomic<float>* pRatMix        = nullptr;
     std::atomic<float>* pRatBypass     = nullptr;  // cast to bool at use site
 
     // --- Stage 2: MicroPitch ---
@@ -92,6 +93,7 @@ public:
     std::atomic<float>* pPitchDetuneR  = nullptr;
     std::atomic<float>* pPitchMix      = nullptr;
     std::atomic<float>* pPitchWidth    = nullptr;
+    std::atomic<float>* pPitchFocus    = nullptr;
     std::atomic<float>* pPitchBypass   = nullptr;
 
     // --- Stage 3: Undulator ---
@@ -111,6 +113,7 @@ public:
 
     // --- Stage 4: Burn-In ---
     std::atomic<float>* pBurninAmount  = nullptr;
+    std::atomic<float>* pBurninMix     = nullptr;
     std::atomic<float>* pBurninBypass  = nullptr;
 
     // --- Trims ---

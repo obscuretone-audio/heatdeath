@@ -43,9 +43,12 @@ HeatDeathEditor::HeatDeathEditor (HeatDeathProcessor& p)
     });
     setupSlider (sRatVol, vRatVol, [](double v){ return juce::String (v, 0); });
 
+    setupSlider (sRatMix, vRatMix, [](double v){ return juce::String (v, 0) + "%"; });
+
     aRatDrive  = std::make_unique<SA> (p.apvts, Params::RAT_DRIVE,   sRatDrive);
     aRatFilter = std::make_unique<SA> (p.apvts, Params::RAT_FILTER,  sRatFilter);
     aRatVol    = std::make_unique<SA> (p.apvts, Params::RAT_VOLUME,  sRatVol);
+    aRatMix    = std::make_unique<SA> (p.apvts, Params::RAT_MIX,     sRatMix);
 
     // Init value labels from current slider values
     vRatDrive.setText  (juce::String (sRatDrive.getValue(),  0), juce::dontSendNotification);
@@ -55,6 +58,7 @@ HeatDeathEditor::HeatDeathEditor (HeatDeathProcessor& p)
                          : juce::String (int (hz)) + "Hz";
     }(), juce::dontSendNotification);
     vRatVol.setText (juce::String (sRatVol.getValue(), 0), juce::dontSendNotification);
+    vRatMix.setText (juce::String (sRatMix.getValue(), 0) + "%", juce::dontSendNotification);
 
     setupButton (bClipLed,  "LED",  false);
     setupButton (bClipSi,   "Si",   false);
@@ -281,6 +285,12 @@ void HeatDeathEditor::resized()
         bClipLed .setBounds (S (x,                   clipY, clipBW, 24));
         bClipSi  .setBounds (S (x + clipBW + 4,      clipY, clipBW, 24));
         bClipLift.setBounds (S (x + 2*(clipBW + 4),  clipY, w - 2*(clipBW + 4), 24));
+
+        // Mix knob — below clip buttons
+        const int sz3  = 40;
+        const int mixY = clipY + 24 + 36;   // 316
+        sRatMix.setBounds (S (x + (w - sz3) / 2, mixY, sz3, sz3));
+        vRatMix.setBounds (S (x, mixY + sz3 + 15, w, 12));
     }
 
     //=== MicroPitch ===
@@ -422,9 +432,9 @@ void HeatDeathEditor::paint (juce::Graphics& g)
         drawKnobName (g, sRatDrive,  "Drive");
         drawKnobName (g, sRatFilter, "Filter");
         drawKnobName (g, sRatVol,    "Vol");
-        // "Output" sub-head: component bounds are scaled; divide by paintSy to get virtual y
+        drawKnobName (g, sRatMix,    "Mix");
         const int outY = int (bClipLed.getBottom() / 1) + 6;
-        drawSubHead (g, L::ratX, outY, L::ratW, "Output");
+        drawSubHead (g, L::ratX, outY, L::ratW, "Mix");
     }
 
     // ---- MicroPitch ----
