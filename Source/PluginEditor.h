@@ -53,7 +53,7 @@ private:
     // State
     //==========================================================================
     int   clipMode  = 0;   // 0=LED 1=Si 2=Lift
-    int   shapeIdx  = 0;   // 0–8
+    int   shapeIdx  = 0;   // 0–4
     float reelAngle = 0.0f;
 
     //==========================================================================
@@ -69,11 +69,10 @@ private:
     //==========================================================================
     juce::Slider     sMpDetuneL, sMpDetuneR, sMpMix;
     juce::Label      vMpDetuneL, vMpDetuneR, vMpMix;
-    // Delay L/R and Focus are visual-only (no APVTS param)
-    juce::Slider     sMpDelayL, sMpDelayR, sMpFocus;
-    juce::Label      vMpDelayL, vMpDelayR, vMpFocus;
+    juce::Slider     sMpFocus;
+    juce::Label      vMpFocus;
     // bMpStyleI, bMpStyleII removed (type I/II removed from UI)
-    std::unique_ptr<SA> aMpDetuneL, aMpDetuneR, aMpMix;
+    std::unique_ptr<SA> aMpDetuneL, aMpDetuneR, aMpMix, aMpFocus;
 
     //==========================================================================
     // Undulator controls
@@ -81,7 +80,7 @@ private:
     juce::Slider     sUndDepth, sUndSpeed, sUndSpace, sUndWaver, sUndMix;
     juce::Label      vUndDepth, vUndSpeed, vUndSpace, vUndWaver, vUndMix;
     // sUndGrit / vUndGrit removed (grit knob commented out)
-    juce::TextButton bShape[9];   // SIN TRI PKK RND RMP SQ S&H ENV ADS
+    juce::TextButton bShape[5];   // SIN TRI PKK RND ENV
     juce::TextButton bWide;
     std::unique_ptr<SA> aUndDepth, aUndSpeed, aUndSpace, aUndWaver, aUndMix;
     // aUndGrit removed
@@ -89,9 +88,9 @@ private:
     //==========================================================================
     // Burn-In controls
     //==========================================================================
-    juce::Slider  sBurn;
-    juce::Label   vBurn;
-    std::unique_ptr<SA> aBurn;
+    juce::Slider  sBurn, sBurnMix;
+    juce::Label   vBurn, vBurnMix;
+    std::unique_ptr<SA> aBurn, aBurnMix;
 
     //==========================================================================
     // Global — Master knob in top bar

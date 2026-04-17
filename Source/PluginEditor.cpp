@@ -74,26 +74,20 @@ HeatDeathEditor::HeatDeathEditor (HeatDeathProcessor& p)
     });
     setupSlider (sMpMix, vMpMix, [](double v){ return juce::String (v, 0) + "%"; });
 
-    // Visual-only sliders (no APVTS param)
-    setupSlider (sMpDelayL, vMpDelayL, [](double v){ return juce::String (v, 1) + "ms"; });
-    setupSlider (sMpDelayR, vMpDelayR, [](double v){ return juce::String (v, 1) + "ms"; });
-    setupSlider (sMpFocus,  vMpFocus,  [](double v){ return juce::String (v, 0) + "Hz"; });
-    sMpDelayL.setRange (0.0, 30.0, 0.1);  sMpDelayL.setValue (8.0);
-    sMpDelayR.setRange (0.0, 30.0, 0.1);  sMpDelayR.setValue (18.0);
-    sMpFocus.setRange  (20.0, 2000.0, 1); sMpFocus.setValue  (120.0);
-    vMpDelayL.setText ("8.0ms",  juce::dontSendNotification);
-    vMpDelayR.setText ("18.0ms", juce::dontSendNotification);
-    vMpFocus.setText  ("120Hz",  juce::dontSendNotification);
+    // Focus — wired to APVTS (beat reference frequency)
+    setupSlider (sMpFocus, vMpFocus, [](double v){ return juce::String (v, 0) + "Hz"; });
 
     aMpDetuneL = std::make_unique<SA> (p.apvts, Params::PITCH_DETUNE_L, sMpDetuneL);
     aMpDetuneR = std::make_unique<SA> (p.apvts, Params::PITCH_DETUNE_R, sMpDetuneR);
     aMpMix     = std::make_unique<SA> (p.apvts, Params::PITCH_MIX,      sMpMix);
+    aMpFocus   = std::make_unique<SA> (p.apvts, Params::PITCH_FOCUS,    sMpFocus);
 
     vMpDetuneL.setText (juce::String (sMpDetuneL.getValue(), 1) + juce::String (juce::CharPointer_UTF8 ("\xc2\xa2")),
                         juce::dontSendNotification);
     vMpDetuneR.setText (juce::String ("+") + juce::String (sMpDetuneR.getValue(), 1) + juce::String (juce::CharPointer_UTF8 ("\xc2\xa2")),
                         juce::dontSendNotification);
-    vMpMix.setText (juce::String (sMpMix.getValue(), 0) + "%", juce::dontSendNotification);
+    vMpMix.setText   (juce::String (sMpMix.getValue(),   0) + "%",  juce::dontSendNotification);
+    vMpFocus.setText (juce::String (sMpFocus.getValue(), 0) + "Hz", juce::dontSendNotification);
 
     // bMpStyleI / bMpStyleII removed from UI
 
@@ -119,9 +113,9 @@ HeatDeathEditor::HeatDeathEditor (HeatDeathProcessor& p)
     // vUndGrit removed
     vUndMix.setText   (juce::String (sUndMix.getValue(),   0) + "%", juce::dontSendNotification);
 
-    // Shape buttons: SIN TRI PKK RND RMP SQ S&H ENV ADS
-    static const char* shapeNames[] = { "SIN","TRI","PKK","RND","RMP","SQ","S\xc2\xaah","ENV","ADS" };
-    for (int i = 0; i < 9; ++i)
+    // Shape buttons: SIN TRI PKK RND ENV (maps directly to DSP shape 0–4)
+    static const char* shapeNames[] = { "SIN","TRI","PKK","RND","ENV" };
+    for (int i = 0; i < 5; ++i)
     {
         setupButton (bShape[i], juce::CharPointer_UTF8 (shapeNames[i]), false);
         const int idx = i;
@@ -144,9 +138,12 @@ HeatDeathEditor::HeatDeathEditor (HeatDeathProcessor& p)
     };
 
     //--- Burn-In ------------------------------------------------------------
-    setupSlider (sBurn, vBurn, [](double v){ return juce::String (v, 0) + "%"; });
-    aBurn = std::make_unique<SA> (p.apvts, Params::BURNIN_AMOUNT, sBurn);
-    vBurn.setText (juce::String (sBurn.getValue(), 0) + "%", juce::dontSendNotification);
+    setupSlider (sBurn,    vBurn,    [](double v){ return juce::String (v, 0) + "%"; });
+    setupSlider (sBurnMix, vBurnMix, [](double v){ return juce::String (v, 0) + "%"; });
+    aBurn    = std::make_unique<SA> (p.apvts, Params::BURNIN_AMOUNT, sBurn);
+    aBurnMix = std::make_unique<SA> (p.apvts, Params::BURNIN_MIX,    sBurnMix);
+    vBurn.setText    (juce::String (sBurn.getValue(),    0) + "%", juce::dontSendNotification);
+    vBurnMix.setText (juce::String (sBurnMix.getValue(), 0) + "%", juce::dontSendNotification);
 
     //--- Master (top bar) ---------------------------------------------------
     setupSlider (sMaster, vMaster, [](double v){ return juce::String (v, 0) + "%"; });
@@ -220,14 +217,11 @@ void HeatDeathEditor::setClipMode (int mode)
 void HeatDeathEditor::setShape (int idx)
 {
     shapeIdx = idx;
-    for (int i = 0; i < 9; ++i)
+    for (int i = 0; i < 5; ++i)
         bShape[i].setToggleState (i == idx, juce::dontSendNotification);
 
-    if (idx < 5)
-    {
-        if (auto* param = processorRef.apvts.getParameter (Params::UND_SHAPE))
-            param->setValueNotifyingHost (param->convertTo0to1 (float (idx)));
-    }
+    if (auto* param = processorRef.apvts.getParameter (Params::UND_SHAPE))
+        param->setValueNotifyingHost (param->convertTo0to1 (float (idx)));
 }
 
 void HeatDeathEditor::mouseDown (const juce::MouseEvent& e)
@@ -302,16 +296,9 @@ void HeatDeathEditor::resized()
         vMpDetuneL.setBounds (S (x,        detY + sz1 + 15, halfW, 12));
         vMpDetuneR.setBounds (S (x + halfW, detY + sz1 + 15, halfW, 12));
 
-        // Delay (40×40) — +56 gives room for value labels + section sub-head
+        // Focus + Mix (40×40) — below detune row
         const int sz2  = 40;
-        const int dlyY = detY + sz1 + 56;   // 248
-        sMpDelayL.setBounds (S (x + (halfW - sz2)/2,          dlyY, sz2, sz2));
-        sMpDelayR.setBounds (S (x + halfW + (halfW - sz2)/2,  dlyY, sz2, sz2));
-        vMpDelayL.setBounds (S (x,         dlyY + sz2 + 15, halfW, 12));
-        vMpDelayR.setBounds (S (x + halfW, dlyY + sz2 + 15, halfW, 12));
-
-        // Focus + Mix (40×40) — Mix is last (right)
-        const int outY = dlyY + sz2 + 56;   // 344
+        const int outY = detY + sz1 + 56;   // 248
         sMpFocus.setBounds (S (x + (halfW - sz2)/2,          outY, sz2, sz2));
         sMpMix  .setBounds (S (x + halfW + (halfW - sz2)/2,  outY, sz2, sz2));
         vMpFocus.setBounds (S (x,         outY + sz2 + 15, halfW, 12));
@@ -333,22 +320,17 @@ void HeatDeathEditor::resized()
         vUndDepth.setBounds (S (x,         tremY + sz1 + 15, halfW, 12));
         vUndSpeed.setBounds (S (x + halfW, tremY + sz1 + 15, halfW, 12));
 
-        // Shape buttons — start after value labels (219) + "Shape" sub-head gap
+        // Shape buttons — one row of 5, start after value labels + "Shape" sub-head gap
         const int und_val_bot = tremY + sz1 + 27;   // 219
         const int shY1 = und_val_bot + 26;           // 245
         const int sh1W = (w - 12) / 5;
         for (int i = 0; i < 5; ++i)
             bShape[i].setBounds (S (x + i * (sh1W + 3), shY1, sh1W, 22));
 
-        const int shY2 = shY1 + 26;   // 271
-        const int sh2W = (w - 9) / 4;
-        for (int i = 0; i < 4; ++i)
-            bShape[5 + i].setBounds (S (x + i * (sh2W + 3), shY2, sh2W, 22));
-
-        // Space / Waver / Mix (38×38) — after shape rows + sub-head gap
-        const int sh2_bot = shY2 + 22;   // 293
+        // Space / Waver / Mix (38×38) — after shape row + sub-head gap
+        const int sh1_bot = shY1 + 22;   // 267
         const int sz2     = 38;
-        const int swY     = sh2_bot + 26; // 319
+        const int swY     = sh1_bot + 26; // 293
         sUndSpace.setBounds (S (x + (thirdW - sz2)/2,             swY, sz2, sz2));
         sUndWaver.setBounds (S (x + thirdW + (thirdW - sz2)/2,    swY, sz2, sz2));
         sUndMix  .setBounds (S (x + thirdW*2 + (thirdW - sz2)/2,  swY, sz2, sz2));
@@ -363,11 +345,14 @@ void HeatDeathEditor::resized()
 
     //=== Burn-In ===
     {
-        const int x = L::bnX, w = L::bnW;
-        const int burnKY = mainY + 76;   // 204
-        const int kSz    = 58;
-        sBurn.setBounds (S (x + (w - kSz)/2, burnKY, kSz, kSz));
-        vBurn.setBounds (S (x, burnKY + kSz + 15, w, 12));
+        const int x     = L::bnX, w = L::bnW;
+        const int halfW = w / 2;          // 57
+        const int sz    = 46;
+        const int burnKY = mainY + 76;    // 204
+        sBurn   .setBounds (S (x + (halfW - sz) / 2,          burnKY, sz, sz));
+        sBurnMix.setBounds (S (x + halfW + (halfW - sz) / 2,  burnKY, sz, sz));
+        vBurn   .setBounds (S (x,        burnKY + sz + 15, halfW, 12));
+        vBurnMix.setBounds (S (x + halfW, burnKY + sz + 15, halfW, 12));
     }
 
     //=== Master (top bar) ===
@@ -447,12 +432,9 @@ void HeatDeathEditor::paint (juce::Graphics& g)
     {
         const int x = L::mpX, w = L::mpW;
         drawSubHead (g, x, L::mainY + L::hdrH + 6,                      w, "Detune");
-        drawSubHead (g, x, int (sMpDetuneL.getBottom() / 1) + 35, w, "Delay (Haas)");
-        drawSubHead (g, x, int (sMpDelayL.getBottom()  / 1) + 35, w, "Output");
+        drawSubHead (g, x, int (sMpDetuneL.getBottom() / 1) + 35, w, "Output");
         drawKnobName (g, sMpDetuneL, "L Cents");
         drawKnobName (g, sMpDetuneR, "R Cents");
-        drawKnobName (g, sMpDelayL,  "L Delay");
-        drawKnobName (g, sMpDelayR,  "R Delay");
         drawKnobName (g, sMpFocus,   "Focus");
         drawKnobName (g, sMpMix,     "Mix");
     }
@@ -464,7 +446,7 @@ void HeatDeathEditor::paint (juce::Graphics& g)
         // "Shape" sub-head: below depth/speed value labels (offset 35 from knob bottom)
         drawSubHead (g, x, int (sUndDepth.getBottom() / 1) + 35,  w, "Shape");
         // "Space/Waver/Mix" sub-head: below last shape row
-        drawSubHead (g, x, int (bShape[8].getBottom() / 1) + 8,   w, "Space / Waver / Mix");
+        drawSubHead (g, x, int (bShape[4].getBottom() / 1) + 8,   w, "Space / Waver / Mix");
         drawKnobName (g, sUndDepth, "Depth");
         drawKnobName (g, sUndSpeed, "Speed");
         drawKnobName (g, sUndSpace, "Space");
@@ -475,7 +457,8 @@ void HeatDeathEditor::paint (juce::Graphics& g)
 
     // ---- Burn-In ----
     drawTapeReel (g);
-    drawKnobName (g, sBurn, "Burn");
+    drawKnobName (g, sBurn,    "Burn");
+    drawKnobName (g, sBurnMix, "Mix");
 }
 
 //==============================================================================
