@@ -78,20 +78,23 @@ HeatDeathEditor::HeatDeathEditor (HeatDeathProcessor& p)
     });
     setupSlider (sMpMix, vMpMix, [](double v){ return juce::String (v, 0) + "%"; });
 
-    // Focus — wired to APVTS (beat reference frequency)
-    setupSlider (sMpFocus, vMpFocus, [](double v){ return juce::String (v, 0) + "Hz"; });
+    // Rate (beat reference) and Focus (crossover) — wired to APVTS
+    setupSlider (sMpFocus,     vMpFocus,     [](double v){ return juce::String (v, 0) + "Hz"; });
+    setupSlider (sMpCrossover, vMpCrossover, [](double v){ return juce::String (v, 0) + "Hz"; });
 
-    aMpDetuneL = std::make_unique<SA> (p.apvts, Params::PITCH_DETUNE_L, sMpDetuneL);
-    aMpDetuneR = std::make_unique<SA> (p.apvts, Params::PITCH_DETUNE_R, sMpDetuneR);
-    aMpMix     = std::make_unique<SA> (p.apvts, Params::PITCH_MIX,      sMpMix);
-    aMpFocus   = std::make_unique<SA> (p.apvts, Params::PITCH_FOCUS,    sMpFocus);
+    aMpDetuneL   = std::make_unique<SA> (p.apvts, Params::PITCH_DETUNE_L,  sMpDetuneL);
+    aMpDetuneR   = std::make_unique<SA> (p.apvts, Params::PITCH_DETUNE_R,  sMpDetuneR);
+    aMpMix       = std::make_unique<SA> (p.apvts, Params::PITCH_MIX,       sMpMix);
+    aMpFocus     = std::make_unique<SA> (p.apvts, Params::PITCH_FOCUS,     sMpFocus);
+    aMpCrossover = std::make_unique<SA> (p.apvts, Params::PITCH_CROSSOVER, sMpCrossover);
 
-    vMpDetuneL.setText (juce::String (sMpDetuneL.getValue(), 1) + juce::String (juce::CharPointer_UTF8 ("\xc2\xa2")),
-                        juce::dontSendNotification);
-    vMpDetuneR.setText (juce::String ("+") + juce::String (sMpDetuneR.getValue(), 1) + juce::String (juce::CharPointer_UTF8 ("\xc2\xa2")),
-                        juce::dontSendNotification);
-    vMpMix.setText   (juce::String (sMpMix.getValue(),   0) + "%",  juce::dontSendNotification);
-    vMpFocus.setText (juce::String (sMpFocus.getValue(), 0) + "Hz", juce::dontSendNotification);
+    vMpDetuneL.setText  (juce::String (sMpDetuneL.getValue(), 1) + juce::String (juce::CharPointer_UTF8 ("\xc2\xa2")),
+                         juce::dontSendNotification);
+    vMpDetuneR.setText  (juce::String ("+") + juce::String (sMpDetuneR.getValue(), 1) + juce::String (juce::CharPointer_UTF8 ("\xc2\xa2")),
+                         juce::dontSendNotification);
+    vMpMix.setText      (juce::String (sMpMix.getValue(),       0) + "%",  juce::dontSendNotification);
+    vMpFocus.setText    (juce::String (sMpFocus.getValue(),     0) + "Hz", juce::dontSendNotification);
+    vMpCrossover.setText(juce::String (sMpCrossover.getValue(), 0) + "Hz", juce::dontSendNotification);
 
     // bMpStyleI / bMpStyleII removed from UI
 
@@ -127,7 +130,7 @@ HeatDeathEditor::HeatDeathEditor (HeatDeathProcessor& p)
     }
     bShape[0].setToggleState (true, juce::dontSendNotification);
 
-    setupButton (bWide, "L=R IN-PHASE", true);
+    setupButton (bWide, "MONO", true);
     bWide.setToggleState (false, juce::dontSendNotification);
     bWide.onClick = [this]
     {
@@ -136,9 +139,7 @@ HeatDeathEditor::HeatDeathEditor (HeatDeathProcessor& p)
             const float deg = bWide.getToggleState() ? 180.0f : 0.0f;
             param->setValueNotifyingHost (param->convertTo0to1 (deg));
         }
-        bWide.setButtonText (bWide.getToggleState()
-            ? juce::CharPointer_UTF8 ("L\xe2\x86\x94R ANTI-PHASE")
-            : "L=R IN-PHASE");
+        bWide.setButtonText (bWide.getToggleState() ? "STEREO" : "MONO");
     };
 
     //--- Burn-In ------------------------------------------------------------
@@ -158,6 +159,11 @@ HeatDeathEditor::HeatDeathEditor (HeatDeathProcessor& p)
     setupSlider (sMaster, vMaster, [](double v){ return juce::String (v, 0) + "%"; });
     aMaster = std::make_unique<SA> (p.apvts, Params::GLOBAL_MIX, sMaster);
     vMaster.setText (juce::String (sMaster.getValue(), 0) + "%", juce::dontSendNotification);
+
+    //--- Preset browser nav bar ---------------------------------------------
+    navBar_ = std::make_unique<PresetBrowserNavBar> (*p.presetManager);
+    addAndMakeVisible (*navBar_);
+    navBar_->setBounds (266, 23, 268, 36);  // set here too — setSize() fires resized() before navBar_ exists
 
     startTimerHz (30);
 }
@@ -267,6 +273,10 @@ void HeatDeathEditor::resized()
         return { x, y, w, h };
     };
 
+    //=== Preset nav bar — centred in top bar between title and master knob ===
+    if (navBar_ != nullptr)
+        navBar_->setBounds (S (266, 23, 268, 36));
+
     const int mainY = L::mainY + L::hdrH;  // virtual: 82+46=128
 
     //=== RAT ===
@@ -311,13 +321,19 @@ void HeatDeathEditor::resized()
         vMpDetuneL.setBounds (S (x,        detY + sz1 + 15, halfW, 12));
         vMpDetuneR.setBounds (S (x + halfW, detY + sz1 + 15, halfW, 12));
 
-        // Focus + Mix (40×40) — below detune row
+        // Rate + Focus (40×40) — below detune row
         const int sz2  = 40;
         const int outY = detY + sz1 + 56;   // 248
-        sMpFocus.setBounds (S (x + (halfW - sz2)/2,          outY, sz2, sz2));
-        sMpMix  .setBounds (S (x + halfW + (halfW - sz2)/2,  outY, sz2, sz2));
-        vMpFocus.setBounds (S (x,         outY + sz2 + 15, halfW, 12));
-        vMpMix  .setBounds (S (x + halfW, outY + sz2 + 15, halfW, 12));
+        sMpFocus    .setBounds (S (x + (halfW - sz2)/2,          outY, sz2, sz2));
+        sMpCrossover.setBounds (S (x + halfW + (halfW - sz2)/2,  outY, sz2, sz2));
+        vMpFocus    .setBounds (S (x,         outY + sz2 + 15, halfW, 12));
+        vMpCrossover.setBounds (S (x + halfW, outY + sz2 + 15, halfW, 12));
+
+        // Mix (36×36) — centred below Rate/Focus row
+        const int sz3  = 36;
+        const int mixY = outY + sz2 + 50;
+        sMpMix.setBounds (S (x + (w - sz3) / 2, mixY, sz3, sz3));
+        vMpMix.setBounds (S (x, mixY + sz3 + 15, w, 12));
         // Style buttons removed (type I/II removed from UI)
     }
 
@@ -360,16 +376,22 @@ void HeatDeathEditor::resized()
 
     //=== Burn-In ===
     {
-        const int x      = L::bnX, w = L::bnW;
-        const int thirdW = w / 3;         // 38
-        const int sz     = 30;
-        const int burnKY = mainY + 76;    // 158
-        sBurn   .setBounds (S (x + (thirdW - sz) / 2,              burnKY, sz, sz));
-        sBurnVol.setBounds (S (x + thirdW + (thirdW - sz) / 2,     burnKY, sz, sz));
-        sBurnMix.setBounds (S (x + thirdW*2 + (thirdW - sz) / 2,   burnKY, sz, sz));
-        vBurn   .setBounds (S (x,              burnKY + sz + 15, thirdW, 12));
-        vBurnVol.setBounds (S (x + thirdW,     burnKY + sz + 15, thirdW, 12));
-        vBurnMix.setBounds (S (x + thirdW*2,   burnKY + sz + 15, thirdW, 12));
+        const int x     = L::bnX, w = L::bnW;
+        const int halfW = w / 2;          // 57
+
+        // Burn + Vol — bigger (40×40), side by side, below tape reel (reel bottom = 200)
+        const int sz1    = 40;
+        const int burnKY = L::mainY + L::hdrH + 8 + 64 + 12;   // 212: below reel
+        sBurn   .setBounds (S (x + (halfW - sz1) / 2,          burnKY, sz1, sz1));
+        sBurnVol.setBounds (S (x + halfW + (halfW - sz1) / 2,  burnKY, sz1, sz1));
+        vBurn   .setBounds (S (x,        burnKY + sz1 + 15, halfW, 12));
+        vBurnVol.setBounds (S (x + halfW, burnKY + sz1 + 15, halfW, 12));
+
+        // Mix — centred below, with sub-head separator
+        const int sz2  = 34;
+        const int mixY = burnKY + sz1 + 50;
+        sBurnMix.setBounds (S (x + (w - sz2) / 2, mixY, sz2, sz2));
+        vBurnMix.setBounds (S (x, mixY + sz2 + 15, w, 12));
     }
 
     //=== Master (top bar) ===
@@ -400,7 +422,7 @@ void HeatDeathEditor::paint (juce::Graphics& g)
     // Plugin title
     g.setFont (HD::monoFont (16.0f));
     g.setColour (juce::Colour (HD::colAccent));
-    g.drawText ("HEATDEATH", 18, 18, 300, 22, juce::Justification::left, false);
+    g.drawText ("HEATDEATH", 18, 28, 300, 22, juce::Justification::left, false);
 
     // Signal dots removed (top-right circles removed per UI spec)
 
@@ -428,10 +450,10 @@ void HeatDeathEditor::paint (juce::Graphics& g)
 
     g.setFont (HD::monoFont (8.5f));
     g.setColour (juce::Colour (HD::colAccent));
-    g.drawText ("Turbo RAT",      56,  L::mainY + 16, 120, 14, juce::Justification::left);
+    g.drawText ("DISTORT",         56,  L::mainY + 16, 120, 14, juce::Justification::left);
     g.drawText (juce::CharPointer_UTF8 ("\xce\xbcPitch"),
                                   246, L::mainY + 16, 120, 14, juce::Justification::left);
-    g.drawText ("H3000 Undulator", 450, L::mainY + 16, 180, 14, juce::Justification::left);
+    g.drawText ("UNDULATE",        450, L::mainY + 16, 180, 14, juce::Justification::left);
     g.drawText ("Burn-In",         706, L::mainY + 16, 70,  14, juce::Justification::left);
 
     // ---- RAT ----
@@ -449,11 +471,13 @@ void HeatDeathEditor::paint (juce::Graphics& g)
     {
         const int x = L::mpX, w = L::mpW;
         drawSubHead (g, x, L::mainY + L::hdrH + 6,                      w, "Detune");
-        drawSubHead (g, x, int (sMpDetuneL.getBottom() / 1) + 35, w, "Rate / Mix");
-        drawKnobName (g, sMpDetuneL, "L Cents");
-        drawKnobName (g, sMpDetuneR, "R Cents");
-        drawKnobName (g, sMpFocus,   "Rate");
-        drawKnobName (g, sMpMix,     "Mix");
+        drawSubHead (g, x, int (sMpDetuneL.getBottom()   / 1) + 35, w, "Rate / Focus");
+        drawSubHead (g, x, int (sMpCrossover.getBottom() / 1) + 35, w, "Mix");
+        drawKnobName (g, sMpDetuneL,   "L Cents");
+        drawKnobName (g, sMpDetuneR,   "R Cents");
+        drawKnobName (g, sMpFocus,     "Rate");
+        drawKnobName (g, sMpCrossover, "Focus");
+        drawKnobName (g, sMpMix,       "Mix");
     }
 
     // ---- Undulator ----
@@ -474,6 +498,7 @@ void HeatDeathEditor::paint (juce::Graphics& g)
 
     // ---- Burn-In ----
     drawTapeReel (g);
+    drawSubHead (g, L::bnX, int (sBurnVol.getBottom() / 1) + 35, L::bnW, "Mix");
     drawKnobName (g, sBurn,    "Burn");
     drawKnobName (g, sBurnVol, "Vol");
     drawKnobName (g, sBurnMix, "Mix");

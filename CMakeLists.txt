@@ -68,6 +68,8 @@ target_sources(HEATDEATH PRIVATE
     Source/dsp/TapeBurnIn.cpp
     Source/ui/HeatdeathLookAndFeel.cpp
     Source/ui/StagePanel.cpp
+    Source/Preset_Manager/PresetManager.cpp
+    Source/Preset_Manager/PresetBrowserComponent.cpp
 )
 
 target_include_directories(HEATDEATH PRIVATE Source)

@@ -29,6 +29,8 @@ HeatDeathProcessor::HeatDeathProcessor()
     // reallocates its parameter storage.
     cacheParameterPointers();
 
+    presetManager = std::make_unique<PresetManager> (apvts, "TimHeckerAudio/HEATDEATH");
+
     // Input limiter waveshaper — soft clip at unity threshold.
     // Protects Stage 1 from pathological inputs. Initialised here since it
     // has no sample-rate dependency.
@@ -244,12 +246,16 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         mono[i] = mono[i] * wet + dryBuffer.getSample (0, i) * (1.0f - wet);
     }
 
-    // RAT wet/dry mix — blend processed with pre-RAT dry signal
+    // RAT wet/dry mix — blend processed with pre-RAT dry signal.
+    // Apply the same volumeGain to the dry path so the Volume knob governs
+    // overall stage output at any mix position, preventing a level jump when
+    // blending in dry (especially noticeable into the Burn-In stage).
     {
-        const float ratMix = pRatMix->load() / 100.0f;
+        const float ratMix  = pRatMix->load() / 100.0f;
+        const float volGain = (pRatVolume->load() / 100.0f) * 2.0f;
         if (ratMix < 0.9999f)
             for (int i = 0; i < numSamples; ++i)
-                mono[i] = mono[i] * ratMix + dryBuffer.getSample (0, i) * (1.0f - ratMix);
+                mono[i] = mono[i] * ratMix + dryBuffer.getSample (0, i) * volGain * (1.0f - ratMix);
     }
 
     // DC block post-RAT (mono — only one channel exists here)
@@ -281,11 +287,12 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     workBuffer.copyFrom (1, 0, buffer, 0, 0, numSamples);
 
     stageMicroPitch->setParameters ({
-        .detuneL = pPitchDetuneL->load(),
-        .detuneR = pPitchDetuneR->load(),
-        .mix     = pPitchMix->load()     / 100.0f,
-        .width   = pPitchWidth->load()   / 100.0f,
-        .focus   = pPitchFocus->load()
+        .detuneL   = pPitchDetuneL->load(),
+        .detuneR   = pPitchDetuneR->load(),
+        .mix       = pPitchMix->load()     / 100.0f,
+        .width     = pPitchWidth->load()   / 100.0f,
+        .focus     = pPitchFocus->load(),
+        .crossover = pPitchCrossover->load()
     });
 
     stageMicroPitch->process (workBuffer, numSamples);
@@ -421,6 +428,7 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
 
     stageBurnIn->setParameters ({
         .amount  = pBurninAmount->load() / 100.0f,
+        .mix     = pBurninMix->load()    / 100.0f,
         .acetate = pAcetateMode->load()  > 0.5f,
         .msMode  = pGlobalMsMode->load() > 0.5f
     });
@@ -446,13 +454,17 @@ void HeatDeathProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         }
     }
 
-    // Burn-In output volume trim (±12dB)
+    // Burn-In output volume trim (±12dB) — only active when mix > 0
     {
-        const float gain = juce::Decibels::decibelsToGain (pBurninVol->load());
-        if (std::abs (gain - 1.0f) > 0.0001f)
+        const float burninMix = pBurninMix->load() / 100.0f;
+        if (burninMix > 0.0001f)
         {
-            workBuffer.applyGain (0, 0, numSamples, gain);
-            workBuffer.applyGain (1, 0, numSamples, gain);
+            const float gain = juce::Decibels::decibelsToGain (pBurninVol->load());
+            if (std::abs (gain - 1.0f) > 0.0001f)
+            {
+                workBuffer.applyGain (0, 0, numSamples, gain);
+                workBuffer.applyGain (1, 0, numSamples, gain);
+            }
         }
     }
 
@@ -564,6 +576,7 @@ bool HeatDeathProcessor::isBusesLayoutSupported (const BusesLayout& layouts) con
 void HeatDeathProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
     auto state = apvts.copyState();
+    presetManager->saveCurrentPresetNameToState (state);
     std::unique_ptr<juce::XmlElement> xml (state.createXml());
     copyXmlToBinary (*xml, destData);
 }
@@ -578,7 +591,9 @@ void HeatDeathProcessor::setStateInformation (const void* data, int sizeInBytes)
     if (! xml->hasTagName (apvts.state.getType()))
         return;
 
-    apvts.replaceState (juce::ValueTree::fromXml (*xml));
+    auto newState = juce::ValueTree::fromXml (*xml);
+    presetManager->loadCurrentPresetNameFromState (newState);
+    apvts.replaceState (newState);
 }
 
 //==============================================================================
@@ -607,8 +622,9 @@ void HeatDeathProcessor::cacheParameterPointers()
     pPitchDetuneR  = apvts.getRawParameterValue (PITCH_DETUNE_R);
     pPitchMix      = apvts.getRawParameterValue (PITCH_MIX);
     pPitchWidth    = apvts.getRawParameterValue (PITCH_WIDTH);
-    pPitchFocus    = apvts.getRawParameterValue (PITCH_FOCUS);
-    pPitchBypass   = apvts.getRawParameterValue (PITCH_BYPASS);
+    pPitchFocus      = apvts.getRawParameterValue (PITCH_FOCUS);
+    pPitchCrossover  = apvts.getRawParameterValue (PITCH_CROSSOVER);
+    pPitchBypass     = apvts.getRawParameterValue (PITCH_BYPASS);
 
     // Stage 3 — Undulator
     pUndRate       = apvts.getRawParameterValue (UND_RATE);
@@ -662,8 +678,9 @@ void HeatDeathProcessor::cacheParameterPointers()
     jassert (pPitchDetuneR != nullptr);
     jassert (pPitchMix     != nullptr);
     jassert (pPitchWidth   != nullptr);
-    jassert (pPitchFocus   != nullptr);
-    jassert (pPitchBypass  != nullptr);
+    jassert (pPitchFocus      != nullptr);
+    jassert (pPitchCrossover  != nullptr);
+    jassert (pPitchBypass     != nullptr);
 
     jassert (pUndRate      != nullptr);
     jassert (pUndDepth     != nullptr);

@@ -3,6 +3,7 @@
 #include <juce_audio_processors/juce_audio_processors.h>
 #include <juce_dsp/juce_dsp.h>
 #include "Parameters.h"
+#include "Preset_Manager/PresetManager.h"
 
 // Forward declarations — DSP stage classes defined in their own headers
 class TurboRat;
@@ -65,6 +66,7 @@ public:
     //==========================================================================
 
     juce::AudioProcessorValueTreeState apvts;
+    std::unique_ptr<PresetManager> presetManager;
 
     //==========================================================================
     // Parameter accessors
@@ -93,8 +95,9 @@ public:
     std::atomic<float>* pPitchDetuneR  = nullptr;
     std::atomic<float>* pPitchMix      = nullptr;
     std::atomic<float>* pPitchWidth    = nullptr;
-    std::atomic<float>* pPitchFocus    = nullptr;
-    std::atomic<float>* pPitchBypass   = nullptr;
+    std::atomic<float>* pPitchFocus      = nullptr;
+    std::atomic<float>* pPitchCrossover  = nullptr;
+    std::atomic<float>* pPitchBypass     = nullptr;
 
     // --- Stage 3: Undulator ---
     std::atomic<float>* pUndRate       = nullptr;

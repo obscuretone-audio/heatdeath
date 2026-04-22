@@ -83,6 +83,10 @@ namespace Params
     // Controls beat rate: lower = slower beats, higher = faster.
     static constexpr auto PITCH_FOCUS     = "pitch_focus";
 
+    // High-pass crossover frequency. 20–8000 Hz. Default 200 Hz.
+    // AM pitch-shift applies only above this frequency; low band passes through dry.
+    static constexpr auto PITCH_CROSSOVER = "pitch_crossover";
+
     // Stage bypass.
     static constexpr auto PITCH_BYPASS    = "pitch_bypass";
 

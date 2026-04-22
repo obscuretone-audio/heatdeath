@@ -181,6 +181,15 @@ Layout createParameterLayout()
             1393.0f,
             Attr().withLabel ("Hz")),
 
+        // Focus — high-pass crossover frequency. 20–8000 Hz. Default 200 Hz.
+        // AM pitch-shift applies only above this; low band passes through dry.
+        // Skew toward low end — most useful range is 80–800 Hz.
+        std::make_unique<Float> (
+            pid (PITCH_CROSSOVER), "Focus",
+            skewed (20.0f, 8000.0f, 1.0f, 0.35f),
+            200.0f,
+            Attr().withLabel ("Hz")),
+
         // Bypass.
         std::make_unique<Bool> (
             pid (PITCH_BYPASS), "MicroPitch Bypass",

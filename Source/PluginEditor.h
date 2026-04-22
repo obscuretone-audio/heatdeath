@@ -3,6 +3,7 @@
 #include <juce_audio_processors/juce_audio_processors.h>
 #include <juce_gui_basics/juce_gui_basics.h>
 #include "ui/HeatdeathLookAndFeel.h"
+#include "Preset_Manager/PresetBrowserComponent.h"
 
 class HeatDeathProcessor;
 
@@ -71,8 +72,10 @@ private:
     juce::Label      vMpDetuneL, vMpDetuneR, vMpMix;
     juce::Slider     sMpFocus;
     juce::Label      vMpFocus;
+    juce::Slider     sMpCrossover;
+    juce::Label      vMpCrossover;
     // bMpStyleI, bMpStyleII removed (type I/II removed from UI)
-    std::unique_ptr<SA> aMpDetuneL, aMpDetuneR, aMpMix, aMpFocus;
+    std::unique_ptr<SA> aMpDetuneL, aMpDetuneR, aMpMix, aMpFocus, aMpCrossover;
 
     //==========================================================================
     // Undulator controls
@@ -98,6 +101,11 @@ private:
     juce::Slider  sMaster;
     juce::Label   vMaster;
     std::unique_ptr<SA> aMaster;
+
+    //==========================================================================
+    // Preset browser nav bar
+    //==========================================================================
+    std::unique_ptr<PresetBrowserNavBar> navBar_;
 
     //==========================================================================
     HeatDeathProcessor& processorRef;
