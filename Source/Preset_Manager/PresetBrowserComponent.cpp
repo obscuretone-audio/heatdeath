@@ -32,11 +32,11 @@ PresetBrowserNavBar::PresetBrowserNavBar (PresetManager& pm,
     presetManager_.addChangeListener (this);
 
     addAndMakeVisible (prevButton_);
-    prevButton_.setButtonText (juce::CharPointer_UTF8 ("\xe2\x97\x80"));  // ◀
+    prevButton_.setButtonText ("<");
     prevButton_.onClick = [this] { presetManager_.loadPreviousPreset(); };
 
     addAndMakeVisible (nextButton_);
-    nextButton_.setButtonText (juce::CharPointer_UTF8 ("\xe2\x96\xb6")); // ▶
+    nextButton_.setButtonText (">");
     nextButton_.onClick = [this] { presetManager_.loadNextPreset(); };
 
     addAndMakeVisible (nameButton_);
@@ -61,10 +61,17 @@ PresetBrowserNavBar::~PresetBrowserNavBar()
 
 void PresetBrowserNavBar::paint (juce::Graphics& g)
 {
-    // Transparent fill — plugin surface shows through.
-    // Rounded outline using the plugin's border colour.
+    // Rounded outline
     g.setColour (juce::Colour (0xff888888));
     g.drawRoundedRectangle (getLocalBounds().toFloat().reduced (0.5f), 3.0f, 1.0f);
+
+    // Draw preset name directly — bypasses TextButton font/truncation issues
+    auto nameArea = getLocalBounds()
+                        .withTrimmedLeft  (getHeight())
+                        .withTrimmedRight (getHeight());
+    g.setFont (juce::Font (13.0f));
+    g.setColour (juce::Colour (0xff2a2520));
+    g.drawText (presetManager_.getCurrentPresetName(), nameArea, juce::Justification::centred, true);
 }
 
 void PresetBrowserNavBar::resized()
@@ -83,7 +90,8 @@ void PresetBrowserNavBar::changeListenerCallback (juce::ChangeBroadcaster*)
 
 void PresetBrowserNavBar::updateLabel()
 {
-    nameButton_.setButtonText (presetManager_.getCurrentPresetName());
+    nameButton_.setButtonText ({});  // text drawn directly in paint()
+    repaint();
 }
 
 void PresetBrowserNavBar::openPopup()
@@ -182,8 +190,8 @@ void PresetBrowserPopup::resized()
     auto r     = getLocalBounds();
     auto tools = r.removeFromTop (config_.toolbarHeight).reduced (4, 4);
 
-    // Four equal text buttons + one square icon button on the right
-    int deleteW = tools.getHeight();
+    // Four equal text buttons + delete button on the right (wider so "Del" fits)
+    int deleteW = 48;
     int btnW    = (tools.getWidth() - deleteW - 8) / 4;
 
     saveAsBtn_ .setBounds (tools.removeFromLeft (btnW).reduced (2, 0));
